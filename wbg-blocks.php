@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name:       Wbg Blocks
- * Description:       Example block scaffolded with Create Block tool.
+ * Plugin Name:       Waterfront Botanical Gardens Blocks
+ * Description:       A collection of custom blocks made for the Waterfront Botanical Gardens.
  * Version:           0.1.0
  * Requires at least: 6.8
  * Requires PHP:      7.4
- * Author:            The WordPress Contributors
+ * Author:            Caviar Creative Co
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       wbg-blocks
@@ -25,6 +25,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @see https://make.wordpress.org/core/2024/10/17/new-block-type-registration-apis-to-improve-performance-in-wordpress-6-7/
  */
 function create_block_wbg_blocks_block_init() {
-	wp_register_block_types_from_metadata_collection( __DIR__ . '/build', __DIR__ . '/build/blocks-manifest.php' );
+	wp_register_block_types_from_metadata_collection( __DIR__ . '/build/blocks', __DIR__ . '/build/blocks-manifest.php' );
 }
 add_action( 'init', 'create_block_wbg_blocks_block_init' );

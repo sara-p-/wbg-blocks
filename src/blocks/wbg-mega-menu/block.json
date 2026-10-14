@@ -1,0 +1,38 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-mega-menu",
+	"version": "0.1.0",
+	"title": "WBG Mega Menu",
+	"category": "widgets",
+	"icon": "menu",
+	"description": "A mega menu trigger button that opens a Mega Menu Panel template part.",
+	"keywords": ["menu", "navigation", "mega menu"],
+	"example": {},
+	"attributes": {
+		"megaMenuPanel": {
+			"type": "string",
+			"default": ""
+		},
+		"mobileMenuPanel": {
+			"type": "string",
+			"default": ""
+		},
+		"buttonText": {
+			"type": "string",
+			"default": "Menu"
+		},
+		"closeButtonText": {
+			"type": "string",
+			"default": "Close"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}

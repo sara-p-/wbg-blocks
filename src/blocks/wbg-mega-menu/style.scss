@@ -1,0 +1,111 @@
+/**
+ * WBG Mega Menu – front-end + editor styles.
+ *
+ * Positioning: the panel is absolutely positioned against the nearest
+ * positioned ancestor. Give your header group `position: relative` so the
+ * panel drops full-width beneath the header.
+ */
+
+// Keep in sync with any theme breakpoint you use. Below this width the
+// mobile panel (if chosen) replaces the desktop panel.
+$wbg-mega-menu-breakpoint: 782px;
+$header-height: 144px;
+
+.wbg-mega-menu {
+	position: relative;
+	width: 165px;
+	&__toggle.wp-element-button {
+		position: absolute;
+		left: 0;
+		top: -34px;
+		display: flex;
+		padding: 70px 38px;
+		background: var(--wp--preset--color--light-green);
+		border-radius: 50%;
+		transition: all 350ms ease-in-out;
+		border: 1px solid transparent;
+		z-index: 1000;
+		border: 1px solid var(--wp--preset--color--cream);
+		font-size: clamp(1.125rem, calc(1.042rem + 0.278vw), 1.25rem);
+		font-family: var(--wp--preset--font-family--gotham);
+		letter-spacing: 8.4px;
+		text-transform: uppercase;
+		font-weight: 300 !important;
+		line-height: 1;
+		&:hover,
+		&:focus {
+			background: var(--wp--preset--color--med-green);
+			color: var(--wp--preset--color--light-green);
+		}
+	}
+}
+
+.wbg-mega-menu__panel {
+	position: fixed;
+	top: $header-height;
+	left: 0;
+	right: 0;
+	// transform: translateY(-100%);
+	z-index: 100;
+	height: calc(100vh - $header-height);
+	overflow-y: scroll;
+	background: var(--wp--preset--color--dark-green);
+
+	// Hidden state: visibility removes it from the tab order and a11y tree
+	// while still allowing a fade transition.
+	// visibility: hidden;
+
+	transition: transform 450ms ease;
+
+	&.is-open {
+		// visibility: visible;
+		transform: translateY(calc(-100% - $header-height));
+		// transition:
+		// 	opacity 0.2s ease,
+		// 	visibility 0s linear 0s;
+	}
+
+	&:focus {
+		outline: none;
+	}
+}
+
+.wbg-mega-menu__close {
+	display: block;
+	margin-left: auto;
+	cursor: pointer;
+}
+
+.wbg-mega-menu__content--mobile {
+	display: none;
+}
+
+@media (max-width: #{$wbg-mega-menu-breakpoint - 0.02px}) {
+	.wbg-mega-menu.has-mobile-panel {
+		.wbg-mega-menu__content--desktop {
+			display: none;
+		}
+
+		.wbg-mega-menu__content--mobile {
+			display: block;
+		}
+	}
+
+	// Full-screen panel on small screens.
+	.wbg-mega-menu__panel {
+		position: fixed;
+		inset: 0;
+		max-height: none;
+	}
+
+	html.wbg-mega-menu-is-open {
+		overflow: hidden;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.wbg-mega-menu__panel,
+	.wbg-mega-menu__panel.is-open {
+		transition: none;
+	}
+}

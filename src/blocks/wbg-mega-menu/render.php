@@ -60,8 +60,17 @@ if ( '' === trim( $desktop_html ) && '' === trim( $mobile_html ) ) {
 
 $has_mobile = '' !== trim( $mobile_html );
 
-$button_text = ! empty( $attributes['buttonText'] ) ? $attributes['buttonText'] : __( 'Menu', 'wbg-blocks' );
-$close_text  = ! empty( $attributes['closeButtonText'] ) ? $attributes['closeButtonText'] : __( 'Close', 'wbg-blocks' );
+// Trim first so a field containing only spaces falls back to the default.
+$button_text = trim( (string) ( $attributes['buttonText'] ?? '' ) );
+$close_text  = trim( (string) ( $attributes['closeButtonText'] ?? '' ) );
+
+if ( '' === $button_text ) {
+	$button_text = __( 'Menu', 'wbg-blocks' );
+}
+
+if ( '' === $close_text ) {
+	$close_text = __( 'Close', 'wbg-blocks' );
+}
 
 $uid      = wp_unique_id( 'wbg-mega-menu-' );
 $panel_id = $uid . '-panel';
@@ -74,14 +83,11 @@ $wrapper_attributes = get_block_wrapper_attributes(
 ?>
 <div <?php echo $wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
   <button type="button" class="wbg-mega-menu__toggle wp-element-button" aria-expanded="false"
-    aria-controls="<?php echo esc_attr( $panel_id ); ?>">
-    <?php echo esc_html( $button_text ); ?>
-  </button>
+    aria-controls="<?php echo esc_attr( $panel_id ); ?>" data-open-text="<?php echo esc_attr( $button_text ); ?>"
+    data-close-text="<?php echo esc_attr( $close_text ); ?>"><span
+      class="wbg-mega-menu__toggle-text"><?php echo esc_html( $button_text ); ?></span></button>
 
   <div id="<?php echo esc_attr( $panel_id ); ?>" class="wbg-mega-menu__panel" tabindex="-1">
-    <button type="button" class="wbg-mega-menu__close">
-      <?php echo esc_html( $close_text ); ?>
-    </button>
 
     <?php if ( '' !== trim( $desktop_html ) ) : ?>
     <div class="wbg-mega-menu__content wbg-mega-menu__content--desktop">

@@ -1,17 +1,13 @@
 /**
  * WBG Mega Menu – front-end + editor styles.
  *
- * Positioning: the panel is absolutely positioned against the nearest
- * positioned ancestor. Give your header group `position: relative` so the
- * panel drops full-width beneath the header.
  */
 
-// Keep in sync with any theme breakpoint you use. Below this width the
-// mobile panel (if chosen) replaces the desktop panel.
 $wbg-mega-menu-breakpoint: 782px;
 $header-height: 144px;
 
 .wbg-mega-menu {
+	// Header Button space (because the toggle itself is position: absolute)
 	position: relative;
 	width: 165px;
 	&__toggle.wp-element-button {
@@ -19,7 +15,11 @@ $header-height: 144px;
 		left: 0;
 		top: -34px;
 		display: flex;
-		padding: 70px 38px;
+		align-items: center;
+		justify-content: center;
+		height: 180px;
+		width: 180px;
+		// padding: 70px 38px;
 		background: var(--wp--preset--color--light-green);
 		border-radius: 50%;
 		transition: all 350ms ease-in-out;
@@ -41,25 +41,25 @@ $header-height: 144px;
 }
 
 .wbg-mega-menu__panel {
+	z-index: -1;
 	position: fixed;
 	top: $header-height;
 	left: 0;
 	right: 0;
 	// transform: translateY(-100%);
-	z-index: 100;
 	height: calc(100vh - $header-height);
 	overflow-y: scroll;
 	background: var(--wp--preset--color--dark-green);
-
+	transform: translateY(calc(-100% - $header-height));
 	// Hidden state: visibility removes it from the tab order and a11y tree
-	// while still allowing a fade transition.
+	// while still allowing a transition.
 	// visibility: hidden;
 
 	transition: transform 450ms ease;
 
 	&.is-open {
 		// visibility: visible;
-		transform: translateY(calc(-100% - $header-height));
+		transform: translateY(0%);
 		// transition:
 		// 	opacity 0.2s ease,
 		// 	visibility 0s linear 0s;
@@ -108,4 +108,51 @@ $header-height: 144px;
 	.wbg-mega-menu__panel.is-open {
 		transition: none;
 	}
+}
+
+// Mega Menu Nav Items
+.wbg-mega-menu
+	.wp-block-navigation
+	.has-child
+	.wp-block-navigation__submenu-container {
+	box-shadow: none;
+	border: none;
+}
+
+.wbg-mega-menu
+	.wp-block-navigation
+	.has-child
+	.wp-block-navigation__submenu-container
+	> .wp-block-navigation-item
+	> .wp-block-navigation-item__content {
+	font-size: clamp(1.13rem, calc(1.057rem + 0.341vw), 1.31rem);
+	padding: 0.5rem;
+	padding-left: clamp(0rem, calc(-5.825rem + 11.933vw), 3.125rem);
+	font-family: var(--wp--preset--font-family--inter);
+	letter-spacing: -0.231px;
+	font-style: normal;
+}
+
+/* Parent Nav Item in the Mega Menu */
+.wbg-mega-menu:has(.wp-block-navigation-submenu__toggle[aria-expanded="true"])
+	.wp-block-navigation
+	.wp-block-navigation-item {
+	flex-wrap: wrap;
+	/* Child submenu in the mega menu */
+	& .wp-block-navigation__submenu-container {
+		flex-basis: 100%;
+		position: relative;
+	}
+}
+
+.wbg-mega-menu
+	nav
+	ul:not(.wp-block-navigation__submenu-container)
+	> li.wp-block-navigation-item {
+	/* letter-spacing: -2.892px; */
+}
+
+/* Child submenu in the mega menu */
+.wbg-mega-menu nav {
+	line-height: 1;
 }

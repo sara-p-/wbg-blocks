@@ -82,6 +82,13 @@ class MegaMenu {
 			return;
 		}
 
+		// Toggle label: "Button Text" when closed, "Close Button Text" when open.
+		this.toggleText =
+			this.toggle.querySelector(".wbg-mega-menu__toggle-text") || this.toggle;
+		this.openText =
+			this.toggle.dataset.openText || this.toggleText.textContent.trim();
+		this.closeText = this.toggle.dataset.closeText || this.openText;
+
 		this.toggle.addEventListener("click", () => {
 			if (this.isOpen) {
 				this.close({ returnFocus: true });
@@ -120,6 +127,7 @@ class MegaMenu {
 		this.root.classList.add(OPEN_CLASS);
 		this.panel.classList.add(OPEN_CLASS);
 		this.toggle.setAttribute("aria-expanded", "true");
+		this.toggleText.textContent = this.closeText;
 		document.documentElement.classList.add(HTML_OPEN_CLASS);
 
 		// Let the browser apply the open styles before moving focus.
@@ -139,6 +147,7 @@ class MegaMenu {
 		this.root.classList.remove(OPEN_CLASS);
 		this.panel.classList.remove(OPEN_CLASS);
 		this.toggle.setAttribute("aria-expanded", "false");
+		this.toggleText.textContent = this.openText;
 
 		if (![...instances].some((instance) => instance.isOpen)) {
 			document.documentElement.classList.remove(HTML_OPEN_CLASS);

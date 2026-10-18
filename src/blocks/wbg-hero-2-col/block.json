@@ -1,0 +1,90 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-hero-2-col",
+	"version": "0.1.0",
+	"title": "Hero - 2 Column",
+	"category": "wbg-heros",
+	"icon": "menu",
+	"description": "A hero with a column for a heading and a column for content.",
+	"keywords": ["hero", "section", "2-column"],
+	"example": {
+		"viewportWidth": 1444,
+		"attributes": {
+			"subheading": "Subheading here",
+			"heading": "Heading Goes Here"
+		},
+		"innerBlocks": [
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum massa sed eros vestibulum, at congue sapien scelerisque. Cras sagittis porta neque et consequat. Praesent congue nec erat a luctus."
+				}
+			},
+			{
+				"name": "core/buttons",
+				"innerBlocks": [
+					{
+						"name": "core/button",
+						"attributes": {
+							"text": "Get involved"
+						}
+					}
+				]
+			}
+		]
+	},
+	"attributes": {
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|60",
+						"bottom": "var:preset|spacing|60"
+					}
+				}
+			}
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "cream"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "darker-green"
+		},
+		"layout": {
+			"type": "string",
+			"enum": ["content-right", "content-left"],
+			"default": "content-right"
+		},
+		"subheading": {
+			"type": "string",
+			"default": ""
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": ["full"],
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"spacing": {
+			"padding": ["top", "bottom"],
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}

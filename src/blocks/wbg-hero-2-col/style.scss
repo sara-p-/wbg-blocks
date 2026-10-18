@@ -1,0 +1,60 @@
+/**
+ * WBG Hero 2 Column – front-end + editor styles.
+ *
+ */
+
+.wbg-hero-2-col {
+	$self: &;
+	&__wrapper {
+		width: auto;
+		max-width: var(--wp--style--global--wide-size);
+		margin: 0 auto;
+		padding: 0 var(--wp--preset--spacing--24);
+	}
+	&__row {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		gap: var(--wp--preset--spacing--32);
+	}
+	&__col {
+		max-width: 360px;
+	}
+	&__headings {
+		max-width: 750px;
+		display: flex;
+		flex-direction: column;
+		place-items: flex-start;
+		gap: var(--wp--preset--spacing--24);
+	}
+	&__content {
+		display: flex;
+		flex-direction: column;
+		place-items: flex-start;
+		gap: var(--wp--preset--spacing--24);
+	}
+	&__subheading {
+		margin: 0;
+		color: inherit;
+	}
+	&__heading {
+		margin: 0;
+		color: inherit;
+	}
+
+	&.layout--content-left #{$self}__row {
+		flex-direction: row-reverse;
+	}
+}
+
+@media screen and (max-width: 781px) {
+	.wbg-hero-2-col {
+		$self: &;
+		&__row {
+			flex-direction: column;
+		}
+		&.layout--content-left #{$self}__row {
+			flex-direction: column;
+		}
+	}
+}

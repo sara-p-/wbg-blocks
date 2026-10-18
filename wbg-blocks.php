@@ -33,3 +33,50 @@ function create_block_wbg_blocks_block_init() {
 	wp_register_block_types_from_metadata_collection( __DIR__ . '/build/blocks', __DIR__ . '/build/blocks-manifest.php' );
 }
 add_action( 'init', 'create_block_wbg_blocks_block_init' );
+
+
+/**
+ * Register custom WBG block categories and place them first in the inserter.
+ */
+function wbg_register_block_categories( $categories, $block_editor_context ) {
+	$wbg_categories = array(
+
+		array(
+			'slug'  => 'wbg-heros',
+			'title' => __( 'WBG Heros', 'wbg' ),
+			'icon'  => null,
+		),
+		array(
+			'slug'  => 'wbg-sections',
+			'title' => __( 'WBG Sections', 'wbg' ),
+			'icon'  => null,
+		),
+		array(
+			'slug'  => 'wbg-parts',
+			'title' => __( 'WBG Parts', 'wbg' ),
+			'icon'  => null,
+		),
+		array(
+			'slug'  => 'wbg-layout',
+			'title' => __( 'WBG Layout', 'wbg' ),
+			'icon'  => null,
+		),
+		array(
+			'slug'  => 'wbg-menu',
+			'title' => __( 'WBG Menus', 'wbg' ),
+			'icon'  => null,
+		),
+	);
+
+	// Skip any that are already registered so nothing gets duplicated.
+	$existing_slugs = wp_list_pluck( $categories, 'slug' );
+	$wbg_categories = array_filter(
+		$wbg_categories,
+		function ( $category ) use ( $existing_slugs ) {
+			return ! in_array( $category['slug'], $existing_slugs, true );
+		}
+	);
+
+	return array_merge( array_values( $wbg_categories ), $categories );
+}
+add_filter( 'block_categories_all', 'wbg_register_block_categories', 10, 2 );

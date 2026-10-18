@@ -1,0 +1,38 @@
+/**
+ * WBG Hero Simple – front-end + editor styles.
+ *
+ */
+
+.wbg-hero-simple {
+	&__wrapper {
+		width: auto;
+		max-width: var(--wp--preset--global--wide-size);
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		place-items: center;
+		gap: var(--wp--preset--spacing--24);
+		margin: 0 auto;
+		padding: 0 var(--wp--preset--spacing--24);
+	}
+	&__content {
+		display: flex;
+		flex-direction: column;
+		place-items: center;
+		gap: var(--wp--preset--spacing--32);
+	}
+	&__subheading {
+		margin: 0;
+	}
+	&__heading {
+		margin: 0;
+	}
+	&__text {
+		width: 100%;
+		max-width: 650px;
+	}
+	&__buttons {
+		display: flex;
+		place-items: center;
+	}
+}

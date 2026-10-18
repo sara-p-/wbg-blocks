@@ -101,6 +101,20 @@ $header-height: 144px;
 	html.wbg-mega-menu-is-open {
 		overflow: hidden;
 	}
+
+	.wbg-mega-menu {
+		&__toggle.wp-element-button {
+			top: -10px;
+			height: 76px;
+			width: 76px;
+			font-size: 11px;
+			letter-spacing: 3.8px;
+			font-weight: 400;
+			& span {
+				margin-right: -3.8px;
+			}
+		}
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {

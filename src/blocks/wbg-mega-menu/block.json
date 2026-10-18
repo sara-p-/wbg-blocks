@@ -4,7 +4,7 @@
 	"name": "wbg-blocks/wbg-mega-menu",
 	"version": "0.1.0",
 	"title": "WBG Mega Menu",
-	"category": "widgets",
+	"category": "wbg-menu",
 	"icon": "menu",
 	"description": "A mega menu trigger button that opens a Mega Menu Panel template part.",
 	"keywords": ["menu", "navigation", "mega menu"],

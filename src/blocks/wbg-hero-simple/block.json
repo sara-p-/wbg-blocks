@@ -1,0 +1,90 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-hero-simple",
+	"version": "0.1.0",
+	"title": "Hero - Simple",
+	"category": "wbg-heros",
+	"icon": "menu",
+	"description": "A simple hero with the options for a header, text, and buttons.",
+	"keywords": ["hero", "section"],
+	"example": {
+		"attributes": {
+			"subheading": "Subheading here",
+			"heading": "Heading Goes Here",
+			"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum massa sed eros vestibulum, at congue sapien scelerisque. Cras sagittis porta neque et consequat. Praesent congue nec erat a luctus."
+		},
+		"innerBlocks": [
+			{
+				"name": "core/buttons",
+				"innerBlocks": [
+					{
+						"name": "core/button",
+						"attributes": {
+							"text": "Get involved"
+						}
+					},
+					{
+						"name": "core/button",
+						"attributes": {
+							"text": "Learn more",
+							"className": "is-style-outline"
+						}
+					}
+				]
+			}
+		]
+	},
+	"attributes": {
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|60",
+						"bottom": "var:preset|spacing|60"
+					}
+				}
+			}
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "cream"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "darker-green"
+		},
+		"subheading": {
+			"type": "string",
+			"default": ""
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
+		"text": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": ["full"],
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"spacing": {
+			"padding": ["top", "bottom"],
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}

@@ -55,6 +55,11 @@
 			"type": "string",
 			"default": "darker-green"
 		},
+		"fontWeight": {
+			"type": "string",
+			"enum": ["normal", "bold"],
+			"default": "normal"
+		},
 		"subheading": {
 			"type": "string",
 			"default": ""

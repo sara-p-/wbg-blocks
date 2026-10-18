@@ -24,7 +24,7 @@ if ( ! function_exists( 'wbg_hero_simple_has_text' ) ) {
 $wbg_subheading  = $attributes['subheading'] ?? '';
 $wbg_heading     = $attributes['heading'] ?? '';
 $wbg_text        = $attributes['text'] ?? '';
-$wbg_font_weight = $attributes['fontWeight'] ?? 'normal';
+$wbg_text_size   = $attributes['textSize'] ?? 'normal';
 
 $wbg_has_subheading = wbg_hero_simple_has_text( $wbg_subheading );
 $wbg_has_heading    = wbg_hero_simple_has_text( $wbg_heading );
@@ -37,7 +37,7 @@ $wbg_heading_class = 'wp-block-heading wbg-hero-simple__heading' . ( $wbg_has_su
 
 $wbg_wrapper_classes = array( 'wbg-hero-simple' );
 
-if ( 'bold' === $wbg_font_weight ) {
+if ( 'large' === $wbg_text_size ) {
 	$wbg_wrapper_classes[] = 'font-size--large';
 }
 

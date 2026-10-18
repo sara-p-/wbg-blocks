@@ -21,12 +21,12 @@ const ALLOWED_BLOCKS = ["core/buttons"];
 const TEMPLATE = [["core/buttons"]];
 
 export default function Edit({ attributes, setAttributes }) {
-	const { subheading, heading, text, fontSize } = attributes;
+	const { subheading, heading, text, textSize } = attributes;
 
 	const blockProps = useBlockProps({
 		className: [
 			"wbg-hero-simple",
-			fontSize === "bold" ? "font-size--large" : "",
+			textSize === "large" ? "font-size--large" : "",
 		]
 			.filter(Boolean)
 			.join(" "),
@@ -46,8 +46,8 @@ export default function Edit({ attributes, setAttributes }) {
 				<PanelBody title={__("Settings", "wbg-blocks")}>
 					<ToggleGroupControl
 						label={__("Font Size", "wbg-blocks")}
-						value={fontSize}
-						onChange={(value) => setAttributes({ fontSize: value })}
+						value={textSize}
+						onChange={(value) => setAttributes({ textSize: value })}
 						isBlock
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize

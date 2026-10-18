@@ -1,0 +1,63 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-hero-headline",
+	"version": "0.1.0",
+	"title": "Hero - Headline",
+	"category": "wbg-heros",
+	"icon": "menu",
+	"description": "A simple headline.",
+	"keywords": ["hero", "section", "headline"],
+	"example": {
+		"viewportWidth": 1188,
+		"innerBlocks": [
+			{
+				"name": "core/heading",
+				"attributes": {
+					"level": 1,
+					"content": "Headline goes here."
+				}
+			}
+		]
+	},
+	"attributes": {
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|32",
+						"bottom": "var:preset|spacing|32"
+					}
+				}
+			}
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "cream"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "darker-green"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": ["full"],
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"spacing": {
+			"padding": ["top", "bottom"],
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}

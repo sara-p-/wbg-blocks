@@ -38,7 +38,7 @@ $wbg_heading_class = 'wp-block-heading wbg-hero-simple__heading' . ( $wbg_has_su
 $wbg_wrapper_classes = array( 'wbg-hero-simple' );
 
 if ( 'bold' === $wbg_font_weight ) {
-	$wbg_wrapper_classes[] = 'font-weight--bold';
+	$wbg_wrapper_classes[] = 'font-size--large';
 }
 
 $wbg_wrapper_attributes = get_block_wrapper_attributes(

@@ -7,7 +7,7 @@
 	$self: &;
 	&__wrapper {
 		width: auto;
-		max-width: var(--wp--preset--global--wide-size);
+		max-width: var(--wp--style--global--wide-size);
 		text-align: center;
 		display: flex;
 		flex-direction: column;
@@ -24,9 +24,11 @@
 	}
 	&__subheading {
 		margin: 0;
+		color: inherit;
 	}
 	&__heading {
 		margin: 0;
+		color: inherit;
 	}
 	&__text {
 		width: 100%;
@@ -37,7 +39,7 @@
 		place-items: center;
 	}
 
-	&.font-weight--bold #{$self}__text {
+	&.font-size--large #{$self}__text {
 		max-width: 920px;
 		font-size: var(--wp--preset--font-size--heading-five);
 		line-height: clamp(25px, calc(12.333px + 2.639vw), 44px);

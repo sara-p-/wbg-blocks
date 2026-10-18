@@ -9,6 +9,7 @@
 	"description": "A simple hero with the options for a header, text, and buttons.",
 	"keywords": ["hero", "section"],
 	"example": {
+		"viewportWidth": 1188,
 		"attributes": {
 			"subheading": "Subheading here",
 			"heading": "Heading Goes Here",
@@ -55,9 +56,9 @@
 			"type": "string",
 			"default": "darker-green"
 		},
-		"fontWeight": {
+		"fontSize": {
 			"type": "string",
-			"enum": ["normal", "bold"],
+			"enum": ["normal", "large"],
 			"default": "normal"
 		},
 		"subheading": {

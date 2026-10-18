@@ -12,8 +12,27 @@
 		"viewportWidth": 1444,
 		"attributes": {
 			"subheading": "Subheading here",
-			"heading": "Heading Goes Here"
+			"heading": "Heading Goes Here",
+			"style": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|288",
+						"bottom": "var:preset|spacing|288"
+					}
+				},
+				"background": {
+					"backgroundImage": {
+						"url": "/wp-content/uploads/2026/10/membership-hero.webp",
+						"source": "file",
+						"title": "membership-hero"
+					},
+					"backgroundSize": "cover",
+					"backgroundPosition": "50% 50%",
+					"backgroundRepeat": "no-repeat"
+				}
+			}
 		},
+
 		"innerBlocks": [
 			{
 				"name": "core/paragraph",

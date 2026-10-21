@@ -35,8 +35,10 @@
 		max-width: 650px;
 	}
 	&__buttons {
-		display: flex;
-		place-items: center;
+		width: 100%;
+		.wp-block-buttons {
+			width: 100%;
+		}
 	}
 
 	&.font-size--large #{$self}__text {

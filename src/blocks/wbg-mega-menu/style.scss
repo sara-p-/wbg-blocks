@@ -17,8 +17,8 @@ $header-height: 144px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		height: 180px;
-		width: 180px;
+		height: 165px;
+		width: 165px;
 		// padding: 70px 38px;
 		background: var(--wp--preset--color--light-green);
 		border-radius: 50%;
@@ -32,6 +32,9 @@ $header-height: 144px;
 		text-transform: uppercase;
 		font-weight: 300 !important;
 		line-height: 1;
+		& span {
+			margin-right: -8.4px;
+		}
 		&:hover,
 		&:focus {
 			background: var(--wp--preset--color--med-green);

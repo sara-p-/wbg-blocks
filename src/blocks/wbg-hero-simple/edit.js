@@ -18,7 +18,9 @@ import {
 } from "@wordpress/components";
 
 const ALLOWED_BLOCKS = ["core/buttons"];
-const TEMPLATE = [["core/buttons"]];
+const TEMPLATE = [
+	["core/buttons", { layout: { type: "flex", justifyContent: "center" } }],
+];
 
 export default function Edit({ attributes, setAttributes }) {
 	const { subheading, heading, text, textSize } = attributes;

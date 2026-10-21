@@ -1,0 +1,69 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-card-simple",
+	"version": "0.1.0",
+	"title": "Card - Simple",
+	"category": "wbg-cards",
+	"icon": "menu",
+	"description": "A simple card with inner blocks.",
+	"keywords": ["card"],
+	"example": {
+		"viewportWidth": 400,
+		"innerBlocks": [
+			{
+				"name": "core/heading",
+				"attributes": {
+					"level": 1,
+					"content": "Headline goes here."
+				}
+			}
+		]
+	},
+	"attributes": {
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|24",
+						"bottom": "var:preset|spacing|24",
+						"left": "var:preset|spacing|24",
+						"right": "var:preset|spacing|24"
+					}
+				}
+			}
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "cream"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "darker-green"
+		}
+	},
+	"supports": {
+		"html": false,
+		"color": {
+			"text": true,
+			"background": true
+		},
+		"spacing": {
+			"padding": ["top", "bottom", "left", "right"],
+			"blockGap": true,
+			"__experimentalDefaultControls": {
+				"padding": true,
+				"blockGap": true
+			}
+		},
+		"layout": {
+			"allowEditing": false
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}

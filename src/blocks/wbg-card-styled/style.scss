@@ -1,0 +1,68 @@
+/**
+ * Card - Styled: front-end + editor styles (starter).
+ */
+.wbg-card-styled {
+	$self: &;
+	border-radius: 24px;
+	background-color: var(--wp--preset--color--cream);
+	padding: 28px;
+	transition: all 350ms ease-in-out;
+	// Inner flex column: row 1 = heading/text, row 2 = button/icon.
+	&__column {
+		display: flex;
+		flex-direction: column;
+		gap: var(--wbg-card-gap, var(--wp--preset--spacing--24));
+		height: 100%;
+	}
+
+	&__row--content {
+		> * {
+			margin-block: 0;
+		}
+
+		> * + * {
+			margin-block-start: 0.75em;
+		}
+	}
+
+	&__heading.wp-block-heading {
+		line-height: 1;
+		// line-height: clamp(2.375rem, calc(2.083rem + 0.972vw), 2.813rem);
+		color: var(--wp--preset--color--med-green);
+	}
+
+	&__row--footer {
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-block-start: auto; // pins the row to the bottom of equal-height cards
+	}
+
+	&__icon {
+		flex-shrink: 0;
+		margin-inline-start: auto; // keeps the icon right-aligned even without a button
+
+		svg {
+			display: block;
+			width: 8rem;
+			max-width: 120px;
+			height: auto;
+		}
+
+		// CSS beats the SVG's own fill="" attributes, so this wins
+		// as long as the files don't use inline style="fill:…".
+		svg :is(path, circle, rect, ellipse, polygon, polyline) {
+			fill: var(--wp--preset--color--dark-green);
+		}
+	}
+
+	// Hover State for entire card
+	&:has(.wbg-card-styled__button:hover) {
+		background-color: var(--wp--preset--color--med-green);
+		#{$self}__heading.wp-block-heading,
+		#{$self}__text {
+			color: var(--wp--preset--color--cream) !important;
+		}
+	}
+}

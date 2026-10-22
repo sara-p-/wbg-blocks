@@ -9,13 +9,19 @@
 	"description": "A simple card with inner blocks.",
 	"keywords": ["card"],
 	"example": {
-		"viewportWidth": 400,
+		"viewportWidth": 350,
 		"innerBlocks": [
 			{
 				"name": "core/heading",
 				"attributes": {
-					"level": 1,
+					"level": 2,
 					"content": "Headline goes here."
+				}
+			},
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum massa sed eros vestibulum."
 				}
 			}
 		]

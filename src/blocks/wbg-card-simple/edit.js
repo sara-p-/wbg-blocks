@@ -4,7 +4,12 @@
 import { __ } from "@wordpress/i18n";
 import { useBlockProps, useInnerBlocksProps } from "@wordpress/block-editor";
 
-const ALLOWED_BLOCKS = ["core/heading", "core/paragraph", "core/buttons"];
+const ALLOWED_BLOCKS = [
+	"core/heading",
+	"core/paragraph",
+	"core/list",
+	"core/buttons",
+];
 const TEMPLATE = [
 	[
 		"core/heading",

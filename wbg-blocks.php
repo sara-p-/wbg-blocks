@@ -18,6 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
+// define( 'WBG_BLOCKS_PATH', plugin_dir_path( __FILE__ ) );
+
+require_once __DIR__ . '/inc/icon-helper.php';
 require_once __DIR__ . '/inc/mega-menu-panels.php';
 
 

@@ -1,0 +1,92 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-card-styled",
+	"version": "0.1.0",
+	"title": "Card - Styled",
+	"category": "wbg-cards",
+	"icon": "menu",
+	"description": "A styled card with a heading, text, an optional button, and an optional icon.",
+	"keywords": ["card"],
+	"example": {
+		"viewportWidth": 350,
+		"attributes": {
+			"heading": "Heading Goes Here",
+			"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum massa sed eros vestibulum.",
+			"buttonText": "Learn more",
+			"buttonUrl": "#",
+			"icon": "flowers",
+			"style": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|24",
+						"bottom": "var:preset|spacing|24",
+						"left": "var:preset|spacing|24",
+						"right": "var:preset|spacing|24"
+					}
+				}
+			}
+		}
+	},
+	"attributes": {
+		"backgroundColor": {
+			"type": "string",
+			"default": "cream"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "darker-green"
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
+		"text": {
+			"type": "string",
+			"default": ""
+		},
+		"buttonText": {
+			"type": "string",
+			"default": ""
+		},
+		"buttonUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"buttonOpensInNewTab": {
+			"type": "boolean",
+			"default": false
+		},
+		"buttonAriaLabel": {
+			"type": "string",
+			"default": ""
+		},
+		"icon": {
+			"type": "string",
+			"enum": [
+				"none",
+				"flowers",
+				"bonsai",
+				"planting",
+				"group",
+				"stepping-stones",
+				"building",
+				"tour",
+				"planting-2",
+				"butterfly"
+			],
+			"default": "none"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"layout": {
+		"allowEditing": false
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}

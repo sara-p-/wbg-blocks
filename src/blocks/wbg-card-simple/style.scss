@@ -4,5 +4,28 @@
  */
 
 .wbg-card-simple {
+	$self: &;
 	border-radius: 24px;
+	transition: all 350ms ease-in-out;
+	.wp-block-heading {
+		line-height: 1 !important;
+	}
+
+	ul.wp-block-list {
+		padding-left: 1rem;
+		li {
+			font-size: 14px;
+			line-height: 21px;
+		}
+	}
+
+	&:has(.wp-block-button__link:hover, .wp-block-button__link:focus-visible) {
+		background-color: var(--wp--preset--color--med-green) !important;
+		.wp-block-heading,
+		.wp-block-heading.has-text-color,
+		p.wp-block-paragraph,
+		ul.wp-block-list li {
+			color: var(--wp--preset--color--cream) !important;
+		}
+	}
 }

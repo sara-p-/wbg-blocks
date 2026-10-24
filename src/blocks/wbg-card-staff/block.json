@@ -1,0 +1,67 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-card-staff",
+	"version": "0.1.0",
+	"title": "Card - Staff",
+	"category": "wbg-cards",
+	"icon": "format-image",
+	"description": "A card with an image and text, meant to be used for staff.",
+	"keywords": ["card", "image", "staff"],
+	"example": {
+		"viewportWidth": 400,
+		"attributes": {
+			"style": {
+				"background": {
+					"backgroundImage": {
+						"url": "/wp-content/uploads/2026/10/staff-1.webp",
+						"source": "file",
+						"title": "card-image-1"
+					},
+					"backgroundSize": "cover",
+					"backgroundPosition": "50% 50%",
+					"backgroundRepeat": "no-repeat"
+				}
+			},
+			"name": "Name Here",
+			"position": "Position Here"
+		}
+	},
+	"attributes": {
+		"style": {
+			"type": "object"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "darker-green"
+		},
+		"name": {
+			"type": "string",
+			"default": ""
+		},
+		"position": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"color": {
+			"text": true,
+			"background": true
+		},
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalSkipSerialization": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}

@@ -14,6 +14,7 @@
 			"subheading": "Subheading here",
 			"heading": "Heading Goes Here",
 			"style": {
+				"type": "object",
 				"spacing": {
 					"padding": {
 						"top": "var:preset|spacing|288",

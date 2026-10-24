@@ -1,0 +1,103 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-card-image",
+	"version": "0.1.0",
+	"title": "Card - Image",
+	"category": "wbg-cards",
+	"icon": "format-image",
+	"description": "A card with a background-image area and inner blocks.",
+	"keywords": ["card", "image"],
+	"example": {
+		"viewportWidth": 500,
+		"attributes": {
+			"style": {
+				"background": {
+					"backgroundImage": {
+						"url": "/wp-content/uploads/2026/10/card-image-1.webp",
+						"source": "file",
+						"title": "card-image-1"
+					},
+					"backgroundSize": "cover",
+					"backgroundPosition": "50% 50%",
+					"backgroundRepeat": "no-repeat"
+				}
+			}
+		},
+		"innerBlocks": [
+			{
+				"name": "core/heading",
+				"attributes": {
+					"level": 3,
+					"textColor": "med-green",
+					"style": {
+						"typography": { "fontStyle": "italic", "textAlign": "center" }
+					},
+					"content": "Headline goes here."
+				}
+			},
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum massa sed eros vestibulum.",
+					"style": {
+						"typography": { "textAlign": "center" }
+					}
+				}
+			},
+			{
+				"name": "core/buttons",
+				"attributes": {
+					"layout": {
+						"type": "flex",
+						"justifyContent": "center"
+					}
+				},
+				"innerBlocks": [
+					{
+						"name": "core/button",
+						"attributes": {
+							"text": "Get involved"
+						}
+					}
+				]
+			}
+		]
+	},
+	"attributes": {
+		"style": {
+			"type": "object"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "darker-green"
+		}
+	},
+	"supports": {
+		"html": false,
+		"color": {
+			"text": true,
+			"background": true
+		},
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalSkipSerialization": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		},
+		"spacing": {
+			"blockGap": true,
+			"__experimentalSkipSerialization": ["blockGap"],
+			"__experimentalDefaultControls": {
+				"blockGap": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}

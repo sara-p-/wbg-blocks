@@ -1,0 +1,71 @@
+/**
+ * Card - Image: front-end + editor styles.
+ */
+.wbg-card-image {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--style--block-gap, 1.5rem);
+
+	&__image {
+		aspect-ratio: 17 / 10;
+		width: 100%;
+		background-repeat: no-repeat;
+		border-radius: 24px;
+
+		/* Editor-only placeholder (class is never output on the front end). */
+		&.is-placeholder {
+			width: auto;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 1rem;
+			border: 1px dashed currentColor;
+			opacity: 0.6;
+			font-size: 0.8125rem;
+			text-align: center;
+		}
+	}
+
+	/* Inner blocks — spacing driven by the native Block spacing control. */
+	&__content {
+		width: auto;
+		display: flex;
+		flex-direction: column;
+		gap: var(--wbg-card-gap, var(--wp--style--block-gap, 1.5rem));
+		max-width: 450px;
+		margin: 0 auto;
+		> * {
+			margin-block: 0;
+		}
+	}
+}
+
+/* Image area — background values come from the native Background panel. */
+.wbg-card-image__image {
+	aspect-ratio: 17 / 10;
+	width: 100%;
+	background-repeat: no-repeat;
+
+	/* Editor-only placeholder (class is never output on the front end). */
+	&.is-placeholder {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 1rem;
+		border: 1px dashed currentColor;
+		opacity: 0.6;
+		font-size: 0.8125rem;
+		text-align: center;
+	}
+}
+
+/* Inner blocks — spacing driven by the native Block spacing control. */
+.wbg-card-image__content {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wbg-card-gap, var(--wp--style--block-gap, 1.5rem));
+
+	> * {
+		margin-block: 0;
+	}
+}

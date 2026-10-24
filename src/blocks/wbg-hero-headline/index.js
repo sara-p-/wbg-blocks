@@ -1,5 +1,5 @@
 import { registerBlockType } from "@wordpress/blocks";
-import { Icon, lineSolid } from "@wordpress/icons";
+import { typography } from "@wordpress/icons";
 
 import "./style.scss";
 
@@ -8,7 +8,7 @@ import save from "./save";
 import metadata from "./block.json";
 
 registerBlockType(metadata.name, {
-	icon: lineSolid,
+	icon: typography,
 	edit: Edit,
 	save,
 });

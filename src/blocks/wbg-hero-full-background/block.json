@@ -68,7 +68,7 @@
 		},
 		"backgroundColor": {
 			"type": "string",
-			"default": "darker-green"
+			"default": "dark-green"
 		},
 		"textColor": {
 			"type": "string",

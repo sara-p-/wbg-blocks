@@ -10,7 +10,7 @@ const TEMPLATE = [
 		"core/heading",
 		{
 			level: 3,
-			textColor: "med-green",
+			textColor: "green",
 			style: {
 				typography: {
 					textAlign: "center",

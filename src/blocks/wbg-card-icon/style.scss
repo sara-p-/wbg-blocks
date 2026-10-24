@@ -1,0 +1,47 @@
+/**
+ * Card - Icon: front-end + editor styles.
+ */
+.wbg-card-icon {
+	$self: &;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: var(--wp--preset--color--cream);
+	transition: all 350ms ease-in-out;
+
+	&__icon {
+		flex-shrink: 0;
+		margin-bottom: var(--wp--preset--spacing--24);
+		svg {
+			display: block;
+			width: 12rem;
+			max-width: 190px;
+			height: auto;
+			max-height: 90px;
+		}
+
+		// CSS beats the SVG's own fill="" attributes, so this wins
+		// as long as the files don't use inline style="fill:…".
+		svg :is(path, circle, rect, ellipse, polygon, polyline) {
+			fill: var(--wp--preset--color--dark-green);
+		}
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		max-width: 300px;
+		// Block spacing control -> theme's default block gap -> fallback.
+		gap: var(--wbg-card-icon-gap, var(--wp--style--block-gap, 1.5rem));
+
+		// Let gap handle all vertical spacing between inner blocks.
+		> * {
+			margin-block: 0;
+		}
+
+		> .wp-block-heading {
+			line-height: 1;
+			color: var(--wp--preset--color--green);
+		}
+	}
+}

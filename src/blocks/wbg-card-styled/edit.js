@@ -20,7 +20,7 @@ import {
 import { link, linkOff } from "@wordpress/icons";
 import { prependHTTP } from "@wordpress/url";
 
-import { ICONS, ICON_OPTIONS } from "./icons";
+import { ICONS, ICON_OPTIONS } from "../../../assets/js/icons";
 
 /**
  * Turns a stored spacing value ("var:preset|spacing|24" or "2rem")

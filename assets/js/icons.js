@@ -13,15 +13,15 @@
 
 import { __ } from "@wordpress/i18n";
 
-import BonsaiIcon from "../../../assets/icons/bonsai.svg";
-import BuildingIcon from "../../../assets/icons/building.svg";
-import ButterflyIcon from "../../../assets/icons/butterfly.svg";
-import EducationIcon from "../../../assets/icons/education.svg";
-import FlowersIcon from "../../../assets/icons/flowers.svg";
-import GroupIcon from "../../../assets/icons/group.svg";
-import HeronIcon from "../../../assets/icons/heron.svg";
-import LilypadsIcon from "../../../assets/icons/lilypads.svg";
-import PlantingIcon from "../../../assets/icons/planting.svg";
+import BonsaiIcon from "../icons/bonsai.svg";
+import BuildingIcon from "../icons/building.svg";
+import ButterflyIcon from "../icons/butterfly.svg";
+import EducationIcon from "../icons/education.svg";
+import FlowersIcon from "../icons/flowers.svg";
+import GroupIcon from "../icons/group.svg";
+import HeronIcon from "../icons/heron.svg";
+import LilypadsIcon from "../icons/lilypads.svg";
+import PlantingIcon from "../icons/planting.svg";
 
 export const ICONS = {
 	bonsai: { label: __("Bonsai", "wbg-blocks"), Component: BonsaiIcon },

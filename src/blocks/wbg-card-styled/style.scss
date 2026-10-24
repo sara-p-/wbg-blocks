@@ -28,7 +28,7 @@
 	&__heading.wp-block-heading {
 		line-height: 1;
 		// line-height: clamp(2.375rem, calc(2.083rem + 0.972vw), 2.813rem);
-		color: var(--wp--preset--color--med-green);
+		color: var(--wp--preset--color--green);
 	}
 
 	&__row--footer {
@@ -59,7 +59,7 @@
 
 	// Hover State for entire card
 	&:has(.wbg-card-styled__button:hover) {
-		background-color: var(--wp--preset--color--med-green);
+		background-color: var(--wp--preset--color--green);
 		#{$self}__heading.wp-block-heading,
 		#{$self}__text {
 			color: var(--wp--preset--color--cream) !important;

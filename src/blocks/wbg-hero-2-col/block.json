@@ -52,7 +52,7 @@
 		},
 		"textColor": {
 			"type": "string",
-			"default": "darker-green"
+			"default": "dark-green"
 		},
 		"layout": {
 			"type": "string",

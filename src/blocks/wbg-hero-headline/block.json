@@ -38,7 +38,7 @@
 		},
 		"textColor": {
 			"type": "string",
-			"default": "darker-green"
+			"default": "dark-green"
 		}
 	},
 	"supports": {

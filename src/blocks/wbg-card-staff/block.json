@@ -33,7 +33,7 @@
 		},
 		"textColor": {
 			"type": "string",
-			"default": "darker-green"
+			"default": "dark-green"
 		},
 		"name": {
 			"type": "string",

@@ -35,7 +35,7 @@
 		},
 		"textColor": {
 			"type": "string",
-			"default": "darker-green"
+			"default": "dark-green"
 		},
 		"heading": {
 			"type": "string",
@@ -65,15 +65,15 @@
 			"type": "string",
 			"enum": [
 				"none",
-				"flowers",
 				"bonsai",
-				"planting",
-				"group",
-				"stepping-stones",
 				"building",
-				"tour",
-				"planting-2",
-				"butterfly"
+				"butterfly",
+				"education",
+				"flowers",
+				"group",
+				"heron",
+				"lilypads",
+				"planting"
 			],
 			"default": "none"
 		}

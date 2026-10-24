@@ -26,7 +26,6 @@ export default function Edit({}) {
 		{
 			allowedBlocks: ALLOWED_BLOCKS,
 			template: TEMPLATE,
-			templateLock: "all", // can't add, remove, or move blocks; heading stays editable
 		},
 	);
 

@@ -29,6 +29,19 @@
 		}
 	},
 	"attributes": {
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|24",
+						"bottom": "var:preset|spacing|24",
+						"right": "var:preset|spacing|16",
+						"left": "var:preset|spacing|16"
+					}
+				}
+			}
+		},
 		"backgroundColor": {
 			"type": "string",
 			"default": "cream"
@@ -79,7 +92,13 @@
 		}
 	},
 	"supports": {
-		"html": false
+		"html": false,
+		"spacing": {
+			"padding": ["top", "bottom", "left", "right"],
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		}
 	},
 	"layout": {
 		"allowEditing": false

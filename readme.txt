@@ -1,5 +1,5 @@
-=== Wbg Blocks ===
-Contributors:      The WordPress Contributors
+=== WBG Blocks ===
+Contributors:      Caviar Creative Co
 Tags:              block
 Tested up to:      6.8
 Stable tag:        0.1.0
@@ -27,13 +27,6 @@ e.g.
 
 == Frequently Asked Questions ==
 
-= A question that someone might have =
-
-An answer to that question.
-
-= What about foo bar? =
-
-Answer to foo bar dilemma.
 
 == Screenshots ==
 
@@ -50,6 +43,4 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 
 == Arbitrary section ==
 
-You may provide arbitrary sections, in the same format as the ones above. This may be of use for extremely complicated
-plugins where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation." Arbitrary sections will be shown below the built-in sections outlined above.
+To add or remove SVG icons to the plugin (that are used in various blocks), add the svg file to /assets/icons/, then edit the /inc/icon-helper.php file, as well as the /assets/js/icons.js file.

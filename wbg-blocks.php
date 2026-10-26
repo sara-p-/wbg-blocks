@@ -60,15 +60,16 @@ function wbg_register_block_categories( $categories, $block_editor_context ) {
 			'icon'  => null,
 		),
 		array(
-			'slug'  => 'wbg-cards',
-			'title' => __( 'WBG Cards', 'wbg' ),
-			'icon'  => null,
-		),
-		array(
 			'slug'  => 'wbg-layout',
 			'title' => __( 'WBG Layout', 'wbg' ),
 			'icon'  => null,
 		),
+		array(
+			'slug'  => 'wbg-cards',
+			'title' => __( 'WBG Cards', 'wbg' ),
+			'icon'  => null,
+		),
+		
 		array(
 			'slug'  => 'wbg-menu',
 			'title' => __( 'WBG Menus', 'wbg' ),

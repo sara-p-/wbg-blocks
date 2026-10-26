@@ -170,7 +170,7 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 					{showFooter && (
 						<div className="wbg-card-styled__row wbg-card-styled__row--footer">
 							{showButton && (
-								<div className="wp-block-button is-style-small-size is-style-small-size--4 wbg-card-styled__button-wrap">
+								<div className="wp-block-button is-style-extra-small-size is-style-extra-small-size--8 wbg-card-styled__button-wrap">
 									<RichText
 										ref={setPopoverAnchor}
 										tagName="div"

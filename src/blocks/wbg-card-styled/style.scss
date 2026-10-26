@@ -41,12 +41,12 @@
 
 	&__icon {
 		flex-shrink: 0;
-		margin-inline-start: auto; // keeps the icon right-aligned even without a button
+		margin: auto;
 
 		svg {
 			display: block;
 			width: 8rem;
-			max-width: 120px;
+			max-width: 100px;
 			height: auto;
 		}
 

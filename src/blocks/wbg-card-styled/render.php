@@ -59,7 +59,7 @@ $wbg_wrapper_attributes = get_block_wrapper_attributes(
     <?php if ( $wbg_has_button || $wbg_icon_svg ) : ?>
     <div class="wbg-card-styled__row wbg-card-styled__row--footer">
       <?php if ( $wbg_has_button ) : ?>
-      <div class="wp-block-button is-style-small-size is-style-small-size--4 wbg-card-styled__button-wrap">
+      <div class="wp-block-button is-style-extra-small-size is-style-extra-small-size--8 wbg-card-styled__button-wrap">
         <a class="wp-block-button__link wp-element-button wbg-card-styled__button"
           href="<?php echo esc_url( $wbg_button_url ); ?>" <?php if ( $wbg_new_tab ) : ?> target="_blank"
           rel="noopener noreferrer" <?php endif; ?> <?php if ( '' !== $wbg_aria_label ) : ?>

@@ -1,0 +1,267 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-layout-grid-static",
+	"version": "0.1.0",
+	"title": "Layout - Grid - Static",
+	"category": "wbg-layout",
+	"icon": "grid-view",
+	"description": "A static grid layout of 2–4 columns that holds card blocks, with an optional heading.",
+	"keywords": ["layout", "section", "grid", "cards", "columns"],
+	"example": {
+		"viewportWidth": 1200,
+		"attributes": {
+			"columns": 4,
+			"showHeading": false,
+			"backgroundColor": "cream"
+		},
+		"innerBlocks": [
+			{
+				"name": "wbg-blocks/wbg-card-icon",
+				"attributes": {
+					"icon": "building"
+				},
+				"innerBlocks": [
+					{
+						"name": "core/heading",
+						"attributes": {
+							"level": 3,
+							"textColor": "green",
+							"style": {
+								"typography": { "fontStyle": "italic", "textAlign": "center" }
+							},
+							"content": "Reserve the Gardens"
+						}
+					},
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Celebrate your most special moments in a breathtaking setting that changes with the seasons. Private events include weddings, corporate retreats, private parties, and more.",
+							"style": {
+								"typography": { "textAlign": "center" }
+							}
+						}
+					},
+					{
+						"name": "core/buttons",
+						"attributes": {
+							"layout": {
+								"type": "flex",
+								"justifyContent": "center"
+							}
+						},
+						"innerBlocks": [
+							{
+								"name": "core/button",
+								"attributes": {
+									"text": "Book Your Event"
+								}
+							}
+						]
+					}
+				]
+			},
+			{
+				"name": "wbg-blocks/wbg-card-icon",
+				"attributes": {
+					"icon": "education"
+				},
+				"innerBlocks": [
+					{
+						"name": "core/heading",
+						"attributes": {
+							"level": 3,
+							"textColor": "green",
+							"style": {
+								"typography": { "fontStyle": "italic", "textAlign": "center" }
+							},
+							"content": "Group Tours"
+						}
+					},
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Group tours are available during regular operating hours and must be booked at least two weeks in advance. Tours are 45 – 60 minutes long and are recommended for guests 16+",
+							"style": {
+								"typography": { "textAlign": "center" }
+							}
+						}
+					},
+					{
+						"name": "core/buttons",
+						"attributes": {
+							"layout": {
+								"type": "flex",
+								"justifyContent": "center"
+							}
+						},
+						"innerBlocks": [
+							{
+								"name": "core/button",
+								"attributes": {
+									"text": "Bring the Crew"
+								}
+							}
+						]
+					}
+				]
+			},
+			{
+				"name": "wbg-blocks/wbg-card-icon",
+				"attributes": {
+					"icon": "planting"
+				},
+				"innerBlocks": [
+					{
+						"name": "core/heading",
+						"attributes": {
+							"level": 3,
+							"textColor": "green",
+							"style": {
+								"typography": { "fontStyle": "italic", "textAlign": "center" }
+							},
+							"content": "Field Trips"
+						}
+					},
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Let the Gardens become your outdoor classroom with 90-minute field trips tailored for K-8 students. Our educators weave math and science with a love for plants and our natural world.",
+							"style": {
+								"typography": { "textAlign": "center" }
+							}
+						}
+					},
+					{
+						"name": "core/buttons",
+						"attributes": {
+							"layout": {
+								"type": "flex",
+								"justifyContent": "center"
+							}
+						},
+						"innerBlocks": [
+							{
+								"name": "core/button",
+								"attributes": {
+									"text": "Learn at the Gardens"
+								}
+							}
+						]
+					}
+				]
+			},
+			{
+				"name": "wbg-blocks/wbg-card-icon",
+				"attributes": {
+					"icon": "butterfly"
+				},
+				"innerBlocks": [
+					{
+						"name": "core/heading",
+						"attributes": {
+							"level": 3,
+							"textColor": "green",
+							"style": {
+								"typography": { "fontStyle": "italic", "textAlign": "center" }
+							},
+							"content": "Photography Permits"
+						}
+					},
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Annual photography permits are available for $150 for professional photographers and videographers interested in shooting at the Gardens.",
+							"style": {
+								"typography": { "textAlign": "center" }
+							}
+						}
+					},
+					{
+						"name": "core/buttons",
+						"attributes": {
+							"layout": {
+								"type": "flex",
+								"justifyContent": "center"
+							}
+						},
+						"innerBlocks": [
+							{
+								"name": "core/button",
+								"attributes": {
+									"text": "View the Guidelines"
+								}
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	"attributes": {
+		"columns": {
+			"type": "number",
+			"default": 3
+		},
+		"showHeading": {
+			"type": "boolean",
+			"default": false
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
+		"headingAlign": {
+			"type": "string"
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|60",
+						"bottom": "var:preset|spacing|60"
+					}
+				}
+			}
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "green"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "dark-green"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": ["full"],
+		"color": {
+			"background": true,
+			"text": true,
+			"__experimentalSkipSerialization": ["text"],
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		},
+		"spacing": {
+			"padding": ["top", "bottom"],
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

@@ -3,6 +3,8 @@
  */
 .wbg-card-styled {
 	$self: &;
+	z-index: 0;
+	box-sizing: border-box;
 	border-radius: 24px;
 	background-color: var(--wp--preset--color--cream);
 	padding: 28px;

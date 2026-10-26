@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "wbg-blocks/wbg-layout-grid-static",
 	"version": "0.1.0",
-	"title": "Layout - Grid - Static",
+	"title": "Grid - Static",
 	"category": "wbg-layout",
 	"icon": "grid-view",
 	"description": "A static grid layout of 2–4 columns that holds card blocks, with an optional heading.",

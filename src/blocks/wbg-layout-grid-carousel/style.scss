@@ -1,0 +1,259 @@
+/**
+ * WBG Layout - Grid - Carousel – front-end + editor styles.
+ *
+ * Desktop: a grid whose column count is driven by --wbg-grid-cols, set by
+ * the --cols-{n} modifier class.
+ *
+ * Tablet / mobile (front end only): the grid becomes a horizontally
+ * scrolling, snap-aligned track showing --wbg-slides-per-view cards. This
+ * works with touch swiping even before view.js loads; view.js reads
+ * --wbg-slides-per-view to know when the carousel is active and adds the
+ * arrows and dots.
+ *
+ * The prev/next arrows sit on the left and right edges of the track,
+ * vertically centred on the slides. The dots sit below.
+ *
+ * The editor keeps the stacked grid at every width so cards stay easy to
+ * select (the editor wrapper carries .block-editor-block-list__block).
+ */
+
+$wbg-bp-tablet: 1024px;
+$wbg-bp-mobile: 767px;
+
+.wbg-layout-grid-carousel {
+	$self: &;
+	--wbg-grid-cols: 4;
+	--wbg-grid-gap: 24px;
+	--wbg-slides-per-view: 0; // 0 = carousel off (desktop).
+	--wbg-carousel-speed: 350ms; // Keep in sync with SLIDE_SPEED in view.js.
+	--wbg-carousel-arrow-size: 44px;
+
+	box-sizing: border-box;
+
+	// Column modifiers.
+	&--cols-2 {
+		--wbg-grid-cols: 2;
+	}
+
+	&--cols-3 {
+		--wbg-grid-cols: 3;
+	}
+
+	&--cols-4 {
+		--wbg-grid-cols: 4;
+	}
+
+	&__wrapper {
+		box-sizing: border-box;
+		width: 100%;
+		max-width: var(--wp--style--global--wide-size, 1200px);
+		margin-inline: auto;
+		padding-inline: var(--wp--style--root--padding-left, 1.5rem)
+			var(--wp--style--root--padding-right, 1.5rem);
+	}
+
+	// Positioning context for the arrows: wraps only the track, so "middle"
+	// means the middle of the slides, not of the heading + slides.
+	&__stage {
+		position: relative;
+	}
+
+	&__grid {
+		display: grid;
+		grid-template-columns: repeat(var(--wbg-grid-cols), minmax(0, 1fr));
+		gap: var(--wbg-grid-gap);
+
+		> * {
+			min-width: 0;
+			margin-block: 0;
+		}
+	}
+
+	&__heading {
+		margin-block: 0 var(--wp--preset--spacing--32);
+		font-size: clamp(3.75rem, calc(2.917rem + 2.778vw), 5rem);
+	}
+
+	// Editor fallback: 3 and 4 column grids drop to 2 on tablet…
+	&--cols-3,
+	&--cols-4 {
+		@media (max-width: $wbg-bp-tablet) {
+			--wbg-grid-cols: 2;
+		}
+	}
+
+	// …and everything stacks on mobile.
+	@media (max-width: $wbg-bp-mobile) {
+		--wbg-grid-cols: 1;
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Carousel (front end, tablet + mobile)                                 */
+	/* -------------------------------------------------------------------- */
+
+	&:not(.block-editor-block-list__block) {
+		@media (max-width: $wbg-bp-tablet) {
+			--wbg-slides-per-view: 2;
+		}
+
+		@media (max-width: $wbg-bp-mobile) {
+			--wbg-slides-per-view: 1;
+		}
+
+		@media (max-width: $wbg-bp-tablet) {
+			#{$self}__grid {
+				--wbg-slide-width: calc(
+					(100% - (var(--wbg-slides-per-view) - 1) * var(--wbg-grid-gap)) /
+						var(--wbg-slides-per-view)
+				);
+
+				position: relative; // Makes slide offsetLeft relative to the track.
+				display: flex;
+				overflow-x: auto;
+				overflow-y: hidden;
+				overscroll-behavior-x: contain;
+				scroll-snap-type: x mandatory;
+				scroll-behavior: auto; // view.js animates scrolling itself.
+				scrollbar-width: none;
+				-webkit-overflow-scrolling: touch;
+
+				&::-webkit-scrollbar {
+					display: none;
+				}
+
+				> * {
+					flex: 0 0 var(--wbg-slide-width);
+					width: var(--wbg-slide-width);
+					max-width: none;
+					scroll-snap-align: start;
+				}
+			}
+
+			// Snapping fights programmatic scrolling, so it is paused mid-animation.
+			&.is-animating #{$self}__grid {
+				scroll-snap-type: none;
+			}
+		}
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Controls                                                              */
+	/* -------------------------------------------------------------------- */
+
+	&__controls {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 16px;
+		margin-top: var(--wp--preset--spacing--32, 2rem);
+
+		&[hidden] {
+			display: none;
+		}
+	}
+
+	// Arrows: centred vertically on the slides, straddling the track's edges
+	// (half over the slide, half in the wrapper's side padding). A solid
+	// background keeps them readable over card content.
+	&__arrow {
+		appearance: none;
+		position: absolute;
+		top: 50%;
+		z-index: 2;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: var(--wbg-carousel-arrow-size);
+		height: var(--wbg-carousel-arrow-size);
+		padding: 0;
+		border: none;
+		border-radius: 50%;
+		background-color: var(--wp--preset--color--light-green);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+		color: inherit;
+		cursor: pointer;
+		transform: translate(-50%, -50%);
+		transition: background-color 0.2s ease;
+
+		svg {
+			width: 20px;
+			height: 20px;
+			fill: none;
+			stroke: var(--wp--preset--color--dark-green);
+			stroke-width: 2;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+		}
+
+		&--prev {
+			left: 0;
+		}
+
+		&--next {
+			left: 100%;
+		}
+
+		&:hover {
+			background-color: color-mix(
+				in srgb,
+				currentColor 15%,
+				var(--wp--preset--color--light-green)
+			);
+		}
+
+		&:focus-visible {
+			outline: 2px solid currentColor;
+			outline-offset: 3px;
+		}
+
+		&[hidden] {
+			display: none;
+		}
+	}
+
+	&__dots {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 8px;
+	}
+
+	&__dot {
+		position: relative;
+		appearance: none;
+		width: 17px;
+		height: 17px;
+		padding: 0;
+		border: 0;
+		background: rgba(201, 232, 255, 0.5);
+		color: inherit;
+		border-radius: 50%;
+		cursor: pointer;
+
+		&::before {
+			content: "";
+			position: absolute;
+			inset: 0px;
+			border: none;
+			border-radius: 50%;
+			transition: background-color var(--wbg-carousel-speed) ease;
+		}
+
+		&.is-active::before {
+			background-color: var(--wp--preset--color--light-blue);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--wp--preset--color--light-blue);
+			outline-offset: 0;
+			border-radius: 50%;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		&__dot::before,
+		&__arrow {
+			transition: none;
+		}
+	}
+}

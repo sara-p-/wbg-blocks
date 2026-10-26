@@ -1,0 +1,185 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-layout-grid-carousel",
+	"version": "0.1.0",
+	"title": "Grid - Carousel",
+	"category": "wbg-layout",
+	"icon": "grid-view",
+	"description": "A grid layout of 2–4 columns that holds card blocks, with an optional heading. On tablet and mobile it turns into a carousel.",
+	"keywords": [
+		"layout",
+		"section",
+		"grid",
+		"cards",
+		"columns",
+		"carousel",
+		"slider"
+	],
+	"example": {
+		"viewportWidth": 1200,
+		"attributes": {
+			"columns": 3,
+			"showHeading": false,
+			"backgroundColor": "dark-green",
+			"style": {
+				"type": "object",
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|110",
+						"bottom": "var:preset|spacing|110"
+					}
+				},
+				"background": {
+					"backgroundImage": {
+						"url": "/wp-content/uploads/2026/10/Hero-2.webp",
+						"source": "file",
+						"title": "hero background"
+					},
+					"backgroundSize": "cover",
+					"backgroundPosition": "50% 50%",
+					"backgroundRepeat": "no-repeat"
+				}
+			}
+		},
+		"innerBlocks": [
+			{
+				"name": "wbg-blocks/wbg-card-styled",
+				"attributes": {
+					"heading": "Heading Goes Here",
+					"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum massa sed eros vestibulum.",
+					"buttonText": "Learn more",
+					"buttonUrl": "#",
+					"icon": "flowers",
+					"style": {
+						"spacing": {
+							"padding": {
+								"top": "var:preset|spacing|24",
+								"bottom": "var:preset|spacing|24",
+								"left": "var:preset|spacing|24",
+								"right": "var:preset|spacing|24"
+							}
+						}
+					}
+				}
+			},
+			{
+				"name": "wbg-blocks/wbg-card-styled",
+				"attributes": {
+					"heading": "Heading Goes Here",
+					"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum massa sed eros vestibulum.",
+					"buttonText": "Learn more",
+					"buttonUrl": "#",
+					"icon": "flowers",
+					"style": {
+						"spacing": {
+							"padding": {
+								"top": "var:preset|spacing|24",
+								"bottom": "var:preset|spacing|24",
+								"left": "var:preset|spacing|24",
+								"right": "var:preset|spacing|24"
+							}
+						}
+					}
+				}
+			},
+			{
+				"name": "wbg-blocks/wbg-card-styled",
+				"attributes": {
+					"heading": "Heading Goes Here",
+					"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum massa sed eros vestibulum.",
+					"buttonText": "Learn more",
+					"buttonUrl": "#",
+					"icon": "flowers",
+					"style": {
+						"spacing": {
+							"padding": {
+								"top": "var:preset|spacing|24",
+								"bottom": "var:preset|spacing|24",
+								"left": "var:preset|spacing|24",
+								"right": "var:preset|spacing|24"
+							}
+						}
+					}
+				}
+			}
+		]
+	},
+	"attributes": {
+		"columns": {
+			"type": "number",
+			"default": 3
+		},
+		"showHeading": {
+			"type": "boolean",
+			"default": false
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
+		"headingAlign": {
+			"type": "string"
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|60",
+						"bottom": "var:preset|spacing|60"
+					}
+				},
+				"background": {
+					"backgroundImage": {
+						"url": "/wp-content/uploads/2026/10/Hero-2.webp",
+						"source": "file",
+						"title": "hero background"
+					},
+					"backgroundSize": "cover",
+					"backgroundPosition": "50% 50%",
+					"backgroundRepeat": "no-repeat"
+				}
+			}
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "green"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "cream"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": ["full"],
+		"color": {
+			"background": true,
+			"text": true,
+			"__experimentalSkipSerialization": ["text"],
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		},
+		"spacing": {
+			"padding": ["top", "bottom"],
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"viewScript": "file:./view.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

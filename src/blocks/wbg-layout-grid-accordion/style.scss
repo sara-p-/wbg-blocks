@@ -1,0 +1,160 @@
+/**
+ * WBG Layout - Grid - Accordion – front-end + editor styles.
+ *
+ * Column count is driven by the --wbg-grid-cols custom property, set by the
+ * --cols-{n} modifier class and overridden at the tablet/mobile breakpoints.
+ *
+ * Collapsing: render.php adds .is-collapsed to the block. While it is
+ * present, cards past the visible limit for the current breakpoint are
+ * hidden with display: none (so they are also removed from the tab order
+ * and from screen readers). The limit is:
+ *   desktop – visibleRows × columns (--rows-{r} + --cols-{c} modifiers)
+ *   tablet  – $wbg-tablet-visible cards (2 columns × 2 rows)
+ *   mobile  – $wbg-mobile-visible cards (1 column × 4 rows)
+ * The See More button is hidden whenever there are no extra cards to show.
+ */
+
+$wbg-bp-tablet: 1024px;
+$wbg-bp-mobile: 767px;
+
+// Keep in sync with MAX_ROWS in edit.js and the clamp in render.php.
+$wbg-max-rows: 6;
+
+$wbg-tablet-visible: 4; // 2 columns × 2 rows.
+$wbg-mobile-visible: 4; // 1 column × 4 rows.
+
+$wbg-block: ".wbg-layout-grid-accordion";
+
+#{$wbg-block} {
+	--wbg-grid-cols: 4;
+	--wbg-grid-gap: var(--wp--preset--spacing--40, 2rem);
+
+	box-sizing: border-box;
+
+	// Column modifiers.
+	&--cols-2 {
+		--wbg-grid-cols: 2;
+	}
+
+	&--cols-3 {
+		--wbg-grid-cols: 3;
+	}
+
+	&--cols-4 {
+		--wbg-grid-cols: 4;
+	}
+
+	&__wrapper {
+		box-sizing: border-box;
+		width: 100%;
+		max-width: var(--wp--style--global--wide-size, 1200px);
+		margin-inline: auto;
+		padding-inline: var(--wp--style--root--padding-left, 1.5rem)
+			var(--wp--style--root--padding-right, 1.5rem);
+	}
+
+	&__grid {
+		display: grid;
+		grid-template-columns: repeat(var(--wbg-grid-cols), minmax(0, 1fr));
+		gap: var(--wbg-grid-gap);
+
+		> * {
+			min-width: 0;
+			margin-block: 0;
+		}
+	}
+
+	&__actions {
+		display: flex;
+		justify-content: center;
+		margin-top: var(--wp--preset--spacing--50, 2.5rem);
+	}
+
+	&__toggle {
+		cursor: pointer;
+	}
+
+	// Editor: the button is a static preview only.
+	&.is-editor-preview #{$wbg-block}__toggle {
+		pointer-events: none;
+	}
+
+	// Tablet: every grid shows 2 columns.
+	@media (max-width: $wbg-bp-tablet) {
+		--wbg-grid-cols: 2;
+	}
+
+	// Mobile: everything stacks.
+	@media (max-width: $wbg-bp-mobile) {
+		--wbg-grid-cols: 1;
+	}
+}
+
+/**
+ * Collapse a grid after $visible cards, and hide the button when the grid
+ * has no more than $visible cards.
+ *
+ * @param {number} $visible Number of cards to keep visible.
+ */
+@mixin wbg-collapse-after($visible) {
+	&.is-collapsed #{$wbg-block}__grid > :nth-child(n + #{$visible + 1}) {
+		display: none;
+	}
+
+	&:not(:has(#{$wbg-block}__grid > :nth-child(#{$visible + 1})))
+		#{$wbg-block}__actions {
+		display: none;
+	}
+}
+
+// Desktop: visibleRows × columns.
+@media (min-width: #{$wbg-bp-tablet + 1px}) {
+	@for $rows from 1 through $wbg-max-rows {
+		@for $cols from 2 through 4 {
+			#{$wbg-block}--rows-#{$rows}#{$wbg-block}--cols-#{$cols} {
+				@include wbg-collapse-after($rows * $cols);
+			}
+		}
+	}
+}
+
+// Tablet: 2 columns × 2 rows.
+@media (min-width: #{$wbg-bp-mobile + 1px}) and (max-width: $wbg-bp-tablet) {
+	#{$wbg-block} {
+		@include wbg-collapse-after($wbg-tablet-visible);
+	}
+}
+
+// Mobile: 1 column × 4 rows.
+@media (max-width: $wbg-bp-mobile) {
+	#{$wbg-block} {
+		@include wbg-collapse-after($wbg-mobile-visible);
+	}
+}
+
+// Editor: dim the cards that start hidden on desktop. Not tied to a media
+// query, because the editor canvas is often narrower than the desktop
+// breakpoint while you are editing.
+@for $rows from 1 through $wbg-max-rows {
+	@for $cols from 2 through 4 {
+		#{$wbg-block}--rows-#{$rows}#{$wbg-block}--cols-#{$cols}.is-editor-preview
+			#{$wbg-block}__grid
+			> :nth-child(n + #{$rows * $cols + 1}):not(.block-list-appender) {
+			opacity: 0.45;
+			transition: opacity 0.2s ease;
+
+			&:hover,
+			&:focus-within,
+			&.is-selected,
+			&.has-child-selected {
+				opacity: 1;
+			}
+		}
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#{$wbg-block}__grid > * {
+		transition: none;
+	}
+}

@@ -1,0 +1,159 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-layout-grid-accordion",
+	"version": "0.1.0",
+	"title": "Grid - Accordion",
+	"category": "wbg-layout",
+	"icon": "grid-view",
+	"description": "A grid layout of 2–4 columns that shows a set number of rows and expands to show the rest when the See More button is clicked.",
+	"keywords": [
+		"layout",
+		"section",
+		"grid",
+		"cards",
+		"columns",
+		"accordion",
+		"see more"
+	],
+	"example": {
+		"viewportWidth": 1200,
+		"attributes": {
+			"columns": 4,
+			"visibleRows": 2,
+			"backgroundColor": "cream"
+		},
+		"innerBlocks": [
+			{
+				"name": "wbg-blocks/wbg-card-staff",
+				"attributes": {
+					"style": {
+						"background": {
+							"backgroundImage": {
+								"url": "/wp-content/uploads/2026/10/staff-1.webp",
+								"source": "file",
+								"title": "card-image-1"
+							},
+							"backgroundSize": "cover",
+							"backgroundPosition": "50% 50%",
+							"backgroundRepeat": "no-repeat"
+						}
+					},
+					"name": "Name Here",
+					"position": "Position Here"
+				}
+			},
+			{
+				"name": "wbg-blocks/wbg-card-staff",
+				"attributes": {
+					"style": {
+						"background": {
+							"backgroundImage": {
+								"url": "/wp-content/uploads/2026/10/staff-1.webp",
+								"source": "file",
+								"title": "card-image-1"
+							},
+							"backgroundSize": "cover",
+							"backgroundPosition": "50% 50%",
+							"backgroundRepeat": "no-repeat"
+						}
+					},
+					"name": "Name Here",
+					"position": "Position Here"
+				}
+			},
+			{
+				"name": "wbg-blocks/wbg-card-staff",
+				"attributes": {
+					"style": {
+						"background": {
+							"backgroundImage": {
+								"url": "/wp-content/uploads/2026/10/staff-1.webp",
+								"source": "file",
+								"title": "card-image-1"
+							},
+							"backgroundSize": "cover",
+							"backgroundPosition": "50% 50%",
+							"backgroundRepeat": "no-repeat"
+						}
+					},
+					"name": "Name Here",
+					"position": "Position Here"
+				}
+			},
+			{
+				"name": "wbg-blocks/wbg-card-staff",
+				"attributes": {
+					"style": {
+						"background": {
+							"backgroundImage": {
+								"url": "/wp-content/uploads/2026/10/staff-1.webp",
+								"source": "file",
+								"title": "card-image-1"
+							},
+							"backgroundSize": "cover",
+							"backgroundPosition": "50% 50%",
+							"backgroundRepeat": "no-repeat"
+						}
+					},
+					"name": "Name Here",
+					"position": "Position Here"
+				}
+			}
+		]
+	},
+	"attributes": {
+		"columns": {
+			"type": "number",
+			"default": 4
+		},
+		"visibleRows": {
+			"type": "number",
+			"default": 2
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|60",
+						"bottom": "var:preset|spacing|60"
+					}
+				}
+			}
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "cream"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": ["full"],
+		"color": {
+			"background": true,
+			"text": false,
+			"__experimentalDefaultControls": {
+				"background": true
+			}
+		},
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		},
+		"spacing": {
+			"padding": ["top", "bottom"],
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"viewScript": "file:./view.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

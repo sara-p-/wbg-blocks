@@ -1,0 +1,120 @@
+/**
+ * WBG Layout - 2 Column – front-end + editor styles.
+ *
+ */
+
+$wbg-layout-2-col-media-height-mobile: 300px;
+$wbg-layout-2-col-media-height: 500px;
+$wbg-layout-2-col-breakpoint: 781px;
+
+.wbg-layout-2-col {
+	$self: &;
+
+	position: relative;
+
+	// Absolutely positioned image block.
+	&__media {
+		position: absolute;
+		top: 50%;
+		left: 0;
+		width: 47%;
+		height: $wbg-layout-2-col-media-height;
+		transform: translateY(-50%);
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		pointer-events: none;
+		border-radius: 0 300px 300px 0;
+	}
+
+	&__wrapper {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		align-items: center;
+		min-height: $wbg-layout-2-col-media-height;
+		max-width: var(--wp--style--global--wide-size, 1200px);
+		margin-inline: auto;
+		padding-inline: var(--wp--style--root--padding-left, 1.5rem)
+			var(--wp--style--root--padding-right, 1.5rem);
+	}
+
+	&__content {
+		width: 60%;
+		max-width: 500px;
+		margin-left: auto;
+		padding-left: clamp(1.5rem, 4vw, 4rem);
+	}
+
+	// Headings follow the block's text color.
+	&__subheading,
+	&__heading {
+		color: inherit;
+		margin-top: 0;
+	}
+
+	&__subheading {
+		margin-bottom: 0.5rem;
+	}
+
+	&__heading {
+		margin-bottom: var(--wp--preset--spacing--40, 1.5rem);
+	}
+
+	// Block gap applies to the inner blocks only.
+	&__body {
+		display: flex;
+		flex-direction: column;
+		gap: var(--wbg-block-gap, var(--wp--style--block-gap, 1.5rem));
+
+		> * {
+			margin-block: 0;
+		}
+	}
+
+	// Content Left: swap the columns.
+	&.content--left {
+		#{$self}__media {
+			left: auto;
+			right: 0;
+			border-radius: 300px 0 0 300px;
+		}
+
+		#{$self}__content {
+			margin-left: 0;
+			margin-right: auto;
+			padding-left: 0;
+			padding-right: clamp(1.5rem, 4vw, 4rem);
+		}
+	}
+
+	// Stack on small screens: image first, then content.
+	@media (max-width: $wbg-layout-2-col-breakpoint) {
+		&__media,
+		&.content--left #{$self}__media {
+			position: relative;
+			top: auto;
+			left: auto;
+			right: auto;
+			width: 85%;
+			transform: none;
+			height: $wbg-layout-2-col-media-height-mobile;
+		}
+
+		&.content--left #{$self}__media {
+			margin-left: auto;
+		}
+
+		&__wrapper {
+			min-height: 0;
+			padding-top: var(--wp--preset--spacing--50, 2rem);
+		}
+
+		&__content,
+		&.content--left #{$self}__content {
+			width: 100%;
+			margin: 0;
+			padding-inline: 0;
+		}
+	}
+}

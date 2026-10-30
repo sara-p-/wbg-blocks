@@ -1,0 +1,119 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-layout-2-col",
+	"version": "0.1.0",
+	"title": "2-Column",
+	"category": "wbg-layout",
+	"icon": "grid-view",
+	"description": "Two columns with an image and content.",
+	"keywords": ["layout", "section", "columns"],
+	"allowedBlocks": ["core/paragraph", "core/buttons"],
+	"example": {
+		"viewportWidth": 1400,
+		"attributes": {
+			"subheading": "Subheading Here",
+			"heading": "Heading Here",
+			"contentPosition": "content-right",
+			"style": {
+				"background": {
+					"backgroundImage": {
+						"url": "/wp-content/uploads/2026/10/2-col-example.webp",
+						"source": "file",
+						"title": "2-col-example"
+					},
+					"backgroundSize": "cover",
+					"backgroundPosition": "50% 50%",
+					"backgroundRepeat": "no-repeat"
+				}
+			}
+		},
+		"innerBlocks": [
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Celebrate your most special moments in a breathtaking setting that changes with the seasons. Private events include weddings, corporate retreats, private parties, and more."
+				}
+			},
+			{
+				"name": "core/buttons",
+				"innerBlocks": [
+					{
+						"name": "core/button",
+						"attributes": {
+							"text": "Book Your Event"
+						}
+					}
+				]
+			}
+		]
+	},
+	"allowedBlocks": ["core/paragraph", "core/list", "core/buttons"],
+	"attributes": {
+		"contentPosition": {
+			"type": "string",
+			"enum": ["content-right", "content-left"],
+			"default": "content-right"
+		},
+		"subheading": {
+			"type": "string",
+			"default": ""
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|60",
+						"bottom": "var:preset|spacing|60"
+					}
+				}
+			}
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "cream"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "dark-green"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": ["full"],
+		"color": {
+			"background": true,
+			"text": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalSkipSerialization": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		},
+		"spacing": {
+			"padding": ["top", "bottom"],
+			"blockGap": true,
+			"__experimentalSkipSerialization": ["blockGap"],
+			"__experimentalDefaultControls": {
+				"padding": true,
+				"blockGap": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

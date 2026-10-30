@@ -15,7 +15,12 @@ import {
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from "@wordpress/components";
 
-const ALLOWED_BLOCKS = ["core/paragraph", "core/list", "core/buttons"];
+const ALLOWED_BLOCKS = [
+	"core/paragraph",
+	"core/list",
+	"core/image",
+	"core/buttons",
+];
 
 const TEMPLATE = [
 	["core/paragraph", { placeholder: __("Add content…", "wbg-blocks") }],

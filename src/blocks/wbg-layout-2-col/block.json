@@ -8,7 +8,6 @@
 	"icon": "grid-view",
 	"description": "Two columns with an image and content.",
 	"keywords": ["layout", "section", "columns"],
-	"allowedBlocks": ["core/paragraph", "core/buttons"],
 	"example": {
 		"viewportWidth": 1400,
 		"attributes": {
@@ -48,7 +47,12 @@
 			}
 		]
 	},
-	"allowedBlocks": ["core/paragraph", "core/list", "core/buttons"],
+	"allowedBlocks": [
+		"core/paragraph",
+		"core/list",
+		"core/image",
+		"core/buttons"
+	],
 	"attributes": {
 		"contentPosition": {
 			"type": "string",

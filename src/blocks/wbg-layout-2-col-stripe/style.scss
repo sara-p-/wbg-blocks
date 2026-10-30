@@ -1,0 +1,146 @@
+/**
+ * WBG Layout - 2 Column - Stripe – front-end + editor styles.
+ *
+ * Stacking order (all inside the block's own stacking context):
+ *   0 – __stripe  (background color band)
+ *   1 – __media   (image, sits on top of the stripe)
+ *   2 – content   (subheading, heading, body)
+ */
+
+$wbg-layout-2-col-media-height-mobile: 300px;
+$wbg-layout-2-col-media-height: 500px;
+$wbg-layout-2-col-breakpoint: 781px;
+$wbg-layout-2-col-stripe-offset: 48px;
+
+.wbg-layout-2-col-stripe {
+	$self: &;
+	width: auto;
+
+	position: relative;
+	isolation: isolate; // Own stacking context for stripe / media / content.
+	overflow-x: clip; // Trims the stripe to the block's width.
+
+	// Background color stripe: content height + 24px top and bottom,
+	// full width of the block.
+	&__stripe {
+		position: absolute;
+		z-index: 0;
+		inset-block: ($wbg-layout-2-col-stripe-offset * -1);
+		inset-inline: -100vw; // Clipped to the block by overflow-x above.
+		pointer-events: none;
+	}
+
+	// Absolutely positioned image block.
+	&__media {
+		position: absolute;
+		z-index: 1;
+		top: 50%;
+		left: 0;
+		width: 47%;
+		height: $wbg-layout-2-col-media-height;
+		transform: translateY(-50%);
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		pointer-events: none;
+		border-radius: 0 300px 300px 0;
+	}
+
+	// No position / z-index here, so the stripe and content can layer
+	// against the media in the block's stacking context.
+	&__wrapper {
+		display: flex;
+		align-items: center;
+		min-height: $wbg-layout-2-col-media-height;
+		max-width: var(--wp--style--global--wide-size, 1200px);
+		margin-inline: auto;
+		padding-inline: var(--wp--style--root--padding-left, 1.5rem)
+			var(--wp--style--root--padding-right, 1.5rem);
+	}
+
+	&__content {
+		position: relative; // Sizes the stripe vertically.
+		width: 60%;
+		max-width: 500px;
+		margin-left: auto;
+		padding-left: clamp(1.5rem, 4vw, 4rem);
+
+		// Content sits above the stripe and media.
+		> :not(#{$self}__stripe) {
+			position: relative;
+			z-index: 2;
+		}
+	}
+
+	// Headings follow the block's text color.
+	&__subheading,
+	&__heading {
+		color: inherit;
+		margin-top: 0;
+	}
+
+	&__subheading {
+		margin-bottom: 0.5rem;
+	}
+
+	&__heading {
+		margin-bottom: var(--wp--preset--spacing--40, 1.5rem);
+	}
+
+	// Block gap applies to the inner blocks only.
+	&__body {
+		display: flex;
+		flex-direction: column;
+		gap: var(--wbg-block-gap, var(--wp--style--block-gap, 1.5rem));
+
+		> * {
+			margin-block: 0;
+		}
+	}
+
+	// Content Left: swap the columns.
+	&.content--left {
+		#{$self}__media {
+			left: auto;
+			right: 0;
+			border-radius: 300px 0 0 300px;
+		}
+
+		#{$self}__content {
+			margin-left: 0;
+			margin-right: auto;
+			padding-left: 0;
+			padding-right: clamp(1.5rem, 4vw, 4rem);
+		}
+	}
+
+	// Stack on small screens: image first, then content.
+	@media (max-width: $wbg-layout-2-col-breakpoint) {
+		&__media,
+		&.content--left #{$self}__media {
+			position: relative;
+			top: auto;
+			left: auto;
+			right: auto;
+			width: 85%;
+			transform: none;
+			height: $wbg-layout-2-col-media-height-mobile;
+		}
+
+		&.content--left #{$self}__media {
+			margin-left: auto;
+		}
+
+		&__wrapper {
+			min-height: 0;
+			padding-top: var(--wp--preset--spacing--50, 2rem);
+		}
+
+		&__content,
+		&.content--left #{$self}__content {
+			width: 100%;
+			margin: 0;
+			padding-inline: 0;
+		}
+	}
+}

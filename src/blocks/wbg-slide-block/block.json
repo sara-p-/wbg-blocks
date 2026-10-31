@@ -27,6 +27,10 @@
 			"type": "string",
 			"default": ""
 		},
+		"time": {
+			"type": "string",
+			"default": ""
+		},
 		"text": {
 			"type": "string",
 			"default": ""

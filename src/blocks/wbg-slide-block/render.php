@@ -11,6 +11,7 @@
 
 $heading     = $attributes['heading'] ?? '';
 $date        = $attributes['date'] ?? '';
+$time        = $attributes['time'] ?? '';
 $text        = $attributes['text'] ?? '';
 $button_text = $attributes['button-text'] ?? '';
 $button_link = $attributes['button-link'] ?? '';
@@ -50,9 +51,14 @@ if ( $button_link ) {
 <div <?php echo $wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
   <div class="wbg-slide-block__inner">
     <div class="wbg-slide-block__col wbg-slide-block__col--meta">
-      <?php if ( '' !== trim( $date ) ) : ?>
-      <h5 class="wp-block-heading wbg-slide-block__date"><?php echo wp_kses_post( $date ); ?></h5>
-      <?php endif; ?>
+      <div class="wbg-slide-block__date-time">
+        <?php if ( '' !== trim( $date ) ) : ?>
+        <h5 class="wp-block-heading wbg-slide-block__date"><?php echo wp_kses_post( $date ); ?></h5>
+        <?php endif; ?>
+        <?php if ( '' !== trim( $time ) ) : ?>
+        <h6 class="wp-block-heading wbg-slide-block__time"><?php echo wp_kses_post( $time ); ?></h6>
+        <?php endif; ?>
+      </div>
 
       <?php if ( '' !== trim( $button_text ) ) : ?>
       <div class="wp-block-button wbg-slide-block__button">
@@ -67,8 +73,22 @@ if ( $button_link ) {
       <h2 class="wp-block-heading wbg-slide-block__heading"><?php echo wp_kses_post( $heading ); ?></h2>
       <?php endif; ?>
 
+      <?php if ( '' !== trim( $date ) ) : ?>
+      <h5 class="wp-block-heading wbg-slide-block__date mobile-view"><?php echo wp_kses_post( $date ); ?></h5>
+      <?php endif; ?>
+
+      <?php if ( '' !== trim( $time ) ) : ?>
+      <h6 class="wp-block-heading wbg-slide-block__time mobile-view"><?php echo wp_kses_post( $time ); ?></h6>
+      <?php endif; ?>
+
       <?php if ( '' !== trim( $text ) ) : ?>
       <p class="wbg-slide-block__text"><?php echo wp_kses_post( $text ); ?></p>
+      <?php endif; ?>
+      <?php if ( '' !== trim( $button_text ) ) : ?>
+      <div class="wp-block-button wbg-slide-block__button mobile-view">
+        <a class="wp-block-button__link wp-element-button"
+          <?php echo $link_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped above. ?>><?php echo wp_kses_post( $button_text ); ?></a>
+      </div>
       <?php endif; ?>
     </div>
   </div>

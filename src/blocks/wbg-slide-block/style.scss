@@ -44,7 +44,8 @@ $wbg-slide-breakpoint: 782px; // WP's standard mobile/desktop breakpoint.
 		justify-content: space-between;
 		gap: var(--wp--style--block-gap, 2rem);
 		width: 100%;
-		padding: clamp(1.5rem, 4vw, 4rem);
+		// padding: clamp(1.5rem, 4vw, 4rem);
+		padding: clamp(1.5rem, calc(-0.667rem + 7.222vw), 4.75rem);
 		box-sizing: border-box;
 
 		@media (max-width: #{$wbg-slide-breakpoint - 1}) {
@@ -58,7 +59,7 @@ $wbg-slide-breakpoint: 782px; // WP's standard mobile/desktop breakpoint.
 		justify-content: flex-end;
 		flex: 1 1 0;
 		min-width: 0;
-		gap: var(--wp--preset--spacing--32, 1rem);
+		gap: var(--wp--preset--spacing--24);
 
 		// Let the column gap control spacing instead of element margins.
 		> * {
@@ -72,12 +73,32 @@ $wbg-slide-breakpoint: 782px; // WP's standard mobile/desktop breakpoint.
 		&--meta {
 			flex: none;
 			gap: var(--wp--preset--spacing--32);
+			align-items: center;
+		}
+	}
+
+	&__date-time {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		max-width: 200px;
+	}
+
+	&__date,
+	&__time {
+		color: var(--wp--preset--color--cream);
+		line-height: 1.1;
+		&.mobile-view {
+			display: none;
 		}
 	}
 
 	&__date {
-		color: var(--wp--preset--color--cream);
-		text-align: center;
+		text-transform: uppercase;
+	}
+
+	&__time {
+		font-weight: 350;
 	}
 
 	&__heading {
@@ -90,6 +111,9 @@ $wbg-slide-breakpoint: 782px; // WP's standard mobile/desktop breakpoint.
 
 	&__button {
 		align-self: flex-start;
+		&.mobile-view {
+			display: none;
+		}
 	}
 }
 
@@ -97,4 +121,27 @@ $wbg-slide-breakpoint: 782px; // WP's standard mobile/desktop breakpoint.
 // can reach the global wide size.
 :is(.is-layout-constrained, .is-layout-flow) > .wbg-slide-block {
 	max-width: var(--wp--style--global--wide-size);
+}
+
+@media screen and (max-width: 781px) {
+	.wbg-slide-block {
+		&__col {
+			&--meta {
+				display: none;
+			}
+			&--content {
+				gap: var(--wp--preset--spacing--24);
+			}
+		}
+		&__date {
+			text-align: left;
+		}
+		&__date,
+		&__time,
+		&__button {
+			&.mobile-view {
+				display: inherit;
+			}
+		}
+	}
 }

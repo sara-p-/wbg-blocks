@@ -37,6 +37,7 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 		overlay,
 		heading,
 		date,
+		time,
 		text,
 		"button-text": buttonText,
 		"button-link": buttonLink,
@@ -112,14 +113,24 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 			<div {...blockProps}>
 				<div className="wbg-slide-block__inner">
 					<div className="wbg-slide-block__col wbg-slide-block__col--meta">
-						<RichText
-							identifier="date"
-							tagName="h5"
-							className="wp-block-heading wbg-slide-block__date"
-							value={date}
-							onChange={(value) => setAttributes({ date: value })}
-							placeholder={__("Date…", "wbg-blocks")}
-						/>
+						<div className="wbg-slide-block__date-time">
+							<RichText
+								identifier="date"
+								tagName="h5"
+								className="wp-block-heading wbg-slide-block__date"
+								value={date}
+								onChange={(value) => setAttributes({ date: value })}
+								placeholder={__("Date…", "wbg-blocks")}
+							/>
+							<RichText
+								identifier="time"
+								tagName="h6"
+								className="wp-block-heading wbg-slide-block__time"
+								value={time}
+								onChange={(value) => setAttributes({ time: value })}
+								placeholder={__("Time…", "wbg-blocks")}
+							/>
+						</div>
 
 						<div className="wp-block-button wbg-slide-block__button">
 							<RichText

@@ -1,0 +1,100 @@
+/**
+ * WBG Slide - Block – front-end + editor styles.
+ *
+ */
+
+// Height: 545px at a 375px viewport → 615px at a 1280px viewport.
+// slope = (615 - 545) / (1280 - 375) = 0.07735 → 7.7348vw
+// intercept = 545 - (0.07735 * 375) = 516px → 32.25rem
+$wbg-slide-height: clamp(34.0625rem, 32.25rem + 7.7348vw, 38.4375rem);
+$wbg-slide-breakpoint: 782px; // WP's standard mobile/desktop breakpoint.
+
+.wbg-slide-block {
+	$self: &;
+
+	position: relative;
+	isolation: isolate; // Keeps the overlay below the content.
+	box-sizing: border-box;
+	display: flex;
+	width: 100%;
+	max-width: var(--wp--style--global--wide-size);
+	height: $wbg-slide-height;
+	margin-inline: auto;
+	overflow: hidden;
+
+	// Fallbacks – inline styles from the background controls override these.
+	background-size: cover;
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	border-radius: 24px;
+
+	// Overlay (adds a scrim above the background, below the content).
+	&.is-overlay::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background-color: rgb(0 0 0 / 45%);
+		pointer-events: none;
+	}
+
+	&__inner {
+		display: flex;
+		flex: 1 1 auto;
+		justify-content: space-between;
+		gap: var(--wp--style--block-gap, 2rem);
+		width: 100%;
+		padding: clamp(1.5rem, 4vw, 4rem);
+		box-sizing: border-box;
+
+		@media (max-width: #{$wbg-slide-breakpoint - 1}) {
+			flex-direction: column;
+		}
+	}
+
+	&__col {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		flex: 1 1 0;
+		min-width: 0;
+		gap: var(--wp--preset--spacing--32, 1rem);
+
+		// Let the column gap control spacing instead of element margins.
+		> * {
+			margin-block: 0;
+		}
+		&--content {
+			flex: auto;
+			max-width: 675px;
+		}
+
+		&--meta {
+			flex: none;
+			gap: var(--wp--preset--spacing--32);
+		}
+	}
+
+	&__date {
+		color: var(--wp--preset--color--cream);
+		text-align: center;
+	}
+
+	&__heading {
+		color: var(--wp--preset--color--light-green);
+	}
+
+	&__text {
+		color: var(--wp--preset--color--cream);
+	}
+
+	&__button {
+		align-self: flex-start;
+	}
+}
+
+// Beat constrained/flow layout's content-size max-width so the slide
+// can reach the global wide size.
+:is(.is-layout-constrained, .is-layout-flow) > .wbg-slide-block {
+	max-width: var(--wp--style--global--wide-size);
+}

@@ -1,0 +1,96 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-slide-block",
+	"version": "0.1.0",
+	"title": "Slide - Block",
+	"category": "wbg-slides",
+	"icon": "menu",
+	"description": "A simple block slide for the block carousel.",
+	"keywords": ["slide", "slider", "background"],
+	"textdomain": "wbg-blocks",
+	"attributes": {
+		"backgroundColor": {
+			"type": "string",
+			"default": "dark-green"
+		},
+		"overlay": {
+			"type": "string",
+			"enum": ["no-overlay", "overlay"],
+			"default": "no-overlay"
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
+		"date": {
+			"type": "string",
+			"default": ""
+		},
+		"text": {
+			"type": "string",
+			"default": ""
+		},
+		"button-text": {
+			"type": "string",
+			"default": ""
+		},
+		"button-link": {
+			"type": "string",
+			"default": ""
+		},
+		"button-opens-in-new-tab": {
+			"type": "boolean",
+			"default": false
+		},
+		"button-nofollow": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"html": false,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		},
+		"color": {
+			"background": true,
+			"text": false,
+			"link": false,
+			"__experimentalDefaultControls": {
+				"background": true
+			}
+		}
+	},
+	"example": {
+		"viewportWidth": 1200,
+		"attributes": {
+			"date": "Subheading here",
+			"heading": "Heading Goes Here",
+			"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ut purus at ex interdum luctus eget id est. Donec mattis turpis sed ornare placerat. Cras dictum mattis magna, eu aliquet lorem.",
+			"button-text": "Button Here",
+			"button-link": "#",
+			"overlay": "overlay",
+			"style": {
+				"background": {
+					"backgroundImage": {
+						"url": "/wp-content/uploads/2026/10/membership-hero.webp",
+						"source": "file",
+						"title": "membership-hero"
+					},
+					"backgroundSize": "cover",
+					"backgroundPosition": "50% 50%",
+					"backgroundRepeat": "no-repeat"
+				}
+			}
+		}
+	},
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}

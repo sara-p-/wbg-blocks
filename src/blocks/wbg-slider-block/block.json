@@ -1,0 +1,116 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-slider-block",
+	"version": "0.1.0",
+	"title": "Slider - Block",
+	"category": "wbg-sliders",
+	"icon": "menu",
+	"description": "A block slider with arrows and navigation dots.",
+	"keywords": ["slider", "carousel", "section"],
+	"textdomain": "wbg-blocks",
+	"allowedBlocks": ["wbg-blocks/wbg-slide-block"],
+	"attributes": {
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|60",
+						"bottom": "var:preset|spacing|60"
+					}
+				}
+			}
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "green"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "light-green"
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
+		"autoplay": {
+			"type": "string",
+			"enum": ["static", "autoplay"],
+			"default": "static"
+		},
+		"button-text": {
+			"type": "string",
+			"default": ""
+		},
+		"button-link": {
+			"type": "string",
+			"default": ""
+		},
+		"button-opens-in-new-tab": {
+			"type": "boolean",
+			"default": false
+		},
+		"button-nofollow": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": false,
+		"layout": false,
+		"color": {
+			"background": true,
+			"text": true,
+			"link": false,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"spacing": {
+			"padding": ["top", "bottom"],
+			"margin": false,
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		}
+	},
+	"example": {
+		"viewportWidth": 1400,
+		"attributes": {
+			"heading": "Heading Goes Here",
+			"autoplay": "static",
+			"button-text": "Button Here",
+			"button-link": "#"
+		},
+		"innerBlocks": [
+			{
+				"name": "wbg-blocks/wbg-slide-block",
+				"attributes": {
+					"heading": "Slide One",
+					"text": "Lorem ipsum dolor sit amet."
+				}
+			},
+			{
+				"name": "wbg-blocks/wbg-slide-block",
+				"attributes": {
+					"heading": "Slide Two",
+					"text": "Lorem ipsum dolor sit amet."
+				}
+			},
+			{
+				"name": "wbg-blocks/wbg-slide-block",
+				"attributes": {
+					"heading": "Slide Three",
+					"text": "Lorem ipsum dolor sit amet."
+				}
+			}
+		]
+	},
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}

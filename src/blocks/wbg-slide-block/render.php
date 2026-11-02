@@ -70,7 +70,7 @@ if ( $button_link ) {
 
     <div class="wbg-slide-block__col wbg-slide-block__col--content">
       <?php if ( '' !== trim( $heading ) ) : ?>
-      <h2 class="wp-block-heading wbg-slide-block__heading"><?php echo wp_kses_post( $heading ); ?></h2>
+      <h3 class="wp-block-heading wbg-slide-block__heading fake--h2"><?php echo wp_kses_post( $heading ); ?></h3>
       <?php endif; ?>
 
       <?php if ( '' !== trim( $date ) ) : ?>

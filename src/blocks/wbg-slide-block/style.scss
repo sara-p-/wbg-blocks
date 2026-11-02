@@ -42,7 +42,7 @@ $wbg-slide-breakpoint: 782px; // WP's standard mobile/desktop breakpoint.
 		display: flex;
 		flex: 1 1 auto;
 		justify-content: space-between;
-		gap: var(--wp--style--block-gap, 2rem);
+		gap: var(--wp--preset--spacing--48);
 		width: 100%;
 		// padding: clamp(1.5rem, 4vw, 4rem);
 		padding: clamp(1.5rem, calc(-0.667rem + 7.222vw), 4.75rem);
@@ -67,7 +67,6 @@ $wbg-slide-breakpoint: 782px; // WP's standard mobile/desktop breakpoint.
 		}
 		&--content {
 			flex: auto;
-			max-width: 675px;
 		}
 
 		&--meta {

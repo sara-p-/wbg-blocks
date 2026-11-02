@@ -50,8 +50,8 @@ function wbg_register_block_categories( $categories, $block_editor_context ) {
 			'icon'  => null,
 		),
 		array(
-			'slug'  => 'wbg-sections',
-			'title' => __( 'WBG Sections', 'wbg' ),
+			'slug'  => 'wbg-sliders',
+			'title' => __( 'WBG Sliders', 'wbg' ),
 			'icon'  => null,
 		),
 		array(

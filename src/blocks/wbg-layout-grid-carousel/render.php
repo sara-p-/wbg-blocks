@@ -108,20 +108,16 @@ $wbg_controls_attributes = $wbg_build_attributes(
 	$wbg_color_style
 );
 
+// Arrows use fixed colors (light-green circle, green chevron) like the
+// Slider block, so they don't take the text color classes.
 $wbg_arrow_attributes = array(
 	'prev' => $wbg_build_attributes(
-		array_merge(
-			array( 'wbg-layout-grid-carousel__arrow', 'wbg-layout-grid-carousel__arrow--prev' ),
-			$wbg_color_classes
-		),
-		$wbg_color_style
+		array( 'wbg-layout-grid-carousel__arrow', 'wbg-layout-grid-carousel__arrow--prev' ),
+		''
 	),
 	'next' => $wbg_build_attributes(
-		array_merge(
-			array( 'wbg-layout-grid-carousel__arrow', 'wbg-layout-grid-carousel__arrow--next' ),
-			$wbg_color_classes
-		),
-		$wbg_color_style
+		array( 'wbg-layout-grid-carousel__arrow', 'wbg-layout-grid-carousel__arrow--next' ),
+		''
 	),
 );
 
@@ -168,7 +164,7 @@ $wbg_wrapper_attributes = get_block_wrapper_attributes(
           aria-controls="<?php echo esc_attr( $wbg_track_id ); ?>"
           aria-label="<?php esc_attr_e( 'Previous slide', 'wbg-blocks' ); ?>" hidden>
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M15 18l-6-6 6-6" />
+            <path d="M15 5l-7 7 7 7" />
           </svg>
         </button>
 
@@ -177,7 +173,7 @@ $wbg_wrapper_attributes = get_block_wrapper_attributes(
           aria-controls="<?php echo esc_attr( $wbg_track_id ); ?>"
           aria-label="<?php esc_attr_e( 'Next slide', 'wbg-blocks' ); ?>" hidden>
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M9 18l6-6-6-6" />
+            <path d="M9 5l7 7-7 7" />
           </svg>
         </button>
       </div>

@@ -1,0 +1,174 @@
+/**
+ * WBG Content - Accordion Item – front-end + editor styles.
+ *
+ * Front end:  h5.__heading > button.__toggle > (.__heading-text + .__icon)
+ * Editor:     div.__toggle > (h5.__heading [RichText] + button.__icon-button > .__icon)
+ */
+
+.wbg-content-accordion-item {
+	$self: &;
+	$duration: 0.3s;
+	$ease: ease;
+
+	--wbg-accordion-heading-color: var(--wp--preset--color--light-green);
+	--wbg-accordion-text-color: var(--wp--preset--color--cream);
+	--wbg-accordion-border-color: var(--wp--preset--color--cream);
+	--wbg-accordion-bg: var(--wp--preset--color--dark-green);
+	--wbg-accordion-icon-size: 1.2em;
+
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 100%;
+	margin: 0;
+	background-color: var(--wbg-accordion-bg);
+
+	// Border sits on the item itself, so it naturally sits under the
+	// heading when closed and moves down beneath the panel when open.
+	border-bottom: 1px solid var(--wbg-accordion-border-color);
+
+	/* ---------------------------------------------------------------
+	 * Heading (native h5 look, light-green)
+	 * ------------------------------------------------------------- */
+	#{$self}__heading {
+		margin: 0;
+		color: var(--wbg-accordion-heading-color);
+	}
+
+	/* ---------------------------------------------------------------
+	 * Toggle row
+	 * ------------------------------------------------------------- */
+	#{$self}__toggle {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		width: 100%;
+		padding: var(--wp--preset--spacing--32) var(--wp--preset--spacing--24);
+		color: var(--wbg-accordion-heading-color);
+	}
+
+	// Front end: the toggle is a <button> inside the h5 – reset it so it
+	// inherits the h5 typography exactly.
+	button#{$self}__toggle {
+		margin: 0;
+		border: 0;
+		border-radius: 0;
+		background: none;
+		font: inherit;
+		letter-spacing: inherit;
+		text-transform: inherit;
+		text-align: left;
+		cursor: pointer;
+		appearance: none;
+
+		&:focus-visible {
+			outline: 2px solid var(--wbg-accordion-border-color);
+			outline-offset: 2px;
+		}
+	}
+
+	#{$self}__heading-text {
+		flex: 1 1 auto;
+	}
+
+	// Editor: RichText h5 fills the row, icon button sits on the right.
+	div#{$self}__toggle {
+		#{$self}__heading {
+			flex: 1 1 auto;
+		}
+	}
+
+	#{$self}__icon-button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		flex: 0 0 auto;
+		padding: 0.25rem;
+		border: 0;
+		background: none;
+		color: var(--wbg-accordion-heading-color);
+		cursor: pointer;
+
+		&:focus-visible {
+			outline: 2px solid var(--wbg-accordion-border-color);
+			outline-offset: 2px;
+		}
+	}
+
+	/* ---------------------------------------------------------------
+	 * Plus / minus icon (pure CSS)
+	 * The vertical bar rotates flat when open, turning + into −.
+	 * ------------------------------------------------------------- */
+	#{$self}__icon {
+		position: relative;
+		display: inline-block;
+		flex: 0 0 auto;
+		width: var(--wbg-accordion-icon-size);
+		height: var(--wbg-accordion-icon-size);
+
+		&::before,
+		&::after {
+			content: "";
+			position: absolute;
+			top: 50%;
+			left: 0;
+			width: 100%;
+			height: 4px;
+			background-color: currentColor;
+			transform: translateY(-50%);
+			transition: transform $duration $ease;
+		}
+
+		&::after {
+			transform: translateY(-50%) rotate(90deg);
+		}
+	}
+
+	&.is-open #{$self}__icon::after {
+		transform: translateY(-50%) rotate(0deg);
+	}
+
+	/* ---------------------------------------------------------------
+	 * Panel – animates open from beneath the heading
+	 * ------------------------------------------------------------- */
+	#{$self}__panel {
+		display: grid;
+		grid-template-rows: 0fr;
+		transition: grid-template-rows $duration $ease;
+	}
+
+	&.is-open #{$self}__panel {
+		grid-template-rows: 1fr;
+	}
+
+	#{$self}__panel-inner {
+		min-height: 0;
+		overflow: hidden;
+	}
+
+	#{$self}__panel-content {
+		padding: 0 var(--wp--preset--spacing--24);
+		padding-bottom: var(--wp--preset--spacing--48);
+		color: var(--wbg-accordion-text-color);
+
+		p {
+			color: var(--wbg-accordion-text-color);
+		}
+
+		> :first-child {
+			margin-top: 0;
+		}
+
+		> :last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		#{$self}__panel,
+		#{$self}__icon::before,
+		#{$self}__icon::after {
+			transition: none;
+		}
+	}
+}

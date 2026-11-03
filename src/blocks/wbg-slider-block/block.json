@@ -80,31 +80,58 @@
 	"example": {
 		"viewportWidth": 1400,
 		"attributes": {
-			"heading": "Heading Goes Here",
+			"heading": "What's Growing On",
 			"autoplay": "static",
-			"button-text": "Button Here",
+			"button-text": "Get Tickets",
 			"button-link": "#"
 		},
 		"innerBlocks": [
 			{
 				"name": "wbg-blocks/wbg-slide-block",
 				"attributes": {
-					"heading": "Slide One",
-					"text": "Lorem ipsum dolor sit amet."
+					"date": "August 29",
+					"time": "2PM - 3PM",
+					"heading": "Gardens Aglimmer",
+					"text": "Wander into wonder this holiday season with our favorite holiday tradition, complete with twinkling lights, festive refreshments, and a special visit with Santa.",
+					"button-text": "Get Tickets",
+					"button-link": "#",
+					"overlay": "no-overlay",
+					"style": {
+						"background": {
+							"backgroundImage": {
+								"url": "/wp-content/uploads/2026/10/slide-block-example.webp",
+								"source": "file",
+								"title": "slide-block-example"
+							},
+							"backgroundSize": "cover",
+							"backgroundPosition": "50% 50%",
+							"backgroundRepeat": "no-repeat"
+						}
+					}
 				}
 			},
 			{
 				"name": "wbg-blocks/wbg-slide-block",
 				"attributes": {
-					"heading": "Slide Two",
-					"text": "Lorem ipsum dolor sit amet."
-				}
-			},
-			{
-				"name": "wbg-blocks/wbg-slide-block",
-				"attributes": {
-					"heading": "Slide Three",
-					"text": "Lorem ipsum dolor sit amet."
+					"date": "August 29",
+					"time": "2PM - 3PM",
+					"heading": "Kaleidoscope Family Festival",
+					"text": "Spend the day with local vendors and nonprofits, dig into hands-on crafts, and cool off with a popsicle from Oh My Lollies. Free with registration.",
+					"button-text": "Register Here",
+					"button-link": "#",
+					"overlay": "no-overlay",
+					"style": {
+						"background": {
+							"backgroundImage": {
+								"url": "/wp-content/uploads/2026/11/slide-block-example-2.webp",
+								"source": "file",
+								"title": "slide-block-example-2"
+							},
+							"backgroundSize": "cover",
+							"backgroundPosition": "50% 50%",
+							"backgroundRepeat": "no-repeat"
+						}
+					}
 				}
 			}
 		]

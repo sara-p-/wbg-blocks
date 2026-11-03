@@ -81,8 +81,17 @@ class GridCarousel {
 	}
 
 	bindEvents() {
-		this.prevButton?.addEventListener("click", () => this.goTo(this.index - 1));
-		this.nextButton?.addEventListener("click", () => this.goTo(this.index + 1));
+		// Arrows stop at each end (aria-disabled), matching the Slider block.
+		this.prevButton?.addEventListener("click", () => {
+			if (this.prevButton.getAttribute("aria-disabled") !== "true") {
+				this.goTo(this.index - 1);
+			}
+		});
+		this.nextButton?.addEventListener("click", () => {
+			if (this.nextButton.getAttribute("aria-disabled") !== "true") {
+				this.goTo(this.index + 1);
+			}
+		});
 
 		this.track.addEventListener("scroll", () => this.onScroll(), {
 			passive: true,
@@ -225,8 +234,8 @@ class GridCarousel {
 			return;
 		}
 
-		// Wrap around at both ends.
-		this.index = ((index % this.pageCount) + this.pageCount) % this.pageCount;
+		// No wrap-around: clamp to the first and last page.
+		this.index = Math.max(0, Math.min(index, this.pageCount - 1));
 		this.updateUi();
 		this.scrollToIndex(this.index, animate);
 	}
@@ -317,6 +326,12 @@ class GridCarousel {
 				dot.removeAttribute("aria-current");
 			}
 		});
+
+		this.prevButton?.setAttribute("aria-disabled", String(this.index === 0));
+		this.nextButton?.setAttribute(
+			"aria-disabled",
+			String(this.index === this.pageCount - 1),
+		);
 
 		this.slides.forEach((slide, i) => {
 			const visible = i >= this.index && i < this.index + this.perView;

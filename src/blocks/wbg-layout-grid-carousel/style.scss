@@ -10,8 +10,9 @@
  * --wbg-slides-per-view to know when the carousel is active and adds the
  * arrows and dots.
  *
- * The prev/next arrows sit on the left and right edges of the track,
- * vertically centred on the slides. The dots sit below.
+ * Arrows and dots match the Slider - Block: light-green circles with green
+ * chevrons that overlap the slide edges slightly and dim at either end, and
+ * 14px dots (in 24px hit areas) that follow the block's text color.
  *
  * The editor keeps the stacked grid at every width so cards stay easy to
  * select (the editor wrapper carries .block-editor-block-list__block).
@@ -25,10 +26,20 @@ $wbg-bp-mobile: 767px;
 	--wbg-grid-cols: 4;
 	--wbg-grid-gap: 24px;
 	--wbg-slides-per-view: 0; // 0 = carousel off (desktop).
-	--wbg-carousel-speed: 350ms; // Keep in sync with SLIDE_SPEED in view.js.
-	--wbg-carousel-arrow-size: 44px;
+
+	// Arrow settings (same as the Slider - Block).
+	--wbg-carousel-arrow-size: 3rem;
+	--wbg-carousel-arrow-overlap: 0.75rem; // How far the arrow sits over the slide.
+	--wbg-carousel-arrow-bg: var(--wp--preset--color--light-green);
+	--wbg-carousel-arrow-color: var(--wp--preset--color--green);
 
 	box-sizing: border-box;
+
+	// Smaller arrows on mobile.
+	@media (max-width: $wbg-bp-mobile) {
+		--wbg-carousel-arrow-size: 2.25rem;
+		--wbg-carousel-arrow-overlap: 0.5rem;
+	}
 
 	// Column modifiers.
 	&--cols-2 {
@@ -137,74 +148,82 @@ $wbg-bp-mobile: 767px;
 	}
 
 	/* -------------------------------------------------------------------- */
-	/* Controls                                                              */
+	/* Arrows                                                                */
 	/* -------------------------------------------------------------------- */
 
-	&__controls {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 16px;
-		margin-top: var(--wp--preset--spacing--32, 2rem);
+	// Centred vertically on the slides. Each arrow sits mostly outside the
+	// track and overlaps the slide edge by --wbg-carousel-arrow-overlap, but
+	// never closer than 0.5rem to the edge of the screen.
+	&__arrow {
+		position: absolute;
+		top: 50%;
+		z-index: 2;
+		display: grid;
+		place-items: center;
+		width: var(--wbg-carousel-arrow-size);
+		height: var(--wbg-carousel-arrow-size);
+		padding: 0;
+		border: 0;
+		border-radius: 50%;
+		background-color: var(--wbg-carousel-arrow-bg);
+		color: var(--wbg-carousel-arrow-color);
+		cursor: pointer;
+		transform: translateY(-50%);
+		transition:
+			opacity 0.2s ease,
+			transform 0.2s ease;
+
+		// Chevron scales with the circle.
+		svg {
+			width: calc(var(--wbg-carousel-arrow-size) * 0.5);
+			height: calc(var(--wbg-carousel-arrow-size) * 0.5);
+			fill: none;
+			stroke: currentColor;
+			stroke-width: 2.5;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+		}
+
+		&--prev {
+			left: max(
+				calc(0.5rem - var(--wp--style--root--padding-left, 1.5rem)),
+				calc(var(--wbg-carousel-arrow-overlap) - var(--wbg-carousel-arrow-size))
+			);
+		}
+
+		&--next {
+			right: max(
+				calc(0.5rem - var(--wp--style--root--padding-right, 1.5rem)),
+				calc(var(--wbg-carousel-arrow-overlap) - var(--wbg-carousel-arrow-size))
+			);
+		}
+
+		&:hover:not([aria-disabled="true"]) {
+			transform: translateY(-50%) scale(1.06);
+		}
+
+		// First / last slide.
+		&[aria-disabled="true"] {
+			opacity: 0.4;
+			cursor: default;
+		}
+
+		&:focus-visible {
+			outline: 3px solid var(--wbg-carousel-arrow-bg);
+			outline-offset: 3px;
+		}
 
 		&[hidden] {
 			display: none;
 		}
 	}
 
-	// Arrows: centred vertically on the slides, straddling the track's edges
-	// (half over the slide, half in the wrapper's side padding). A solid
-	// background keeps them readable over card content.
-	&__arrow {
-		appearance: none;
-		position: absolute;
-		top: 50%;
-		z-index: 2;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: var(--wbg-carousel-arrow-size);
-		height: var(--wbg-carousel-arrow-size);
-		padding: 0;
-		border: none;
-		border-radius: 50%;
-		background-color: var(--wp--preset--color--light-green);
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-		color: inherit;
-		cursor: pointer;
-		transform: translate(-50%, -50%);
-		transition: background-color 0.2s ease;
+	/* -------------------------------------------------------------------- */
+	/* Dots (follow the block's text color)                                  */
+	/* -------------------------------------------------------------------- */
 
-		svg {
-			width: 20px;
-			height: 20px;
-			fill: none;
-			stroke: var(--wp--preset--color--dark-green);
-			stroke-width: 2;
-			stroke-linecap: round;
-			stroke-linejoin: round;
-		}
-
-		&--prev {
-			left: 0;
-		}
-
-		&--next {
-			left: 100%;
-		}
-
-		&:hover {
-			background-color: color-mix(
-				in srgb,
-				currentColor 15%,
-				var(--wp--preset--color--light-green)
-			);
-		}
-
-		&:focus-visible {
-			outline: 2px solid currentColor;
-			outline-offset: 3px;
-		}
+	&__controls {
+		margin-top: var(--wp--preset--spacing--24, 1.5rem);
 
 		&[hidden] {
 			display: none;
@@ -215,44 +234,51 @@ $wbg-bp-mobile: 767px;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-		gap: 8px;
+		gap: 0; // The 24px hit areas already space the dots 10px apart.
+		padding-inline: 1rem;
 	}
 
+	// 24px hit area (WCAG 2.5.8) around a 14px visible dot.
 	&__dot {
-		position: relative;
-		appearance: none;
-		width: 17px;
-		height: 17px;
+		display: grid;
+		place-items: center;
+		width: 24px;
+		height: 24px;
 		padding: 0;
 		border: 0;
-		background: rgba(201, 232, 255, 0.5);
-		color: inherit;
 		border-radius: 50%;
+		background: none;
+		color: inherit;
 		cursor: pointer;
 
 		&::before {
 			content: "";
-			position: absolute;
-			inset: 0px;
-			border: none;
+			width: 14px;
+			height: 14px;
 			border-radius: 50%;
-			transition: background-color var(--wbg-carousel-speed) ease;
+			background-color: color-mix(in srgb, currentColor 40%, transparent);
+			transition: background-color 0.2s ease;
 		}
 
+		&[aria-current="true"]::before,
 		&.is-active::before {
-			background-color: var(--wp--preset--color--light-blue);
+			background-color: currentColor;
 		}
 
+		// Ring hugs the visible dot, at full strength even on inactive dots.
 		&:focus-visible {
-			outline: 2px solid var(--wp--preset--color--light-blue);
-			outline-offset: 0;
-			border-radius: 50%;
+			outline: none;
+
+			&::before {
+				outline: 1px solid currentColor;
+				outline-offset: 2px;
+			}
 		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		&__dot::before,
-		&__arrow {
+		&__arrow,
+		&__dot::before {
 			transition: none;
 		}
 	}

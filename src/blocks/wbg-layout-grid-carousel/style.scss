@@ -10,6 +10,16 @@
  * --wbg-slides-per-view to know when the carousel is active and adds the
  * arrows and dots.
  *
+ * Content width: the wrapper is capped at the theme's wide size by default,
+ * and at the custom extra-wide size (theme.json custom.layout.extraWide) when
+ * the block has .is-width--wide (the "Content Width: Wide" setting).
+ *
+ * Above the grid, a heading row holds the H1 heading and a paragraph of
+ * text, in one column (--1-col) or two (--2-col, stacked on mobile).
+ *
+ * Beneath the grid, an optional footer holds a centred paragraph (max 500px)
+ * and an optional centred button.
+ *
  * Arrows and dots match the Slider - Block: light-green circles with green
  * chevrons that overlap the slide edges slightly and dim at either end, and
  * 14px dots (in 24px hit areas) that follow the block's text color.
@@ -63,6 +73,14 @@ $wbg-bp-mobile: 767px;
 			var(--wp--style--root--padding-right, 1.5rem);
 	}
 
+	// Content Width: Wide.
+	&.is-width--wide #{$self}__wrapper {
+		max-width: var(
+			--wp--custom--layout--extra-wide,
+			var(--wp--style--global--wide-size, 1200px)
+		);
+	}
+
 	// Positioning context for the arrows: wraps only the track, so "middle"
 	// means the middle of the slides, not of the heading + slides.
 	&__stage {
@@ -80,9 +98,85 @@ $wbg-bp-mobile: 767px;
 		}
 	}
 
+	/* -------------------------------------------------------------------- */
+	/* Heading row                                                           */
+	/* -------------------------------------------------------------------- */
+
+	// Holds the heading and text. --1-col stacks them in one column;
+	// --2-col puts the heading on the left and the text on the right.
+	&__row {
+		display: flex;
+		gap: var(--wbg-grid-gap);
+		margin-bottom: var(--wp--preset--spacing--32);
+
+		&--1-col {
+			flex-direction: column;
+			margin-bottom: var(--wp--preset--spacing--48);
+		}
+
+		&--2-col {
+			flex-direction: row;
+
+			// The two columns stack on mobile.
+			@media (max-width: $wbg-bp-mobile) {
+				flex-direction: column;
+			}
+		}
+	}
+
+	&__col {
+		display: flex;
+		flex-direction: column;
+		gap: var(--wp--preset--spacing--16, 1rem);
+		min-width: 0;
+
+		#{$self}__row--2-col > & {
+			flex: 1 1 0;
+			justify-content: center;
+		}
+	}
+
 	&__heading {
-		margin-block: 0 var(--wp--preset--spacing--32);
-		font-size: clamp(3.75rem, calc(2.917rem + 2.778vw), 5rem);
+		margin-block: 0;
+		font-size: clamp(30px, calc(-3.333px + 6.944vw), 80px);
+		line-height: 1.2;
+	}
+
+	// Native paragraph styles still apply; only the outer margins are reset
+	// so the row's gaps control the spacing.
+	&__text {
+		margin-block: 0;
+		max-width: 800px;
+		&.has-text-align-center {
+			margin-inline: auto;
+		}
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Footer (text + button beneath the grid)                               */
+	/* -------------------------------------------------------------------- */
+
+	&__footer {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--wp--preset--spacing--32);
+		margin-top: var(--wp--preset--spacing--48);
+	}
+
+	// Native paragraph styles still apply; only the layout is set here.
+	&__footer-text {
+		box-sizing: border-box;
+		width: 100%;
+		max-width: 500px;
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	&__button {
+		display: flex;
+		justify-content: center;
+		margin: 0;
 	}
 
 	// Editor fallback: 3 and 4 column grids drop to 2 on tablet…

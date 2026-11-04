@@ -152,8 +152,8 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 				>
 					<div className="wbg-card-styled__row wbg-card-styled__row--content">
 						<RichText
-							tagName="h2"
-							className="wbg-card-styled__heading wp-block-heading"
+							tagName="h3"
+							className="wbg-card-styled__heading wp-block-heading fake--h2"
 							value={heading}
 							onChange={(value) => setAttributes({ heading: value })}
 							placeholder={__("Heading", "wbg-blocks")}

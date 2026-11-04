@@ -20,7 +20,7 @@
 		"viewportWidth": 1200,
 		"attributes": {
 			"columns": 3,
-			"showHeading": false,
+			"headingType": "1-col",
 			"backgroundColor": "dark-green",
 			"style": {
 				"type": "object",
@@ -110,9 +110,15 @@
 			"type": "number",
 			"default": 3
 		},
-		"showHeading": {
-			"type": "boolean",
-			"default": false
+		"headingType": {
+			"type": "string",
+			"enum": ["1-col", "2-col"],
+			"default": "1-col"
+		},
+		"contentWidth": {
+			"type": "string",
+			"enum": ["normal", "wide"],
+			"default": "normal"
 		},
 		"heading": {
 			"type": "string",
@@ -120,6 +126,33 @@
 		},
 		"headingAlign": {
 			"type": "string"
+		},
+		"text": {
+			"type": "string",
+			"default": ""
+		},
+		"textAlign": {
+			"type": "string"
+		},
+		"footerText": {
+			"type": "string",
+			"default": ""
+		},
+		"buttonText": {
+			"type": "string",
+			"default": ""
+		},
+		"buttonUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"buttonOpensInNewTab": {
+			"type": "boolean",
+			"default": false
+		},
+		"buttonNofollow": {
+			"type": "boolean",
+			"default": false
 		},
 		"style": {
 			"type": "object",

@@ -47,7 +47,7 @@ $wbg_wrapper_attributes = get_block_wrapper_attributes(
     <?php if ( $wbg_has_heading || $wbg_has_text ) : ?>
     <div class="wbg-card-styled__row wbg-card-styled__row--content">
       <?php if ( $wbg_has_heading ) : ?>
-      <h2 class="wbg-card-styled__heading wp-block-heading"><?php echo wp_kses_post( $wbg_heading ); ?></h2>
+      <h3 class="wbg-card-styled__heading wp-block-heading fake--h2"><?php echo wp_kses_post( $wbg_heading ); ?></h3>
       <?php endif; ?>
 
       <?php if ( $wbg_has_text ) : ?>

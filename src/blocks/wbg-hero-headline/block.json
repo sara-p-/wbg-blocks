@@ -10,17 +10,25 @@
 	"keywords": ["hero", "section", "headline"],
 	"example": {
 		"viewportWidth": 1188,
-		"innerBlocks": [
-			{
-				"name": "core/heading",
-				"attributes": {
-					"level": 1,
-					"content": "Headline goes here."
-				}
-			}
-		]
+		"attributes": {
+			"heading": "Headline goes here."
+		}
 	},
 	"attributes": {
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
+		"headingSize": {
+			"type": "string",
+			"enum": ["normal", "large"],
+			"default": "normal"
+		},
+		"contentWidth": {
+			"type": "string",
+			"enum": ["normal", "wide"],
+			"default": "normal"
+		},
 		"style": {
 			"type": "object",
 			"default": {
@@ -43,7 +51,6 @@
 	},
 	"supports": {
 		"html": false,
-		"align": ["full"],
 		"color": {
 			"background": true,
 			"text": true
@@ -53,6 +60,9 @@
 			"__experimentalDefaultControls": {
 				"padding": true
 			}
+		},
+		"typography": {
+			"textAlign": true
 		}
 	},
 	"textdomain": "wbg-blocks",

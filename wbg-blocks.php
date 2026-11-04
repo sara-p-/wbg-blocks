@@ -94,3 +94,19 @@ function wbg_register_block_categories( $categories, $block_editor_context ) {
 	return array_merge( array_values( $wbg_categories ), $categories );
 }
 add_filter( 'block_categories_all', 'wbg_register_block_categories', 10, 2 );
+
+
+
+add_action( 'wp_footer', function () {
+	global $wp_scripts;
+	$handle = 'wbg-blocks-wbg-content-accordion-item-view-script';
+	$script = isset( $wp_scripts->registered[ $handle ] ) ? $wp_scripts->registered[ $handle ] : null;
+
+	printf(
+		'<!-- src: %s | deps: %s | enqueued: %s | printed: %s -->',
+		esc_html( $script ? $script->src : 'none' ),
+		esc_html( wp_json_encode( $script ? $script->deps : array() ) ),
+		wp_script_is( $handle, 'enqueued' ) ? 'yes' : 'no',
+		wp_script_is( $handle, 'done' ) ? 'yes' : 'no'
+	);
+}, 9999 );

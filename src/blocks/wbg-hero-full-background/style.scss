@@ -42,6 +42,7 @@
 	&__heading {
 		margin: 0;
 		color: inherit;
+		font-size: clamp(1.875rem, calc(-0.208rem + 6.944vw), 5rem);
 	}
 
 	.wp-block-heading {

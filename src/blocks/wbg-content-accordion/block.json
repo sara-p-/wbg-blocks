@@ -1,0 +1,59 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-content-accordion",
+	"version": "0.1.0",
+	"title": "WBG Accordion",
+	"category": "wbg-content",
+	"icon": "menu",
+	"description": "An accordion section for FAQs and other information.",
+	"keywords": ["accordion", "faq", "toggle"],
+	"allowedBlocks": ["wbg-blocks/wbg-content-accordion-item"],
+	"example": {
+		"viewportWidth": 1440,
+		"attributes": {
+			"heading": "Pet & Service Animal FAQs",
+			"colorMode": "dark"
+		},
+		"innerBlocks": [
+			{
+				"name": "wbg-blocks/wbg-content-accordion-item",
+				"attributes": {
+					"heading": "Is it free to visit the Gardens?"
+				},
+				"innerBlocks": [
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Yes, admission is free with a $10 suggested donation, which helps support and maintain our Gardens for the future."
+						}
+					}
+				]
+			}
+		]
+	},
+	"attributes": {
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
+		"colorMode": {
+			"type": "string",
+			"enum": ["dark", "light"],
+			"default": "dark"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": false,
+		"spacing": {
+			"padding": ["top", "bottom"],
+			"margin": false,
+			"blockGap": false
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

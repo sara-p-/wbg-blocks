@@ -5,13 +5,22 @@
 
 .wbg-hero-headline {
 	$self: &;
-	.wp-block-heading {
-		color: inherit;
-	}
+	width: auto;
+	padding: 0 24px;
+
 	&__wrapper {
-		width: auto;
+		width: 100%;
 		max-width: var(--wp--style--global--wide-size);
 		margin: 0 auto;
-		padding: 0 var(--wp--preset--spacing--24);
+	}
+
+	&.is-width--wide {
+		#{$self}__wrapper {
+			max-width: var(--wp--custom--layout--extra-wide);
+		}
+	}
+
+	&__heading {
+		color: inherit;
 	}
 }

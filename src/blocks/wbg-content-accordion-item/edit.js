@@ -55,7 +55,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	return (
 		<div {...blockProps}>
-			<div className="wbg-content-accordion-item__toggle">
+			<div className="wbg-content-accordion-item__toggle editor-toggle">
 				<RichText
 					tagName="h5"
 					className="wbg-content-accordion-item__heading"

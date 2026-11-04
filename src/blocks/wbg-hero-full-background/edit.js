@@ -75,7 +75,6 @@ export default function Edit({ attributes, setAttributes }) {
 									value={subheading}
 									onChange={(value) => setAttributes({ subheading: value })}
 									placeholder={__("Subheading…", "wbg-blocks")}
-									disableLineBreaks
 								/>
 								<RichText
 									tagName="h2"
@@ -83,7 +82,6 @@ export default function Edit({ attributes, setAttributes }) {
 									value={heading}
 									onChange={(value) => setAttributes({ heading: value })}
 									placeholder={__("Heading…", "wbg-blocks")}
-									disableLineBreaks
 								/>
 							</div>
 							<div {...innerBlocksProps} />

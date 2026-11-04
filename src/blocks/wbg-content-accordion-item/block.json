@@ -8,6 +8,7 @@
 	"icon": "menu",
 	"description": "A single accordion item used inside of an accordion block.",
 	"keywords": ["accordion", "faq", "toggle"],
+	"parent": ["wbg-blocks/wbg-content-accordion"],
 	"example": {
 		"viewportWidth": 1200,
 		"attributes": {

@@ -1,0 +1,59 @@
+/**
+ * WBG Content - Accordion – front-end + editor styles.
+ *
+ */
+
+.wbg-content-accordion {
+	$self: &;
+
+	width: auto;
+	padding: 0 24px;
+
+	&__container {
+		display: flex;
+		place-items: center;
+		width: auto;
+		max-width: var(--wp--custom--layout--extra-wide);
+		margin: auto;
+		background: var(--wp--preset--color--dark-green);
+		border-radius: 75px;
+		padding: var(--wp--preset--spacing--76) 24px;
+	}
+
+	&__wrapper {
+		display: flex;
+		flex-direction: column;
+		width: auto;
+		max-width: var(--wp--style--global--wide-size);
+		margin-inline: auto;
+	}
+
+	&__heading {
+		margin-block-start: 0;
+		color: var(--wp--preset--color--cream);
+		margin-bottom: var(--wp--preset--spacing--48);
+		line-height: 1.2;
+		font-size: clamp(1.875rem, calc(-0.208rem + 6.944vw), 5rem);
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+		border-top: 1px solid var(--wp--preset--color--cream);
+
+		// Cancel flow-layout margins WP adds between blocks (mainly in the editor).
+		> * {
+			margin-block: 0;
+		}
+	}
+
+	// Light mode overrides.
+	&.is-color-mode--light {
+		// e.g. background-color, color, border colors.
+
+		#{$self}__container {
+			background-color: var(--wp--preset--color--green);
+		}
+	}
+}

@@ -66,5 +66,8 @@
 		#{$self}__text {
 			color: var(--wp--preset--color--cream) !important;
 		}
+		#{$self}__icon svg :is(path, circle, rect, ellipse, polygon, polyline) {
+			fill: var(--wp--preset--color--cream);
+		}
 	}
 }

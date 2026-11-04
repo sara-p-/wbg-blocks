@@ -1,0 +1,93 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-slide-simple",
+	"version": "0.1.0",
+	"title": "Slide - Simple",
+	"category": "wbg-slides",
+	"icon": "",
+	"description": "A simple block slide for the block carousel.",
+	"keywords": ["slide", "slider", "background"],
+	"textdomain": "wbg-blocks",
+	"parent": ["wbg-blocks/wbg-slider-block"],
+	"attributes": {
+		"backgroundColor": {
+			"type": "string",
+			"default": "dark-green"
+		},
+		"overlay": {
+			"type": "string",
+			"enum": ["no-overlay", "overlay"],
+			"default": "no-overlay"
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
+		"text": {
+			"type": "string",
+			"default": ""
+		},
+		"button-text": {
+			"type": "string",
+			"default": ""
+		},
+		"button-link": {
+			"type": "string",
+			"default": ""
+		},
+		"button-opens-in-new-tab": {
+			"type": "boolean",
+			"default": false
+		},
+		"button-nofollow": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"html": false,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		},
+		"color": {
+			"background": true,
+			"text": false,
+			"link": false,
+			"__experimentalDefaultControls": {
+				"background": true
+			}
+		}
+	},
+	"example": {
+		"viewportWidth": 1200,
+		"attributes": {
+			"date": "August 29",
+			"time": "2PM - 3PM",
+			"heading": "Gardens Site 1981-2017",
+			"text": "Description of history and context of this step in the Gardens’ history.",
+			"button-text": "Optional Button Here",
+			"button-link": "#",
+			"overlay": "no-overlay",
+			"style": {
+				"background": {
+					"backgroundImage": {
+						"url": "/wp-content/uploads/2026/11/slide-simple-example.webp",
+						"source": "file",
+						"title": "slide-simple-example"
+					},
+					"backgroundSize": "cover",
+					"backgroundPosition": "50% 50%",
+					"backgroundRepeat": "no-repeat"
+				}
+			}
+		}
+	},
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

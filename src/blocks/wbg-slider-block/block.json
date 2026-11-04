@@ -9,7 +9,10 @@
 	"description": "A block slider with arrows and navigation dots.",
 	"keywords": ["slider", "carousel", "section"],
 	"textdomain": "wbg-blocks",
-	"allowedBlocks": ["wbg-blocks/wbg-slide-block"],
+	"allowedBlocks": [
+		"wbg-blocks/wbg-slide-block",
+		"wbg-blocks/wbg-slide-simple"
+	],
 	"attributes": {
 		"style": {
 			"type": "object",

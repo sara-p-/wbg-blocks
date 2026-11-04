@@ -24,7 +24,10 @@ import {
 } from "@wordpress/components";
 import { prependHTTP } from "@wordpress/url";
 
-const ALLOWED_BLOCKS = ["wbg-blocks/wbg-slide-block"];
+const ALLOWED_BLOCKS = [
+	"wbg-blocks/wbg-slide-block",
+	"wbg-blocks/wbg-slide-simple",
+];
 const TEMPLATE = [["wbg-blocks/wbg-slide-block"]];
 
 const LINK_SETTINGS = [

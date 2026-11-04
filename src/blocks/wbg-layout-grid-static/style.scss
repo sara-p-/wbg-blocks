@@ -38,6 +38,12 @@ $wbg-bp-mobile: 767px;
 			var(--wp--style--root--padding-right, 1.5rem);
 	}
 
+	&.is-width--wide {
+		#{$self}__wrapper {
+			max-width: var(--wp--custom--layout--extra-wide);
+		}
+	}
+
 	&__grid {
 		display: grid;
 		grid-template-columns: repeat(var(--wbg-grid-cols), minmax(0, 1fr));

@@ -64,13 +64,20 @@ const toCssColor = (value) => {
 };
 
 export default function Edit({ attributes, setAttributes }) {
-	const { showHeading, heading, headingAlign, textColor, style } = attributes;
+	const { showHeading, heading, headingAlign, contentWidth, textColor, style } =
+		attributes;
 	const columns = clampColumns(attributes.columns);
 	const customTextColor = style?.color?.text;
 
-	const blockProps = useBlockProps({
-		className: `wbg-layout-grid-static wbg-layout-grid-static--cols-${columns}`,
-	});
+	const classes = [
+		"wbg-layout-grid-static",
+		`wbg-layout-grid-static--cols-${columns}`,
+		contentWidth === "wide" && "is-width--wide",
+	]
+		.filter(Boolean)
+		.join(" ");
+
+	const blockProps = useBlockProps({ className: classes });
 
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: "wbg-layout-grid-static__grid" },
@@ -154,6 +161,24 @@ export default function Edit({ attributes, setAttributes }) {
 								label={String(count)}
 							/>
 						))}
+					</ToggleGroupControl>
+
+					<ToggleGroupControl
+						label={__("Content Width", "wbg-blocks")}
+						value={contentWidth}
+						onChange={(value) => setAttributes({ contentWidth: value })}
+						isBlock
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
+					>
+						<ToggleGroupControlOption
+							value="normal"
+							label={__("Normal", "wbg-blocks")}
+						/>
+						<ToggleGroupControlOption
+							value="wide"
+							label={__("Wide", "wbg-blocks")}
+						/>
 					</ToggleGroupControl>
 				</PanelBody>
 			</InspectorControls>

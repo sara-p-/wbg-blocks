@@ -81,12 +81,19 @@ if ( $wbg_has_heading ) {
 	}
 }
 
+// Wrapper classes.
+$wbg_classes = array(
+	'wbg-layout-grid-static',
+	sprintf( 'wbg-layout-grid-static--cols-%d', $wbg_columns ),
+);
+
+if ( 'wide' === ( $attributes['contentWidth'] ?? 'normal' ) ) {
+	$wbg_classes[] = 'is-width--wide';
+}
+
 $wbg_wrapper_attributes = get_block_wrapper_attributes(
 	array(
-		'class' => sprintf(
-			'wbg-layout-grid-static wbg-layout-grid-static--cols-%d',
-			$wbg_columns
-		),
+		'class' => implode( ' ', $wbg_classes ),
 	)
 );
 ?>

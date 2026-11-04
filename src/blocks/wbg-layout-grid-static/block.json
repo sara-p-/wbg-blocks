@@ -203,6 +203,11 @@
 			"type": "number",
 			"default": 3
 		},
+		"contentWidth": {
+			"type": "string",
+			"enum": ["normal", "wide"],
+			"default": "normal"
+		},
 		"showHeading": {
 			"type": "boolean",
 			"default": false

@@ -10,6 +10,9 @@
 	"keywords": ["card"],
 	"example": {
 		"viewportWidth": 350,
+		"attributes": {
+			"heading": "Card heading"
+		},
 		"innerBlocks": [
 			{
 				"name": "core/heading",
@@ -27,6 +30,10 @@
 		]
 	},
 	"attributes": {
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
 		"style": {
 			"type": "object",
 			"default": {
@@ -61,6 +68,18 @@
 			"__experimentalDefaultControls": {
 				"padding": true,
 				"blockGap": true
+			}
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"radius": true,
+				"style": true,
+				"width": true
 			}
 		},
 		"layout": {

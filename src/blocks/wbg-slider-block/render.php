@@ -2,27 +2,85 @@
 /**
  * Slider - Block: front-end render.
  *
+ * Above the slides, a heading row holds the optional H2 heading and
+ * paragraph of text, laid out in one column (heading above text) or two
+ * (heading left, text right), depending on the headingType attribute.
+ *
  * @var array    $attributes Block attributes.
- * @var string   $content    Inner blocks markup (wbg-slide-block slides).
+ * @var string   $content    Inner blocks markup (slides).
  * @var WP_Block $block      Block instance.
  *
  * @package wbg-blocks
  */
 
-$heading      = $attributes['heading'] ?? '';
+$heading_type = $attributes['headingType'] ?? '1-col';
+$heading_type = in_array( $heading_type, array( '1-col', '2-col' ), true ) ? $heading_type : '1-col';
+
+/**
+ * Returns true when a rich text value has visible text (not just tags,
+ * whitespace or &nbsp;).
+ */
+$has_visible_text = static function ( $value ) {
+	return '' !== trim(
+		str_replace( array( '&nbsp;', "\xC2\xA0" ), ' ', wp_strip_all_tags( (string) $value ) )
+	);
+};
+
+// Heading: only bold, italic and line breaks are allowed through.
+$heading = wp_kses(
+	(string) ( $attributes['heading'] ?? '' ),
+	array(
+		'strong' => array(),
+		'em'     => array(),
+		'br'     => array(),
+	)
+);
+
+// Text: the paragraph's default formats (bold, italic, links, etc.).
+$text = wp_kses_post( (string) ( $attributes['text'] ?? '' ) );
+
 $autoplay     = 'autoplay' === ( $attributes['autoplay'] ?? 'static' );
 $button_text  = $attributes['button-text'] ?? '';
 $button_link  = $attributes['button-link'] ?? '';
 $new_tab      = ! empty( $attributes['button-opens-in-new-tab'] );
 $nofollow     = ! empty( $attributes['button-nofollow'] );
 $slide_count  = count( $block->inner_blocks );
-$has_heading  = '' !== trim( wp_strip_all_tags( $heading ) );
-$has_button   = '' !== trim( wp_strip_all_tags( $button_text ) ) && '' !== $button_link;
+$has_heading  = $has_visible_text( $heading );
+$has_text     = $has_visible_text( $text );
+$has_button   = $has_visible_text( $button_text ) && '' !== $button_link;
 $has_controls = $slide_count > 1;
 
 $uid        = wp_unique_id( 'wbg-slider-' );
 $track_id   = $uid . '-track';
 $heading_id = $uid . '-heading';
+
+// Heading + text classes (alignment uses WordPress' own has-text-align-* classes).
+$heading_classes = array( 'wp-block-heading', 'wbg-slider-block__heading' );
+if ( ! empty( $attributes['headingAlign'] ) ) {
+	$heading_classes[] = 'has-text-align-' . sanitize_html_class( $attributes['headingAlign'] );
+}
+
+$text_classes = array( 'wbg-slider-block__text' );
+if ( ! empty( $attributes['textAlign'] ) ) {
+	$text_classes[] = 'has-text-align-' . sanitize_html_class( $attributes['textAlign'] );
+}
+
+$heading_html = $has_heading
+	? sprintf(
+		'<h2 id="%1$s" class="%2$s">%3$s</h2>',
+		esc_attr( $heading_id ),
+		esc_attr( implode( ' ', $heading_classes ) ),
+		$heading // Sanitized with wp_kses() above.
+	)
+	: '';
+
+$text_html = $has_text
+	? sprintf(
+		'<p class="%1$s">%2$s</p>',
+		esc_attr( implode( ' ', $text_classes ) ),
+		$text // Sanitized with wp_kses_post() above.
+	)
+	: '';
 
 // Give each slide its carousel semantics: role="group", "slide", "1 of 5".
 $slides_html = $content;
@@ -84,12 +142,27 @@ if ( $has_button ) {
 
 $chevron_prev = '<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 $chevron_next = '<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Wrapper escaped by get_block_wrapper_attributes(); heading/text/link attributes built and escaped above; static SVGs; $slides_html is rendered inner blocks.
 ?>
-<section <?php echo $wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-  <?php if ( $has_heading ) : ?>
+<section <?php echo $wrapper_attributes; ?>>
+  <?php if ( $has_heading || $has_text ) : ?>
   <div class="wbg-slider-block__header">
-    <h2 id="<?php echo esc_attr( $heading_id ); ?>" class="wp-block-heading wbg-slider-block__heading">
-      <?php echo wp_kses_post( $heading ); ?></h2>
+    <div class="wbg-slider-block__row wbg-slider-block__row--<?php echo esc_attr( $heading_type ); ?>">
+      <?php if ( '2-col' === $heading_type ) : ?>
+      <div class="wbg-slider-block__col">
+        <?php echo $heading_html; ?>
+      </div>
+      <div class="wbg-slider-block__col">
+        <?php echo $text_html; ?>
+      </div>
+      <?php else : ?>
+      <div class="wbg-slider-block__col">
+        <?php echo $heading_html; ?>
+        <?php echo $text_html; ?>
+      </div>
+      <?php endif; ?>
+    </div>
   </div>
   <?php endif; ?>
 
@@ -98,17 +171,17 @@ $chevron_next = '<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><
     <button type="button" class="wbg-slider-block__arrow wbg-slider-block__arrow--prev"
       aria-controls="<?php echo esc_attr( $track_id ); ?>"
       aria-label="<?php esc_attr_e( 'Previous slide', 'wbg-blocks' ); ?>" aria-disabled="true" data-wbg-slider-prev>
-      <?php echo $chevron_prev; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static SVG. ?>
+      <?php echo $chevron_prev; ?>
     </button>
     <button type="button" class="wbg-slider-block__arrow wbg-slider-block__arrow--next"
       aria-controls="<?php echo esc_attr( $track_id ); ?>"
       aria-label="<?php esc_attr_e( 'Next slide', 'wbg-blocks' ); ?>" data-wbg-slider-next>
-      <?php echo $chevron_next; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static SVG. ?>
+      <?php echo $chevron_next; ?>
     </button>
     <?php endif; ?>
 
     <div id="<?php echo esc_attr( $track_id ); ?>" class="wbg-slider-block__track" data-wbg-slider-track>
-      <?php echo $slides_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- rendered inner blocks. ?>
+      <?php echo $slides_html; ?>
     </div>
   </div>
 
@@ -129,8 +202,10 @@ $chevron_next = '<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><
   <div class="wbg-slider-block__footer">
     <div class="wp-block-button wbg-slider-block__button">
       <a class="wp-block-button__link wp-element-button"
-        <?php echo $link_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped above. ?>><?php echo wp_kses_post( $button_text ); ?></a>
+        <?php echo $link_attrs; ?>><?php echo wp_kses_post( $button_text ); ?></a>
     </div>
   </div>
   <?php endif; ?>
 </section>
+<?php
+// phpcs:enable

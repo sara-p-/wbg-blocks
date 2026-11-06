@@ -1,6 +1,9 @@
 /**
  * Slider - Block: editor view.
  *
+ * Above the slides, a heading row holds an optional H2 heading and an
+ * optional paragraph of text, laid out in one column (heading above text)
+ * or two (heading left, text right) via the "Heading type" setting.
  */
 import { __ } from "@wordpress/i18n";
 import { useState } from "@wordpress/element";
@@ -11,6 +14,7 @@ import {
 	InnerBlocks,
 	InspectorControls,
 	BlockControls,
+	AlignmentControl,
 	RichText,
 	store as blockEditorStore,
 	__experimentalLinkControl as LinkControl,
@@ -30,6 +34,10 @@ const ALLOWED_BLOCKS = [
 ];
 const TEMPLATE = [["wbg-blocks/wbg-slide-block"]];
 
+const HEADING_TYPES = ["1-col", "2-col"];
+
+const HEADING_FORMATS = ["core/bold", "core/italic"];
+
 const LINK_SETTINGS = [
 	{ id: "opensInNewTab", title: __("Open in new tab", "wbg-blocks") },
 	{ id: "nofollow", title: __("Mark as nofollow", "wbg-blocks") },
@@ -43,6 +51,9 @@ export default function Edit({
 }) {
 	const {
 		heading,
+		headingAlign,
+		text,
+		textAlign,
 		autoplay,
 		"button-text": buttonText,
 		"button-link": buttonLink,
@@ -50,11 +61,28 @@ export default function Edit({
 		"button-nofollow": nofollow,
 	} = attributes;
 
+	const headingType = HEADING_TYPES.includes(attributes.headingType)
+		? attributes.headingType
+		: "1-col";
+
 	const [isEditingLink, setIsEditingLink] = useState(false);
 	const [popoverAnchor, setPopoverAnchor] = useState(null);
 
 	const slideCount = useSelect(
 		(select) => select(blockEditorStore).getBlockCount(clientId),
+		[clientId],
+	);
+
+	// The toolbar's alignment control follows the field being edited: it
+	// aligns the text while the cursor is in the text field, and the heading
+	// otherwise.
+	const isEditingText = useSelect(
+		(select) => {
+			const selection = select(blockEditorStore).getSelectionStart();
+			return (
+				selection?.clientId === clientId && selection?.attributeKey === "text"
+			);
+		},
 		[clientId],
 	);
 
@@ -83,9 +111,71 @@ export default function Edit({
 		setIsEditingLink(false);
 	};
 
+	const headingClassName = [
+		"wp-block-heading",
+		"wbg-slider-block__heading",
+		headingAlign ? `has-text-align-${headingAlign}` : "",
+	]
+		.filter(Boolean)
+		.join(" ");
+
+	const textClassName = [
+		"wbg-slider-block__text",
+		textAlign ? `has-text-align-${textAlign}` : "",
+	]
+		.filter(Boolean)
+		.join(" ");
+
+	const headingField = (
+		<RichText
+			identifier="heading"
+			tagName="h2"
+			className={headingClassName}
+			value={heading}
+			onChange={(value) => setAttributes({ heading: value })}
+			allowedFormats={HEADING_FORMATS}
+			placeholder={__("Heading (optional)…", "wbg-blocks")}
+		/>
+	);
+
+	const textField = (
+		<RichText
+			identifier="text"
+			tagName="p"
+			className={textClassName}
+			value={text}
+			onChange={(value) => setAttributes({ text: value })}
+			placeholder={__("Text (optional)…", "wbg-blocks")}
+		/>
+	);
+
 	return (
 		<>
 			<InspectorControls>
+				<PanelBody title={__("Heading Settings", "wbg-blocks")}>
+					<ToggleGroupControl
+						label={__("Heading type", "wbg-blocks")}
+						help={__(
+							"2 Column places the heading and text side by side. They stack on mobile.",
+							"wbg-blocks",
+						)}
+						value={headingType}
+						onChange={(value) => setAttributes({ headingType: value })}
+						isBlock
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
+					>
+						<ToggleGroupControlOption
+							value="1-col"
+							label={__("1 Column", "wbg-blocks")}
+						/>
+						<ToggleGroupControlOption
+							value="2-col"
+							label={__("2 Column", "wbg-blocks")}
+						/>
+					</ToggleGroupControl>
+				</PanelBody>
+
 				<PanelBody title={__("Settings", "wbg-blocks")}>
 					<ToggleGroupControl
 						label={__("Autoplay", "wbg-blocks")}
@@ -108,6 +198,19 @@ export default function Edit({
 			</InspectorControls>
 
 			<BlockControls group="block">
+				{isEditingText ? (
+					<AlignmentControl
+						label={__("Align text", "wbg-blocks")}
+						value={textAlign}
+						onChange={(value) => setAttributes({ textAlign: value })}
+					/>
+				) : (
+					<AlignmentControl
+						label={__("Align heading", "wbg-blocks")}
+						value={headingAlign}
+						onChange={(value) => setAttributes({ headingAlign: value })}
+					/>
+				)}
 				<ToolbarButton
 					icon="admin-links"
 					label={__("Button link", "wbg-blocks")}
@@ -125,14 +228,21 @@ export default function Edit({
 
 			<div {...blockProps}>
 				<div className="wbg-slider-block__header">
-					<RichText
-						identifier="heading"
-						tagName="h2"
-						className="wp-block-heading wbg-slider-block__heading"
-						value={heading}
-						onChange={(value) => setAttributes({ heading: value })}
-						placeholder={__("Heading (optional)…", "wbg-blocks")}
-					/>
+					<div
+						className={`wbg-slider-block__row wbg-slider-block__row--${headingType}`}
+					>
+						{"2-col" === headingType ? (
+							<>
+								<div className="wbg-slider-block__col">{headingField}</div>
+								<div className="wbg-slider-block__col">{textField}</div>
+							</>
+						) : (
+							<div className="wbg-slider-block__col">
+								{headingField}
+								{textField}
+							</div>
+						)}
+					</div>
 				</div>
 
 				<div className="wbg-slider-block__viewport">

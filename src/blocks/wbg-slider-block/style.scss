@@ -44,10 +44,58 @@ $wbg-slider-breakpoint: 782px; // WP's standard mobile/desktop breakpoint.
 		margin-bottom: var(--wp--preset--spacing--16);
 	}
 
+	// Heading row.
+	// --1-col stacks the heading and text in one column;
+	// --2-col puts the heading on the left and the text on the right.
+	&__row {
+		display: flex;
+		gap: var(--wbg-slider-gap);
+
+		&--1-col {
+			flex-direction: column;
+		}
+
+		&--2-col {
+			flex-direction: row;
+
+			// The two columns stack on mobile.
+			@media (max-width: #{$wbg-slider-breakpoint - 1}) {
+				flex-direction: column;
+			}
+		}
+	}
+
+	&__col {
+		display: flex;
+		flex-direction: column;
+		gap: var(--wp--preset--spacing--16, 1rem);
+		min-width: 0;
+
+		& ~ #{$self}__col {
+			max-width: 500px;
+		}
+
+		#{$self}__row--2-col > & {
+			flex: 1 1 0;
+			justify-content: center;
+		}
+	}
+
 	// Native h2 styles still apply; only the color follows the block's text color.
 	&__heading {
 		margin-block: 0;
 		color: inherit;
+	}
+
+	// Native paragraph styles still apply; only the outer margins are reset
+	// so the row's gaps control the spacing.
+	&__text {
+		margin-block: 0;
+		max-width: 800px;
+		&.has-text-align-center {
+			margin-inline: auto;
+			max-width: 500px;
+		}
 	}
 
 	&__footer {

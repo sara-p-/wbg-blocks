@@ -33,9 +33,24 @@
 			"type": "string",
 			"default": "light-green"
 		},
+		"headingType": {
+			"type": "string",
+			"enum": ["1-col", "2-col"],
+			"default": "1-col"
+		},
 		"heading": {
 			"type": "string",
 			"default": ""
+		},
+		"headingAlign": {
+			"type": "string"
+		},
+		"text": {
+			"type": "string",
+			"default": ""
+		},
+		"textAlign": {
+			"type": "string"
 		},
 		"autoplay": {
 			"type": "string",
@@ -83,7 +98,9 @@
 	"example": {
 		"viewportWidth": 1400,
 		"attributes": {
+			"headingType": "2-col",
 			"heading": "What's Growing On",
+			"text": "Seasonal events, classes and festivals happening at the gardens this month.",
 			"autoplay": "static",
 			"button-text": "Get Tickets",
 			"button-link": "#"

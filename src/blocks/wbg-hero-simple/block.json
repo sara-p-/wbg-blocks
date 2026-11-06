@@ -9,6 +9,7 @@
 	"description": "A simple hero with the options for a header, text, and buttons.",
 	"keywords": ["hero", "section"],
 	"example": {
+		"viewportWidth": 1200,
 		"attributes": {
 			"subheading": "Subheading here",
 			"heading": "Heading Goes Here",
@@ -17,6 +18,12 @@
 		"innerBlocks": [
 			{
 				"name": "core/buttons",
+				"attributes": {
+					"layout": {
+						"type": "flex",
+						"justifyContent": "center"
+					}
+				},
 				"innerBlocks": [
 					{
 						"name": "core/button",

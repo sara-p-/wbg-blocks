@@ -12,7 +12,7 @@
 		"viewportWidth": 1200,
 		"attributes": {
 			"columns": 4,
-			"showHeading": false,
+			"headingType": "1-col",
 			"backgroundColor": "cream"
 		},
 		"innerBlocks": [
@@ -208,13 +208,41 @@
 			"enum": ["normal", "wide"],
 			"default": "normal"
 		},
-		"showHeading": {
-			"type": "boolean",
-			"default": false
+		"headingType": {
+			"type": "string",
+			"enum": ["1-col", "2-col"],
+			"default": "1-col"
 		},
 		"heading": {
 			"type": "string",
 			"default": ""
+		},
+		"text": {
+			"type": "string",
+			"default": ""
+		},
+		"textAlign": {
+			"type": "string"
+		},
+		"footerText": {
+			"type": "string",
+			"default": ""
+		},
+		"buttonText": {
+			"type": "string",
+			"default": ""
+		},
+		"buttonUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"buttonOpensInNewTab": {
+			"type": "boolean",
+			"default": false
+		},
+		"buttonNofollow": {
+			"type": "boolean",
+			"default": false
 		},
 		"headingAlign": {
 			"type": "string"

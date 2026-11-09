@@ -219,6 +219,7 @@ $wbg_config = array(
 // Wrapper classes.
 $wbg_classes = array(
 	'wbg-layout-grid-carousel',
+	'alignfull',
 	sprintf( 'wbg-layout-grid-carousel--cols-%d', $wbg_columns ),
 );
 

@@ -6,13 +6,14 @@
 	"title": "Grid - Static",
 	"category": "wbg-layout",
 	"icon": "grid-view",
-	"description": "A static grid layout of 2–4 columns that holds card blocks, with an optional heading.",
+	"description": "A static grid layout of 2–4 columns that holds card blocks, with an optional header and footer.",
 	"keywords": ["layout", "section", "grid", "cards", "columns"],
 	"example": {
 		"viewportWidth": 1200,
 		"attributes": {
 			"columns": 4,
-			"headingType": "1-col",
+			"showHeader": false,
+			"showFooter": false,
 			"backgroundColor": "cream"
 		},
 		"innerBlocks": [
@@ -208,6 +209,14 @@
 			"enum": ["normal", "wide"],
 			"default": "normal"
 		},
+		"showHeader": {
+			"type": "boolean",
+			"default": false
+		},
+		"showFooter": {
+			"type": "boolean",
+			"default": false
+		},
 		"headingType": {
 			"type": "string",
 			"enum": ["1-col", "2-col"],
@@ -269,7 +278,6 @@
 	},
 	"supports": {
 		"html": false,
-		"align": ["full"],
 		"color": {
 			"background": true,
 			"text": true,

@@ -2,13 +2,16 @@
 /**
  * Layout - Grid - Static: front-end render.
  *
- * Above the grid, a heading row holds the H1 heading and a paragraph of text,
- * laid out in one column (heading above text) or two (heading left, text
- * right), depending on the headingType attribute.
+ * The header and footer only render when switched on (showHeader /
+ * showFooter). Their saved content is kept while they're off, so switching
+ * one back on restores it.
  *
- * Beneath the grid, an optional footer holds a short centred paragraph and
- * an optional centred button. The button only renders when it has both
- * text and a link.
+ * Header: a row above the grid holding the H1 heading and a paragraph of
+ * text, laid out in one column (heading above text) or two (heading left,
+ * text right), depending on the headingType attribute.
+ *
+ * Footer: a short centred paragraph and a centred button beneath the grid.
+ * The button only renders when it has both text and a link.
  *
  * Padding, background color and background image are applied to the wrapper
  * by WordPress' native block supports via get_block_wrapper_attributes()
@@ -29,6 +32,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $wbg_columns = isset( $attributes['columns'] ) ? (int) $attributes['columns'] : 3;
 $wbg_columns = max( 2, min( 4, $wbg_columns ) );
+
+$wbg_show_header = ! empty( $attributes['showHeader'] );
+$wbg_show_footer = ! empty( $attributes['showFooter'] );
 
 $wbg_heading_type = $attributes['headingType'] ?? '1-col';
 $wbg_heading_type = in_array( $wbg_heading_type, array( '1-col', '2-col' ), true ) ? $wbg_heading_type : '1-col';
@@ -69,11 +75,11 @@ $wbg_button_text = wp_kses(
 );
 $wbg_button_url  = trim( (string) ( $attributes['buttonUrl'] ?? '' ) );
 
-$wbg_has_heading     = $wbg_has_text( $wbg_heading );
-$wbg_has_body        = $wbg_has_text( $wbg_text );
+$wbg_has_heading     = $wbg_show_header && $wbg_has_text( $wbg_heading );
+$wbg_has_body        = $wbg_show_header && $wbg_has_text( $wbg_text );
 $wbg_has_cards       = '' !== trim( (string) $content );
-$wbg_has_footer_text = $wbg_has_text( $wbg_footer_text );
-$wbg_has_button      = $wbg_has_text( $wbg_button_text ) && '' !== $wbg_button_url;
+$wbg_has_footer_text = $wbg_show_footer && $wbg_has_text( $wbg_footer_text );
+$wbg_has_button      = $wbg_show_footer && $wbg_has_text( $wbg_button_text ) && '' !== $wbg_button_url;
 $wbg_has_footer      = $wbg_has_footer_text || $wbg_has_button;
 
 // Nothing to show at all.
@@ -162,6 +168,7 @@ $wbg_text_html    = $wbg_has_body ? '<p' . $wbg_text_attributes . '>' . $wbg_tex
 // Wrapper classes.
 $wbg_classes = array(
 	'wbg-layout-grid-static',
+	'alignfull',
 	sprintf( 'wbg-layout-grid-static--cols-%d', $wbg_columns ),
 );
 

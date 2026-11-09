@@ -136,6 +136,7 @@ export default function Edit({
 	const blockProps = useBlockProps({
 		className: [
 			"wbg-layout-grid-carousel",
+			"alignfull",
 			`wbg-layout-grid-carousel--cols-${columns}`,
 			contentWidth === "wide" && "is-width--wide",
 		]

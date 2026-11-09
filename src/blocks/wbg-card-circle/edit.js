@@ -1,22 +1,20 @@
 /**
- * Card - Simple: editor view.
+ * Card - Circle: editor view.
  */
 import { __ } from "@wordpress/i18n";
 import {
 	RichText,
 	useBlockProps,
 	useInnerBlocksProps,
-	store as blockEditorStore,
 } from "@wordpress/block-editor";
-import { useSelect } from "@wordpress/data";
 
 const ALLOWED_BLOCKS = [
-	"core/heading",
 	"core/paragraph",
 	"core/list",
-	"core/buttons",
 	"core/image",
+	"core/buttons",
 ];
+
 const TEMPLATE = [
 	[
 		"core/paragraph",
@@ -26,29 +24,42 @@ const TEMPLATE = [
 	],
 ];
 
-export default function Edit({
-	attributes,
-	setAttributes,
-	isSelected,
-	clientId,
-}) {
-	const { heading } = attributes;
+/**
+ * Build inline styles for the circle from the native Background panel.
+ * The block's background support uses __experimentalSkipSerialization,
+ * so core does not apply the image to the wrapper; we apply it here.
+ *
+ * @param {Object} background style.background attribute.
+ * @return {Object|undefined} React style object.
+ */
+function getCircleStyle(background = {}) {
+	const image = background?.backgroundImage;
+	const url = typeof image === "string" ? image : image?.url;
 
-	// Show the optional heading field when it has content, or while the
-	// card (or anything inside it) is selected so it can be filled in.
-	const hasSelectedInnerBlock = useSelect(
-		(select) => select(blockEditorStore).hasSelectedInnerBlock(clientId, true),
-		[clientId],
-	);
-	const showHeading = !!heading || isSelected || hasSelectedInnerBlock;
+	if (!url) {
+		return undefined;
+	}
+
+	return {
+		backgroundImage: `url(${JSON.stringify(url)})`,
+		backgroundSize: background.backgroundSize,
+		backgroundPosition: background.backgroundPosition,
+		backgroundRepeat: background.backgroundRepeat,
+	};
+}
+
+export default function Edit({ attributes, setAttributes }) {
+	const { heading, style } = attributes;
+
+	const circleStyle = getCircleStyle(style?.background);
 
 	const blockProps = useBlockProps({
-		className: "wbg-card-simple",
+		className: "wbg-card-circle",
 	});
 
 	// Inner blocks render directly inside the block wrapper so the
-	// layout/blockGap styles can target them as direct children.
-	// The heading is rendered as a sibling of the inner blocks.
+	// layout/blockGap styles target them as direct children. The circle
+	// and heading are rendered as siblings before them.
 	const { children, ...innerBlocksProps } = useInnerBlocksProps(blockProps, {
 		allowedBlocks: ALLOWED_BLOCKS,
 		template: TEMPLATE,
@@ -56,16 +67,21 @@ export default function Edit({
 
 	return (
 		<div {...innerBlocksProps}>
-			{showHeading && (
-				<RichText
-					tagName="h3"
-					className="wp-block-heading wbg-card-simple__heading fake--h2"
-					value={heading}
-					onChange={(value) => setAttributes({ heading: value })}
-					placeholder={__("Optional heading…", "wbg-blocks")}
-					allowedFormats={["core/bold", "core/italic"]}
-				/>
-			)}
+			<div
+				className={
+					"wbg-card-circle__circle" + (circleStyle ? " has-image" : "")
+				}
+				style={circleStyle}
+				aria-hidden="true"
+			/>
+			<RichText
+				tagName="h2"
+				className="wp-block-heading wbg-card-circle__heading"
+				value={heading}
+				onChange={(value) => setAttributes({ heading: value })}
+				placeholder={__("Heading…", "wbg-blocks")}
+				allowedFormats={["core/bold", "core/italic"]}
+			/>
 			{children}
 		</div>
 	);

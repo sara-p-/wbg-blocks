@@ -1,11 +1,37 @@
 /**
- * WBG Card Simple – front-end + editor styles.
+ * WBG Card Circle – front-end + editor styles.
  */
 
-.wbg-card-simple {
-	$self: &;
+.wbg-card-circle {
+	--wbg-card-circle-size: 167px;
+	--wbg-card-circle-offset: -32px;
+
+	position: relative;
 	border-radius: 24px; // Fallback; the Border panel's radius (inline style) overrides this.
 	transition: all 350ms ease-in-out;
+
+	// Absolutely positioned circle carrying the Background panel image.
+	> .wbg-card-circle__circle {
+		position: absolute;
+		top: var(--wbg-card-circle-offset);
+		width: var(--wbg-card-circle-size);
+		height: var(--wbg-card-circle-size);
+		margin: 0;
+		border-radius: 50%;
+		background-size: cover; // Defaults; inline styles from the panel override.
+		background-position: center;
+		background-repeat: no-repeat;
+		pointer-events: none;
+	}
+
+	// Push the first in-flow element (heading, or first inner block if the
+	// heading is empty) below the part of the circle that sits inside the card.
+	// Resulting gap between circle and content equals the card's top padding.
+	> .wbg-card-circle__circle + * {
+		margin-block-start: calc(
+			var(--wbg-card-circle-size) + var(--wbg-card-circle-offset)
+		);
+	}
 
 	.wp-block-heading {
 		line-height: 1 !important;
@@ -14,19 +40,27 @@
 
 	ul.wp-block-list {
 		padding-left: 1rem;
+
 		li {
 			font-size: 14px;
 			line-height: 21px;
 		}
 	}
+}
 
-	// &:has(.wp-block-button__link:hover, .wp-block-button__link:focus-visible) {
-	// 	background-color: var(--wp--preset--color--green) !important;
-	// 	.wp-block-heading,
-	// 	.wp-block-heading.has-text-color,
-	// 	p.wp-block-paragraph,
-	// 	ul.wp-block-list li {
-	// 		color: var(--wp--preset--color--cream) !important;
-	// 	}
-	// }
+// Editor only: the editor's Background support still paints the chosen image
+// on the block wrapper as an inline style, even with serialization skipped.
+// The image belongs on the circle only, so strip it from the wrapper.
+// !important is needed to beat the inline style; background-color is untouched.
+.editor-styles-wrapper .wbg-card-circle {
+	background-image: none !important;
+}
+
+// Editor only: show where the circle is before an image is chosen.
+.editor-styles-wrapper
+	.wbg-card-circle
+	> .wbg-card-circle__circle:not(.has-image) {
+	outline: 2px dashed currentColor;
+	outline-offset: -2px;
+	opacity: 0.35;
 }

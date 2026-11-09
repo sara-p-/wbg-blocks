@@ -1,26 +1,19 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "wbg-blocks/wbg-card-simple",
-	"version": "0.1.0",
-	"title": "Card - Simple",
+	"name": "wbg-blocks/wbg-card-circle",
+	"version": "0.2.0",
+	"title": "Card - Circle",
 	"category": "wbg-cards",
 	"icon": "menu",
-	"description": "A simple card with inner blocks.",
-	"keywords": ["card"],
+	"description": "A card with a circular image, a heading and inner blocks.",
+	"keywords": ["card", "circle"],
 	"example": {
 		"viewportWidth": 350,
 		"attributes": {
 			"heading": "Card heading"
 		},
 		"innerBlocks": [
-			{
-				"name": "core/heading",
-				"attributes": {
-					"level": 2,
-					"content": "Headline goes here."
-				}
-			},
 			{
 				"name": "core/paragraph",
 				"attributes": {
@@ -39,10 +32,10 @@
 			"default": {
 				"spacing": {
 					"padding": {
-						"top": "var:preset|spacing|24",
-						"bottom": "var:preset|spacing|24",
-						"left": "var:preset|spacing|24",
-						"right": "var:preset|spacing|24"
+						"top": "var:preset|spacing|32",
+						"bottom": "var:preset|spacing|32",
+						"left": "var:preset|spacing|32",
+						"right": "var:preset|spacing|32"
 					}
 				}
 			}
@@ -61,6 +54,14 @@
 		"color": {
 			"text": true,
 			"background": true
+		},
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalSkipSerialization": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
 		},
 		"spacing": {
 			"padding": ["top", "bottom", "left", "right"],
@@ -89,6 +90,5 @@
 	"textdomain": "wbg-blocks",
 	"editorScript": "file:./index.js",
 	"style": "file:./style-index.css",
-	"viewScript": "file:./view.js",
 	"render": "file:./render.php"
 }

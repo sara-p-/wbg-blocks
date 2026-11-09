@@ -3,6 +3,8 @@
  *
  * Column count is driven by the --wbg-grid-cols custom property, set by the
  * --cols-{n} modifier class and overridden at the tablet/mobile breakpoints.
+ * The grid is a wrapping flex row, so a last row with fewer cards than
+ * columns is centered.
  *
  * Collapsing: render.php adds .is-collapsed to the block. While it is
  * present, cards past the visible limit for the current breakpoint are
@@ -53,14 +55,26 @@ $wbg-block: ".wbg-layout-grid-accordion";
 			var(--wp--style--root--padding-right, 1.5rem);
 	}
 
+	// Flexbox rather than CSS Grid so an incomplete last row is centered.
+	// Each card is sized to exactly 1/cols of the row (minus its share of
+	// the gaps), so full rows look identical to a grid.
 	&__grid {
-		display: grid;
-		grid-template-columns: repeat(var(--wbg-grid-cols), minmax(0, 1fr));
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
 		gap: var(--wbg-grid-gap);
 
 		> * {
+			box-sizing: border-box;
+			flex: 0 0
+				calc(
+					(100% - (var(--wbg-grid-cols) - 1) * var(--wbg-grid-gap)) /
+						var(--wbg-grid-cols)
+				);
 			min-width: 0;
+			max-width: none;
 			margin-block: 0;
+			margin-inline: 0;
 		}
 	}
 
@@ -70,8 +84,59 @@ $wbg-block: ".wbg-layout-grid-accordion";
 		margin-top: var(--wp--preset--spacing--50, 2.5rem);
 	}
 
+	// Text-style toggle: label + chevron, no button chrome. Font family,
+	// size, weight and color are left to the theme (they inherit from the
+	// block); override them on .wbg-layout-grid-accordion__toggle.
 	&__toggle {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.2em;
+		margin: 0;
+		padding: 0.25em 0;
+		border: 0;
+		border-radius: 0;
+		background: none;
+		box-shadow: none;
+		font: inherit;
+		color: inherit;
+		line-height: 1.2;
+		text-decoration: none;
 		cursor: pointer;
+		-webkit-appearance: none;
+		appearance: none;
+		font-family: var(--wp--preset--font-family--dm-serif-display);
+		font-size: clamp(1.875rem, calc(1.714rem + 0.714vw), 2.25rem);
+
+		&:hover,
+		&:focus {
+			background: none;
+			color: inherit;
+		}
+
+		&:focus-visible {
+			outline: 2px solid currentColor;
+			outline-offset: 4px;
+		}
+	}
+
+	// Chevron: points down while collapsed, flips up while expanded.
+	&__toggle-icon {
+		flex-shrink: 0;
+		width: 1em;
+		height: 1em;
+		transition: transform 0.3s ease;
+	}
+
+	&__toggle[aria-expanded="true"] &__toggle-icon {
+		transform: rotate(180deg);
+	}
+
+	&__toggle:hover &__toggle-icon {
+		transform: translateY(2px);
+	}
+
+	&__toggle[aria-expanded="true"]:hover &__toggle-icon {
+		transform: rotate(180deg) translateY(2px);
 	}
 
 	// Editor: the button is a static preview only.

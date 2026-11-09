@@ -87,14 +87,35 @@ $wbg-bp-mobile: 767px;
 		position: relative;
 	}
 
+	// A wrapping flex row rather than CSS grid, so a partly filled last row is
+	// centred. Each cell is exactly one column wide (--wbg-grid-cols columns
+	// with --wbg-grid-gap between them), so full rows look the same as a grid.
 	&__grid {
-		display: grid;
-		grid-template-columns: repeat(var(--wbg-grid-cols), minmax(0, 1fr));
+		--wbg-cell-width: calc(
+			(100% - (var(--wbg-grid-cols) - 1) * var(--wbg-grid-gap)) /
+				var(--wbg-grid-cols)
+		);
+
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
 		gap: var(--wbg-grid-gap);
 
 		> * {
+			box-sizing: border-box;
+			flex: 0 0 var(--wbg-cell-width);
+			width: var(--wbg-cell-width);
 			min-width: 0;
+			max-width: none;
 			margin-block: 0;
+		}
+
+		// Editor: the "+" appender keeps its own size instead of taking a cell.
+		> .block-list-appender,
+		> .block-editor-button-block-appender {
+			flex: 0 0 auto;
+			width: auto;
+			align-self: center;
 		}
 	}
 
@@ -214,6 +235,8 @@ $wbg-bp-mobile: 767px;
 
 				position: relative; // Makes slide offsetLeft relative to the track.
 				display: flex;
+				flex-wrap: nowrap; // One scrolling row, not the desktop wrap.
+				justify-content: flex-start; // Centring would clip the first slide.
 				overflow-x: auto;
 				overflow-y: hidden;
 				overscroll-behavior-x: contain;

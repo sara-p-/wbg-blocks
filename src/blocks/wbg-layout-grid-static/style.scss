@@ -60,7 +60,6 @@ $wbg-bp-mobile: 767px;
 
 		&--1-col {
 			flex-direction: column;
-			margin-bottom: var(--wp--preset--spacing--48);
 		}
 
 		&--2-col {
@@ -81,33 +80,36 @@ $wbg-bp-mobile: 767px;
 
 		#{$self}__row--2-col > & {
 			flex: 1 1 0;
-			justify-content: center;
 		}
 	}
 
 	&__heading {
 		margin-block: 0;
 		font-size: clamp(3.75rem, calc(2.917rem + 2.778vw), 5rem);
-		line-height: 1.2;
 	}
 
 	// Native paragraph styles still apply; only the outer margins are reset
 	// so the row's gaps control the spacing.
 	&__text {
 		margin-block: 0;
-		max-width: 800px;
-		&.has-text-align-center {
-			margin-inline: auto;
-			max-width: 500px;
-		}
 	}
 
+	// Flexbox (not CSS Grid) so a partial last row is centred. Each card is
+	// sized to exactly 1/--wbg-grid-cols of the row, minus its share of the
+	// gaps, so full rows look the same as a grid would.
 	&__grid {
-		display: grid;
-		grid-template-columns: repeat(var(--wbg-grid-cols), minmax(0, 1fr));
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
 		gap: var(--wbg-grid-gap);
 
 		> * {
+			box-sizing: border-box;
+			flex: 0 0
+				calc(
+					(100% - (var(--wbg-grid-cols) - 1) * var(--wbg-grid-gap)) /
+						var(--wbg-grid-cols)
+				);
 			min-width: 0;
 			margin-block: 0;
 		}
@@ -118,8 +120,8 @@ $wbg-bp-mobile: 767px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: var(--wp--preset--spacing--32);
-		margin-top: var(--wp--preset--spacing--48);
+		gap: var(--wp--preset--spacing--24, 1.5rem);
+		margin-top: var(--wp--preset--spacing--32, 2rem);
 	}
 
 	// Native paragraph styles still apply; only the layout is set here.

@@ -35,7 +35,7 @@ $wbg_rows = isset( $attributes['visibleRows'] ) ? (int) $attributes['visibleRows
 $wbg_rows = max( 1, min( 6, $wbg_rows ) );
 
 $wbg_grid_id    = wp_unique_id( 'wbg-grid-accordion-' );
-$wbg_label_more = __( 'See More', 'wbg-blocks' );
+$wbg_label_more = __( 'See All', 'wbg-blocks' );
 $wbg_label_less = __( 'See Less', 'wbg-blocks' );
 
 $wbg_wrapper_attributes = get_block_wrapper_attributes(
@@ -56,11 +56,16 @@ $wbg_wrapper_attributes = get_block_wrapper_attributes(
     </div>
 
     <div class="wbg-layout-grid-accordion__actions">
-      <button type="button" class="wbg-layout-grid-accordion__toggle wp-element-button" aria-expanded="false"
+      <button type="button" class="wbg-layout-grid-accordion__toggle" aria-expanded="false"
         aria-controls="<?php echo esc_attr( $wbg_grid_id ); ?>"
         data-label-more="<?php echo esc_attr( $wbg_label_more ); ?>"
         data-label-less="<?php echo esc_attr( $wbg_label_less ); ?>">
         <span class="wbg-layout-grid-accordion__toggle-label"><?php echo esc_html( $wbg_label_more ); ?></span>
+        <svg class="wbg-layout-grid-accordion__toggle-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"
+          aria-hidden="true" focusable="false">
+          <path d="M6 9l6 6 6-6" />
+        </svg>
       </button>
     </div>
   </div>

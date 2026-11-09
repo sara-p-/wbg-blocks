@@ -83,7 +83,6 @@ const getStripeProps = (backgroundColor, customBackground) => {
 	return {
 		className: [
 			"wbg-layout-2-col-stripe__stripe",
-			"alignfull",
 			(presetClass || customColor) && "has-background",
 			presetClass,
 		]
@@ -102,7 +101,11 @@ export default function Edit({ attributes, setAttributes }) {
 	const stripeProps = getStripeProps(backgroundColor, style?.color?.background);
 
 	const blockProps = useBlockProps({
-		className: ["wbg-layout-2-col-stripe", isContentLeft ? "content--left" : ""]
+		className: [
+			"wbg-layout-2-col-stripe",
+			"alignfull",
+			isContentLeft ? "content--left" : "",
+		]
 			.filter(Boolean)
 			.join(" "),
 		// The editor's background-image hook ignores skipSerialization and

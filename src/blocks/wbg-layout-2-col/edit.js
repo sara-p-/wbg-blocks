@@ -77,7 +77,11 @@ export default function Edit({ attributes, setAttributes }) {
 	const gap = toCssValue(style?.spacing?.blockGap);
 
 	const blockProps = useBlockProps({
-		className: ["wbg-layout-2-col", isContentLeft ? "content--left" : ""]
+		className: [
+			"wbg-layout-2-col",
+			"alignfull",
+			isContentLeft ? "content--left" : "",
+		]
 			.filter(Boolean)
 			.join(" "),
 		// The editor's background-image hook ignores skipSerialization and

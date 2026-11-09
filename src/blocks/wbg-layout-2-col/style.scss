@@ -7,6 +7,9 @@ $wbg-layout-2-col-media-height-mobile: 300px;
 $wbg-layout-2-col-media-height: 500px;
 $wbg-layout-2-col-breakpoint: 781px;
 
+// Space between the image's edge (the page center) and the text.
+$wbg-layout-2-col-gap: clamp(2rem, 4vw, 3.5rem);
+
 .wbg-layout-2-col {
 	$self: &;
 
@@ -40,10 +43,15 @@ $wbg-layout-2-col-breakpoint: 781px;
 	}
 
 	&__content {
-		width: 60%;
+		// border-box keeps the padding inside the 50% width, so the padding
+		// pushes the text away from the image instead of widening the column.
+		box-sizing: border-box;
+		width: 50%;
 		max-width: 500px;
-		margin-left: auto;
-		padding-left: clamp(1.5rem, 4vw, 4rem);
+		// Anchor the column to the center line (where the image ends) rather
+		// than the right edge, so the gap stays the same at every width.
+		margin-left: 50%;
+		padding-left: $wbg-layout-2-col-gap;
 	}
 
 	// Headings follow the block's text color.
@@ -81,10 +89,10 @@ $wbg-layout-2-col-breakpoint: 781px;
 		}
 
 		#{$self}__content {
-			margin-left: 0;
-			margin-right: auto;
+			margin-left: auto;
+			margin-right: 50%;
 			padding-left: 0;
-			padding-right: clamp(1.5rem, 4vw, 4rem);
+			padding-right: $wbg-layout-2-col-gap;
 		}
 	}
 
@@ -113,6 +121,7 @@ $wbg-layout-2-col-breakpoint: 781px;
 		&__content,
 		&.content--left #{$self}__content {
 			width: 100%;
+			max-width: none;
 			margin: 0;
 			padding-inline: 0;
 		}

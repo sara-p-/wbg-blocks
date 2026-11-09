@@ -82,7 +82,7 @@ if ( $wbg_bg_url ) {
 // Parent wrapper attributes (padding, colors, align handled by block supports).
 $wbg_wrapper_attributes = get_block_wrapper_attributes(
 	array(
-		'class' => trim( 'wbg-layout-2-col' . ( $wbg_is_content_left ? ' content--left' : '' ) ),
+		'class' => trim( 'wbg-layout-2-col alignfull' . ( $wbg_is_content_left ? ' content--left' : '' ) ),
 	)
 );
 ?>

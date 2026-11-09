@@ -31,6 +31,7 @@ const ALLOWED_BLOCKS = [
 	"wbg-blocks/wbg-card-simple",
 	"wbg-blocks/wbg-card-staff",
 	"wbg-blocks/wbg-card-styled",
+	"wbg-blocks/wbg-card-circle",
 ];
 
 const COLUMN_OPTIONS = [2, 3, 4];
@@ -74,6 +75,7 @@ export default function Edit({ attributes, setAttributes }) {
 	const blockProps = useBlockProps({
 		className: [
 			"wbg-layout-grid-accordion",
+			"alignfull",
 			`wbg-layout-grid-accordion--cols-${columns}`,
 			`wbg-layout-grid-accordion--rows-${visibleRows}`,
 			"is-editor-preview",

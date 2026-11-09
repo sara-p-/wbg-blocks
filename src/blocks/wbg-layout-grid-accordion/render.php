@@ -41,7 +41,7 @@ $wbg_label_less = __( 'See Less', 'wbg-blocks' );
 $wbg_wrapper_attributes = get_block_wrapper_attributes(
 	array(
 		'class' => sprintf(
-			'wbg-layout-grid-accordion wbg-layout-grid-accordion--cols-%1$d wbg-layout-grid-accordion--rows-%2$d is-collapsed',
+			'wbg-layout-grid-accordion alignfull wbg-layout-grid-accordion--cols-%1$d wbg-layout-grid-accordion--rows-%2$d is-collapsed',
 			$wbg_columns,
 			$wbg_rows
 		),

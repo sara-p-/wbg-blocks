@@ -14,11 +14,12 @@
  * and at the custom extra-wide size (theme.json custom.layout.extraWide) when
  * the block has .is-width--wide (the "Content Width: Wide" setting).
  *
- * Above the grid, a heading row holds the H1 heading and a paragraph of
- * text, in one column (--1-col) or two (--2-col, stacked on mobile).
+ * Header ("Show header" on): above the grid, a heading row holds the H1
+ * heading and a paragraph of text, in one column (--1-col) or two (--2-col,
+ * stacked on mobile).
  *
- * Beneath the grid, an optional footer holds a centred paragraph (max 500px)
- * and an optional centred button.
+ * Footer ("Show footer" on): beneath the grid, a centred paragraph (max
+ * 500px) and a centred button.
  *
  * Arrows and dots match the Slider - Block: light-green circles with green
  * chevrons that overlap the slide edges slightly and dim at either end, and

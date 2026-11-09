@@ -1,11 +1,14 @@
 /**
  * Layout - Grid - Carousel: editor view.
  *
- * Renders a heading row (an H1 heading plus a paragraph of text) above a
- * 2–4 column grid of card blocks, and an optional footer (a short centred
- * paragraph and a centred button) beneath it. The "Heading type" setting
- * lays the heading row out as one column (heading above text) or two
- * columns (heading left, text right).
+ * Renders a 2–4 column grid of card blocks. Two sidebar toggles add
+ * optional sections around it:
+ *  - "Show header": a heading row (an H1 heading plus a paragraph of text)
+ *    above the grid. The "Heading type" setting lays it out as one column
+ *    (heading above text) or two columns (heading left, text right).
+ *  - "Show footer": a short centred paragraph and a centred button beneath
+ *    the grid.
+ * Each section's fields only appear in the editor while its toggle is on.
  *
  * Padding, background color and background image come from native block
  * supports (see block.json), which useBlockProps() applies to the outer
@@ -34,6 +37,7 @@ import {
 import {
 	PanelBody,
 	Popover,
+	ToggleControl,
 	ToolbarButton,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
@@ -95,6 +99,8 @@ export default function Edit({
 	isSelected,
 }) {
 	const {
+		showHeader,
+		showFooter,
 		heading,
 		headingAlign,
 		text,
@@ -221,7 +227,9 @@ export default function Edit({
 	// heading otherwise.
 	let alignmentControl = null;
 
-	if ("text" === selectedField) {
+	if (!showHeader) {
+		alignmentControl = null;
+	} else if ("text" === selectedField) {
 		alignmentControl = (
 			<AlignmentControl
 				label={__("Align text", "wbg-blocks")}
@@ -244,44 +252,60 @@ export default function Edit({
 			<BlockControls group="block">
 				{alignmentControl}
 
-				<ToolbarButton
-					icon="admin-links"
-					label={__("Button link", "wbg-blocks")}
-					onClick={() => setIsEditingLink((open) => !open)}
-					isActive={!!buttonUrl || isEditingLink}
-				/>
-				{!!buttonUrl && (
-					<ToolbarButton
-						icon="editor-unlink"
-						label={__("Remove button link", "wbg-blocks")}
-						onClick={removeLink}
-					/>
+				{showFooter && (
+					<>
+						<ToolbarButton
+							icon="admin-links"
+							label={__("Button link", "wbg-blocks")}
+							onClick={() => setIsEditingLink((open) => !open)}
+							isActive={!!buttonUrl || isEditingLink}
+						/>
+						{!!buttonUrl && (
+							<ToolbarButton
+								icon="editor-unlink"
+								label={__("Remove button link", "wbg-blocks")}
+								onClick={removeLink}
+							/>
+						)}
+					</>
 				)}
 			</BlockControls>
 
 			<InspectorControls>
-				<PanelBody title={__("Heading Settings", "wbg-blocks")}>
-					<ToggleGroupControl
-						label={__("Heading type", "wbg-blocks")}
-						help={__(
-							"2 Column places the heading and text side by side. They stack on mobile.",
-							"wbg-blocks",
-						)}
-						value={headingType}
-						onChange={(value) => setAttributes({ headingType: value })}
-						isBlock
-						__next40pxDefaultSize
+				<PanelBody title={__("Header Settings", "wbg-blocks")}>
+					<ToggleControl
+						label={__("Show header", "wbg-blocks")}
+						help={__("A heading and text above the grid.", "wbg-blocks")}
+						checked={!!showHeader}
+						onChange={(value) => setAttributes({ showHeader: value })}
 						__nextHasNoMarginBottom
-					>
-						<ToggleGroupControlOption
-							value="1-col"
-							label={__("1 Column", "wbg-blocks")}
-						/>
-						<ToggleGroupControlOption
-							value="2-col"
-							label={__("2 Column", "wbg-blocks")}
-						/>
-					</ToggleGroupControl>
+					/>
+
+					{showHeader && (
+						<div style={{ marginTop: "16px" }}>
+							<ToggleGroupControl
+								label={__("Heading type", "wbg-blocks")}
+								help={__(
+									"2 Column places the heading and text side by side. They stack on mobile.",
+									"wbg-blocks",
+								)}
+								value={headingType}
+								onChange={(value) => setAttributes({ headingType: value })}
+								isBlock
+								__next40pxDefaultSize
+								__nextHasNoMarginBottom
+							>
+								<ToggleGroupControlOption
+									value="1-col"
+									label={__("1 Column", "wbg-blocks")}
+								/>
+								<ToggleGroupControlOption
+									value="2-col"
+									label={__("2 Column", "wbg-blocks")}
+								/>
+							</ToggleGroupControl>
+						</div>
+					)}
 				</PanelBody>
 
 				<PanelBody title={__("Grid settings", "wbg-blocks")}>
@@ -326,59 +350,83 @@ export default function Edit({
 						/>
 					</ToggleGroupControl>
 				</PanelBody>
+
+				<PanelBody title={__("Footer Settings", "wbg-blocks")}>
+					<ToggleControl
+						label={__("Show footer", "wbg-blocks")}
+						help={__(
+							"Text and a button below the grid. Use the link button in the block toolbar to set the button's link.",
+							"wbg-blocks",
+						)}
+						checked={!!showFooter}
+						onChange={(value) => {
+							setAttributes({ showFooter: value });
+							if (!value) {
+								setIsEditingLink(false);
+							}
+						}}
+						__nextHasNoMarginBottom
+					/>
+				</PanelBody>
 			</InspectorControls>
 
 			<div {...blockProps}>
 				<div className="wbg-layout-grid-carousel__wrapper">
-					<div
-						className={`wbg-layout-grid-carousel__row wbg-layout-grid-carousel__row--${headingType}`}
-					>
-						{"2-col" === headingType ? (
-							<>
+					{showHeader && (
+						<div
+							className={`wbg-layout-grid-carousel__row wbg-layout-grid-carousel__row--${headingType}`}
+						>
+							{"2-col" === headingType ? (
+								<>
+									<div className="wbg-layout-grid-carousel__col">
+										{headingField}
+									</div>
+									<div className="wbg-layout-grid-carousel__col">
+										{textField}
+									</div>
+								</>
+							) : (
 								<div className="wbg-layout-grid-carousel__col">
 									{headingField}
+									{textField}
 								</div>
-								<div className="wbg-layout-grid-carousel__col">{textField}</div>
-							</>
-						) : (
-							<div className="wbg-layout-grid-carousel__col">
-								{headingField}
-								{textField}
-							</div>
-						)}
-					</div>
+							)}
+						</div>
+					)}
 
 					<div {...innerBlocksProps} />
 
-					<div className="wbg-layout-grid-carousel__footer">
-						<RichText
-							identifier="footerText"
-							tagName="p"
-							className={footerTextClassName}
-							style={colorStyle}
-							value={footerText}
-							onChange={(value) => setAttributes({ footerText: value })}
-							placeholder={__("Add text (optional)…", "wbg-blocks")}
-						/>
-
-						<div className="wp-block-button wbg-layout-grid-carousel__button">
+					{showFooter && (
+						<div className="wbg-layout-grid-carousel__footer">
 							<RichText
-								ref={setButtonAnchor}
-								identifier="buttonText"
-								tagName="div"
-								className="wp-block-button__link wp-element-button"
-								value={buttonText}
-								onChange={(value) => setAttributes({ buttonText: value })}
-								placeholder={__("Add button text (optional)…", "wbg-blocks")}
-								allowedFormats={BUTTON_FORMATS}
-								withoutInteractiveFormatting
+								identifier="footerText"
+								tagName="p"
+								className={footerTextClassName}
+								style={colorStyle}
+								value={footerText}
+								onChange={(value) => setAttributes({ footerText: value })}
+								placeholder={__("Add text (optional)…", "wbg-blocks")}
 							/>
+
+							<div className="wp-block-button wbg-layout-grid-carousel__button">
+								<RichText
+									ref={setButtonAnchor}
+									identifier="buttonText"
+									tagName="div"
+									className="wp-block-button__link wp-element-button"
+									value={buttonText}
+									onChange={(value) => setAttributes({ buttonText: value })}
+									placeholder={__("Add button text (optional)…", "wbg-blocks")}
+									allowedFormats={BUTTON_FORMATS}
+									withoutInteractiveFormatting
+								/>
+							</div>
 						</div>
-					</div>
+					)}
 				</div>
 			</div>
 
-			{isSelected && isEditingLink && (
+			{showFooter && isSelected && isEditingLink && (
 				<Popover
 					placement="bottom"
 					anchor={buttonAnchor}

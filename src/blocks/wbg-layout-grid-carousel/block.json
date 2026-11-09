@@ -110,6 +110,14 @@
 			"type": "number",
 			"default": 3
 		},
+		"showHeader": {
+			"type": "boolean",
+			"default": false
+		},
+		"showFooter": {
+			"type": "boolean",
+			"default": false
+		},
 		"headingType": {
 			"type": "string",
 			"enum": ["1-col", "2-col"],

@@ -8,13 +8,13 @@
  * Text color serialization is skipped on the wrapper (see block.json) and
  * applied to the heading, text and carousel dots here instead.
  *
- * The heading row holds an H1 heading and a paragraph of text, laid out as
- * one column (heading above text) or two (heading left, text right),
- * depending on the headingType attribute. Empty fields are left out, and the
- * row is left out when both are empty.
+ * Header (only when showHeader is on): an H1 heading and a paragraph of
+ * text, laid out as one column (heading above text) or two (heading left,
+ * text right), depending on the headingType attribute. Empty fields are left
+ * out, and the row is left out when both are empty.
  *
- * Beneath the grid, an optional footer holds a short centred paragraph and
- * an optional centred button. The button only renders when it has both
+ * Footer (only when showFooter is on): a short centred paragraph and a
+ * centred button beneath the grid. The button only renders when it has both
  * text and a link.
  *
  * On tablet and mobile the grid becomes a manual carousel (see view.js). The
@@ -34,6 +34,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $wbg_columns = isset( $attributes['columns'] ) ? (int) $attributes['columns'] : 3;
 $wbg_columns = max( 2, min( 4, $wbg_columns ) );
+
+$wbg_show_header = ! empty( $attributes['showHeader'] );
+$wbg_show_footer = ! empty( $attributes['showFooter'] );
 
 $wbg_heading_type = isset( $attributes['headingType'] ) && '2-col' === $attributes['headingType'] ? '2-col' : '1-col';
 
@@ -77,13 +80,13 @@ $wbg_button_text = wp_kses(
 $wbg_button_url  = isset( $attributes['buttonUrl'] ) ? (string) $attributes['buttonUrl'] : '';
 
 $wbg_heading_text = $wbg_plain_text( $wbg_heading );
-$wbg_has_heading  = '' !== $wbg_heading_text;
-$wbg_has_text     = '' !== $wbg_plain_text( $wbg_text );
+$wbg_has_heading  = $wbg_show_header && '' !== $wbg_heading_text;
+$wbg_has_text     = $wbg_show_header && '' !== $wbg_plain_text( $wbg_text );
 $wbg_has_row      = $wbg_has_heading || $wbg_has_text;
 $wbg_has_cards    = '' !== trim( (string) $content );
 
-$wbg_has_footer_text = '' !== $wbg_plain_text( $wbg_footer_text );
-$wbg_has_button      = '' !== $wbg_plain_text( $wbg_button_text ) && '' !== trim( $wbg_button_url );
+$wbg_has_footer_text = $wbg_show_footer && '' !== $wbg_plain_text( $wbg_footer_text );
+$wbg_has_button      = $wbg_show_footer && '' !== $wbg_plain_text( $wbg_button_text ) && '' !== trim( $wbg_button_url );
 $wbg_has_footer      = $wbg_has_footer_text || $wbg_has_button;
 
 // Nothing to show at all.
@@ -223,12 +226,40 @@ if ( 'wide' === ( $attributes['contentWidth'] ?? 'normal' ) ) {
 	$wbg_classes[] = 'is-width--wide';
 }
 
-$wbg_wrapper_attributes = get_block_wrapper_attributes(
-	array(
-		'class'             => implode( ' ', $wbg_classes ),
-		'data-wbg-carousel' => wp_json_encode( $wbg_config ),
-	)
+// Default background image.
+//
+// The background image in block.json is part of the `style` attribute's
+// default. Core's background support (wp_render_background_support) only
+// reads the attributes saved in the post, not defaults, so it never outputs
+// that default image. When the block has no saved `style` at all (the
+// editor hasn't changed padding, background, etc.), output the default
+// background here. Once anything in `style` is changed, the whole object,
+// including the background or its removal, is saved and core handles it.
+$wbg_extra_styles = '';
+$wbg_saved_attrs  = $block->parsed_block['attrs'] ?? array();
+
+if ( ! isset( $wbg_saved_attrs['style'] ) && ! empty( $attributes['style']['background']['backgroundImage']['url'] ) ) {
+	$wbg_background = $attributes['style']['background'];
+
+	// Relative upload paths (e.g. /wp-content/uploads/...) resolve against the site URL.
+	if ( 0 === strpos( $wbg_background['backgroundImage']['url'], '/' ) && 0 !== strpos( $wbg_background['backgroundImage']['url'], '//' ) ) {
+		$wbg_background['backgroundImage']['url'] = home_url( $wbg_background['backgroundImage']['url'] );
+	}
+
+	$wbg_background_styles = wp_style_engine_get_styles( array( 'background' => $wbg_background ) );
+	$wbg_extra_styles      = ! empty( $wbg_background_styles['css'] ) ? $wbg_background_styles['css'] : '';
+}
+
+$wbg_wrapper_args = array(
+	'class'             => implode( ' ', $wbg_classes ),
+	'data-wbg-carousel' => wp_json_encode( $wbg_config ),
 );
+
+if ( $wbg_extra_styles ) {
+	$wbg_wrapper_args['style'] = $wbg_extra_styles;
+}
+
+$wbg_wrapper_attributes = get_block_wrapper_attributes( $wbg_wrapper_args );
 ?>
 <div
   <?php echo $wbg_wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped by get_block_wrapper_attributes(). ?>>

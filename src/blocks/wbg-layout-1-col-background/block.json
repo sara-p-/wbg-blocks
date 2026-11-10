@@ -1,13 +1,13 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "wbg-blocks/wbg-hero-full-background",
+	"name": "wbg-blocks/wbg-layout-1-col-background",
 	"version": "0.1.0",
-	"title": "Hero - Full background",
-	"category": "wbg-heros",
+	"title": "1 Column - Background",
+	"category": "wbg-layout",
 	"icon": "menu",
-	"description": "A hero with a full width background image and a column for content.",
-	"keywords": ["hero", "section", "background"],
+	"description": "A section with a full width background image and a column for content.",
+	"keywords": ["section", "background", "1-column"],
 	"example": {
 		"viewportWidth": 1444,
 		"attributes": {
@@ -74,7 +74,7 @@
 			"type": "string",
 			"default": "cream"
 		},
-		"layout": {
+		"contentLayout": {
 			"type": "string",
 			"enum": ["content-right", "content-left"],
 			"default": "content-right"
@@ -111,6 +111,5 @@
 	"textdomain": "wbg-blocks",
 	"editorScript": "file:./index.js",
 	"style": "file:./style-index.css",
-	"viewScript": "file:./view.js",
 	"render": "file:./render.php"
 }

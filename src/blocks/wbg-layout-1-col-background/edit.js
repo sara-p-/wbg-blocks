@@ -1,5 +1,5 @@
 /**
- * Hero - Full Background: editor view.
+ * Layout - 1-Col - Background: editor view.
  *
  * In the editor the subheading is always shown as an h6 and the heading as an h1.
  * The front end (render.php) swaps the tags for SEO when a subheading is present.
@@ -21,20 +21,20 @@ const ALLOWED_BLOCKS = ["core/buttons", "core/paragraph", "core/heading"];
 const TEMPLATE = [["core/paragraph", "core/buttons"]];
 
 export default function Edit({ attributes, setAttributes }) {
-	const { subheading, heading, layout } = attributes;
+	const { subheading, heading, contentLayout } = attributes;
 
 	const blockProps = useBlockProps({
 		className: [
-			"wbg-hero-full-background",
+			"wbg-layout-1-col-background",
 			"alignfull",
-			layout === "content-left" ? "layout--content-left" : "",
+			contentLayout === "content-left" ? "layout--content-left" : "",
 		]
 			.filter(Boolean)
 			.join(" "),
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(
-		{ className: "wbg-hero-full-background__content" },
+		{ className: "wbg-layout-1-col-background__content" },
 		{
 			allowedBlocks: ALLOWED_BLOCKS,
 			template: TEMPLATE,
@@ -46,9 +46,9 @@ export default function Edit({ attributes, setAttributes }) {
 			<InspectorControls>
 				<PanelBody title={__("Settings", "wbg-blocks")}>
 					<ToggleGroupControl
-						label={__("Layout", "wbg-blocks")}
-						value={layout}
-						onChange={(value) => setAttributes({ layout: value })}
+						label={__("Content Layout", "wbg-blocks")}
+						value={contentLayout}
+						onChange={(value) => setAttributes({ contentLayout: value })}
 						isBlock
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
@@ -66,20 +66,20 @@ export default function Edit({ attributes, setAttributes }) {
 			</InspectorControls>
 
 			<div {...blockProps}>
-				<div className="wbg-hero-full-background__wrapper">
-					<div className="wbg-hero-full-background__row">
-						<div className="wbg-hero-full-background__col">
-							<div className="wbg-hero-full-background__headings">
+				<div className="wbg-layout-1-col-background__wrapper">
+					<div className="wbg-layout-1-col-background__row">
+						<div className="wbg-layout-1-col-background__col">
+							<div className="wbg-layout-1-col-background__headings">
 								<RichText
 									tagName="h6"
-									className="wp-block-heading wbg-hero-full-background__subheading"
+									className="wp-block-heading wbg-layout-1-col-background__subheading"
 									value={subheading}
 									onChange={(value) => setAttributes({ subheading: value })}
 									placeholder={__("Subheading…", "wbg-blocks")}
 								/>
 								<RichText
 									tagName="h2"
-									className="wp-block-heading wbg-hero-full-background__heading"
+									className="wp-block-heading wbg-layout-1-col-background__heading"
 									value={heading}
 									onChange={(value) => setAttributes({ heading: value })}
 									placeholder={__("Heading…", "wbg-blocks")}

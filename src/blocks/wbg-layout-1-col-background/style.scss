@@ -1,9 +1,9 @@
 /**
- * WBG Hero 2 Column – front-end + editor styles.
+ * WBG Layout 1-Col Background – front-end + editor styles.
  *
  */
 
-.wbg-hero-full-background {
+.wbg-layout-1-col-background {
 	$self: &;
 	&__wrapper {
 		width: auto;
@@ -43,7 +43,6 @@
 	&__heading {
 		margin: 0;
 		color: inherit;
-		font-size: clamp(1.875rem, calc(-0.208rem + 6.944vw), 5rem);
 	}
 
 	.wp-block-heading {
@@ -56,7 +55,7 @@
 }
 
 @media screen and (max-width: 781px) {
-	.wbg-hero-full-background {
+	.wbg-layout-1-col-background {
 		$self: &;
 		&__row {
 			flex-direction: column;

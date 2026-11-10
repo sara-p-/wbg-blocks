@@ -35,7 +35,7 @@ $wbg_wrapper_attributes = get_block_wrapper_attributes(
     <?php echo '' !== $wbg_circle_css ? ' style="' . esc_attr( $wbg_circle_css ) . '"' : ''; ?> aria-hidden="true">
   </div>
   <?php if ( '' !== $wbg_heading ) : ?>
-  <h3 class="wp-block-heading wbg-card-circle__heading fake--h2"><?php echo wp_kses_post( $wbg_heading ); ?></h3>
+  <h2 class="wp-block-heading wbg-card-circle__heading"><?php echo wp_kses_post( $wbg_heading ); ?></h2>
   <?php endif; ?>
   <?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 </div>

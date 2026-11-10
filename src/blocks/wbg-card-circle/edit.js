@@ -49,12 +49,12 @@ function getCircleStyle(background = {}) {
 }
 
 export default function Edit({ attributes, setAttributes }) {
-	const { heading, style } = attributes;
+	const { heading, style, isPreview } = attributes;
 
 	const circleStyle = getCircleStyle(style?.background);
 
 	const blockProps = useBlockProps({
-		className: "wbg-card-circle",
+		className: "wbg-card-circle" + (isPreview ? " is-wbg-preview" : ""),
 	});
 
 	// Inner blocks render directly inside the block wrapper so the

@@ -2,16 +2,38 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "wbg-blocks/wbg-card-circle",
-	"version": "0.2.0",
+	"version": "0.2.2",
 	"title": "Card - Circle",
 	"category": "wbg-cards",
 	"icon": "menu",
 	"description": "A card with a circular image, a heading and inner blocks.",
 	"keywords": ["card", "circle"],
 	"example": {
-		"viewportWidth": 350,
+		"viewportWidth": 450,
 		"attributes": {
-			"heading": "Card heading"
+			"heading": "Card heading",
+			"isPreview": true,
+			"style": {
+				"type": "object",
+				"background": {
+					"backgroundImage": {
+						"url": "/wp-content/uploads/2026/11/Ellipse-77.webp",
+						"source": "file",
+						"title": "Ellipse-77"
+					},
+					"backgroundSize": "cover",
+					"backgroundPosition": "50% 50%",
+					"backgroundRepeat": "no-repeat"
+				},
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|32",
+						"bottom": "var:preset|spacing|32",
+						"left": "var:preset|spacing|32",
+						"right": "var:preset|spacing|32"
+					}
+				}
+			}
 		},
 		"innerBlocks": [
 			{
@@ -27,6 +49,7 @@
 			"type": "string",
 			"default": ""
 		},
+		"isPreview": { "type": "boolean", "default": false },
 		"style": {
 			"type": "object",
 			"default": {

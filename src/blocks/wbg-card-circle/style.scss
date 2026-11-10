@@ -4,9 +4,16 @@
 
 .wbg-card-circle {
 	--wbg-card-circle-size: 167px;
-	--wbg-card-circle-offset: -32px;
+	--wbg-card-circle-offset: -60px;
+	// How far the circle extends into the card (167 - 60 = 107px).
+	--wbg-card-circle-overlap: calc(
+		var(--wbg-card-circle-size) + var(--wbg-card-circle-offset)
+	);
+	// How far the circle sticks out above the card (60px).
+	--wbg-card-circle-overhang: calc(var(--wbg-card-circle-offset) * -1);
 
 	position: relative;
+	display: flow-root; // Contain child margins so the heading's top margin can't collapse out of the card.
 	border-radius: 24px; // Fallback; the Border panel's radius (inline style) overrides this.
 	transition: all 350ms ease-in-out;
 
@@ -24,13 +31,11 @@
 		pointer-events: none;
 	}
 
-	// Push the first in-flow element (heading, or first inner block if the
-	// heading is empty) below the part of the circle that sits inside the card.
-	// Resulting gap between circle and content equals the card's top padding.
+	// Push the first in-flow element (heading, or first inner block when
+	// there's no heading) below the circle. Gap between circle and content
+	// equals the user's padding-top.
 	> .wbg-card-circle__circle + * {
-		margin-block-start: calc(
-			var(--wbg-card-circle-size) + var(--wbg-card-circle-offset)
-		);
+		margin-block-start: var(--wbg-card-circle-overlap);
 	}
 
 	.wp-block-heading {
@@ -48,12 +53,27 @@
 	}
 }
 
+// Reserve room outside the card for the part of the circle that sticks out
+// above it, so it doesn't overlap whatever sits above the card.
+// Doubled class beats core layout/blockGap margin rules.
+.wbg-card-circle.wbg-card-circle {
+	margin-block-start: var(--wbg-card-circle-overhang);
+}
+
 // Editor only: the editor's Background support still paints the chosen image
 // on the block wrapper as an inline style, even with serialization skipped.
 // The image belongs on the circle only, so strip it from the wrapper.
 // !important is needed to beat the inline style; background-color is untouched.
 .editor-styles-wrapper .wbg-card-circle {
 	background-image: none !important;
+}
+
+// Inserter / style-book preview only. The preview renders in its own iframe
+// containing just this example, so :has() can target that iframe's body
+// without touching the main editor canvas or the front end.
+body:has(.wbg-card-circle.is-wbg-preview) {
+	background: var(--wp--preset--color--dark-green) !important;
+	padding: 68px 24px 24px !important; // Room for the circle's 60px overhang.
 }
 
 // Editor only: show where the circle is before an image is chosen.

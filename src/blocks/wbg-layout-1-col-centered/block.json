@@ -1,0 +1,104 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-layout-1-col-centered",
+	"version": "0.1.0",
+	"title": "1-Column - Centered",
+	"category": "wbg-layout",
+	"icon": "menu",
+	"description": "A single centered column with the options for a header, text, and buttons.",
+	"keywords": ["section", "1-column"],
+	"example": {
+		"viewportWidth": 1200,
+		"attributes": {
+			"subheading": "Subheading here",
+			"heading": "Heading Goes Here"
+		},
+		"innerBlocks": [
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum massa sed eros vestibulum, at congue sapien scelerisque. Cras sagittis porta neque et consequat. Praesent congue nec erat a luctus."
+				}
+			},
+			{
+				"name": "core/buttons",
+				"attributes": {
+					"layout": {
+						"type": "flex",
+						"justifyContent": "center"
+					}
+				},
+				"innerBlocks": [
+					{
+						"name": "core/button",
+						"attributes": {
+							"text": "Get involved"
+						}
+					},
+					{
+						"name": "core/button",
+						"attributes": {
+							"text": "Learn more",
+							"className": "is-style-outline"
+						}
+					}
+				]
+			}
+		]
+	},
+	"attributes": {
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|60",
+						"bottom": "var:preset|spacing|60"
+					}
+				}
+			}
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "cream"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "dark-green"
+		},
+		"subheading": {
+			"type": "string",
+			"default": ""
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
+		"contentWidth": {
+			"type": "string",
+			"enum": ["normal", "wide"],
+			"default": "normal"
+		}
+	},
+	"supports": {
+		"html": false,
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"spacing": {
+			"padding": ["top", "bottom"],
+			"blockGap": true,
+			"__experimentalSkipSerialization": ["blockGap"],
+			"__experimentalDefaultControls": {
+				"padding": true,
+				"blockGap": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

@@ -1,0 +1,65 @@
+/**
+ * WBG Layout - 1-Col - Centered – front-end + editor styles.
+ *
+ */
+
+.wbg-layout-1-col-centered {
+	$self: &;
+
+	&__wrapper {
+		width: auto;
+		max-width: var(--wp--style--global--wide-size);
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		place-items: center;
+		gap: var(--wp--preset--spacing--48);
+		margin: 0 auto;
+		padding-inline: var(--wp--style--root--padding-left, 1.5rem)
+			var(--wp--style--root--padding-right, 1.5rem);
+	}
+
+	&__header,
+	&__content {
+		display: flex;
+		flex-direction: column;
+		place-items: center;
+		gap: var(--wp--preset--spacing--24);
+		width: 100%;
+	}
+
+	&__header {
+		max-width: 800px;
+	}
+
+	// Inner blocks content: width is controlled by contentWidth. Spacing comes
+	// from the Block Spacing (blockGap) control, which overrides the default
+	// gap above via an inline style.
+	&__content {
+		max-width: 700px;
+
+		> * {
+			margin-block: 0;
+		}
+
+		.wp-block-buttons {
+			width: 100%;
+		}
+	}
+
+	&__subheading,
+	&__heading {
+		margin: 0;
+		color: inherit;
+	}
+
+	&.content-width--wide {
+		#{$self}__header {
+			max-width: 100%;
+		}
+
+		#{$self}__content {
+			max-width: 900px;
+		}
+	}
+}

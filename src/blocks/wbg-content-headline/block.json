@@ -1,13 +1,13 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "wbg-blocks/wbg-hero-headline",
+	"name": "wbg-blocks/wbg-content-headline",
 	"version": "0.1.0",
-	"title": "Hero - Headline",
-	"category": "wbg-heros",
+	"title": "Headline",
+	"category": "wbg-content",
 	"icon": "menu",
 	"description": "A simple headline.",
-	"keywords": ["hero", "section", "headline"],
+	"keywords": ["section", "headline", "heading"],
 	"example": {
 		"viewportWidth": 1188,
 		"attributes": {

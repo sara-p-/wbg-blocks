@@ -1,6 +1,6 @@
 <?php
 /**
- * Hero - Headline: front-end render.
+ * Content - Headline: front-end render.
  *
  * @var array    $attributes Block attributes.
  * @var string   $content    Unused.
@@ -16,13 +16,13 @@ if ( '' === trim( wp_strip_all_tags( $wbg_heading ) ) ) {
 	return;
 }
 
-$wbg_classes = array( 'wbg-hero-headline alignfull' );
+$wbg_classes = array( 'wbg-content-headline alignfull' );
 
 if ( 'wide' === ( $attributes['contentWidth'] ?? 'normal' ) ) {
 	$wbg_classes[] = 'is-width--wide';
 }
 
-$wbg_heading_classes = array( 'wbg-hero-headline__heading', 'wp-block-heading' );
+$wbg_heading_classes = array( 'wbg-content-headline__heading', 'wp-block-heading' );
 
 if ( 'large' === ( $attributes['headingSize'] ?? 'normal' ) ) {
 	$wbg_heading_classes[] = 'fake--h1';
@@ -41,7 +41,7 @@ $wbg_allowed_html = array(
 );
 ?>
 <div <?php echo $wbg_wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-  <div class="wbg-hero-headline__wrapper">
+  <div class="wbg-content-headline__wrapper">
     <h2 class="<?php echo esc_attr( implode( ' ', $wbg_heading_classes ) ); ?>">
       <?php echo wp_kses( $wbg_heading, $wbg_allowed_html ); ?>
     </h2>

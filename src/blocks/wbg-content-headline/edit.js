@@ -1,5 +1,5 @@
 /**
- * Hero - Headline: editor view.
+ * Content - Headline: editor view.
  *
  */
 import { __ } from "@wordpress/i18n";
@@ -18,7 +18,7 @@ export default function Edit({ attributes, setAttributes }) {
 	const { heading, headingSize, contentWidth } = attributes;
 
 	const classes = [
-		"wbg-hero-headline alignfull",
+		"wbg-content-headline alignfull",
 		contentWidth === "wide" && "is-width--wide",
 	]
 		.filter(Boolean)
@@ -69,12 +69,12 @@ export default function Edit({ attributes, setAttributes }) {
 			</InspectorControls>
 
 			<div {...blockProps}>
-				<div className="wbg-hero-headline__wrapper">
+				<div className="wbg-content-headline__wrapper">
 					<RichText
 						identifier="heading"
 						tagName="h2"
 						className={[
-							"wbg-hero-headline__heading",
+							"wbg-content-headline__heading",
 							"wp-block-heading",
 							headingSize === "large" && "fake--h1",
 						]

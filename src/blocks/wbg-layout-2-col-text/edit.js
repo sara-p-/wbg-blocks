@@ -1,5 +1,5 @@
 /**
- * Hero - 2 Column: editor view.
+ * Layout - 2-Col - Text: editor view.
  *
  * In the editor the subheading is always shown as an h6 and the heading as an h1.
  * The front end (render.php) swaps the tags for SEO when a subheading is present.
@@ -21,20 +21,20 @@ const ALLOWED_BLOCKS = ["core/buttons"];
 const TEMPLATE = [["core/paragraph", "core/buttons"]];
 
 export default function Edit({ attributes, setAttributes }) {
-	const { subheading, heading, layout } = attributes;
+	const { subheading, heading, contentLayout } = attributes;
 
 	const blockProps = useBlockProps({
 		className: [
-			"wbg-hero-2-col",
+			"wbg-layout-2-col-text",
 			"alignfull",
-			layout === "content-left" ? "layout--content-left" : "",
+			contentLayout === "content-left" ? "layout--content-left" : "",
 		]
 			.filter(Boolean)
 			.join(" "),
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(
-		{ className: "wbg-hero-2-col__content" },
+		{ className: "wbg-layout-2-col-text__content" },
 		{
 			allowedBlocks: ALLOWED_BLOCKS,
 			template: TEMPLATE,
@@ -46,9 +46,9 @@ export default function Edit({ attributes, setAttributes }) {
 			<InspectorControls>
 				<PanelBody title={__("Settings", "wbg-blocks")}>
 					<ToggleGroupControl
-						label={__("Layout", "wbg-blocks")}
-						value={layout}
-						onChange={(value) => setAttributes({ layout: value })}
+						label={__("Content Layout", "wbg-blocks")}
+						value={contentLayout}
+						onChange={(value) => setAttributes({ contentLayout: value })}
 						isBlock
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
@@ -66,12 +66,12 @@ export default function Edit({ attributes, setAttributes }) {
 			</InspectorControls>
 
 			<div {...blockProps}>
-				<div className="wbg-hero-2-col__wrapper">
-					<div className="wbg-hero-2-col__row">
-						<div className="wbg-hero-2-col__headings wbg-hero-2-col__col">
+				<div className="wbg-layout-2-col-text__wrapper">
+					<div className="wbg-layout-2-col-text__row">
+						<div className="wbg-layout-2-col-text__headings wbg-layout-2-col-text__col">
 							<RichText
 								tagName="h6"
-								className="wp-block-heading wbg-hero-2-col__subheading"
+								className="wp-block-heading wbg-layout-2-col-text__subheading"
 								value={subheading}
 								onChange={(value) => setAttributes({ subheading: value })}
 								placeholder={__("Subheading…", "wbg-blocks")}
@@ -79,14 +79,14 @@ export default function Edit({ attributes, setAttributes }) {
 							/>
 							<RichText
 								tagName="h2"
-								className="wp-block-heading wbg-hero-2-col__heading"
+								className="wp-block-heading wbg-layout-2-col-text__heading"
 								value={heading}
 								onChange={(value) => setAttributes({ heading: value })}
 								placeholder={__("Heading…", "wbg-blocks")}
 								disableLineBreaks
 							/>
 						</div>
-						<div className="wbg-hero-2-col__col">
+						<div className="wbg-layout-2-col-text__col">
 							<div {...innerBlocksProps} />
 						</div>
 					</div>

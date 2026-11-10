@@ -1,13 +1,13 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "wbg-blocks/wbg-hero-2-col",
+	"name": "wbg-blocks/wbg-layout-2-col-text",
 	"version": "0.1.0",
-	"title": "Hero - 2 Column",
-	"category": "wbg-heros",
+	"title": "2 Column - Text",
+	"category": "wbg-layout",
 	"icon": "menu",
-	"description": "A hero with a column for a heading and a column for content.",
-	"keywords": ["hero", "section", "2-column"],
+	"description": "A section with 2 columns of text.",
+	"keywords": ["section", "2-column"],
 	"example": {
 		"viewportWidth": 1444,
 		"attributes": {
@@ -54,7 +54,7 @@
 			"type": "string",
 			"default": "dark-green"
 		},
-		"layout": {
+		"contentLayout": {
 			"type": "string",
 			"enum": ["content-right", "content-left"],
 			"default": "content-right"

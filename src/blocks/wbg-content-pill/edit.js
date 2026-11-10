@@ -1,38 +1,21 @@
 /**
- * Card - Circle: editor view.
+ * Content - Pill Image: editor view.
  */
 import { __ } from "@wordpress/i18n";
-import {
-	RichText,
-	useBlockProps,
-	useInnerBlocksProps,
-} from "@wordpress/block-editor";
-
-const ALLOWED_BLOCKS = [
-	"core/paragraph",
-	"core/list",
-	"core/image",
-	"core/buttons",
-];
-
-const TEMPLATE = [
-	[
-		"core/paragraph",
-		{
-			placeholder: __("Text goes here.", "wbg-blocks"),
-		},
-	],
-];
+import { useBlockProps } from "@wordpress/block-editor";
 
 /**
- * Build inline styles for the circle from the native Background panel.
+ * Build inline styles for the pill from the native Background panel.
+ *
  * The block's background support uses __experimentalSkipSerialization,
- * so core does not apply the image to the wrapper; we apply it here.
+ * so core does not put the image on the wrapper; we apply it to the
+ * inner pill element instead. Only values the user has set are output;
+ * the stylesheet supplies the defaults (cover / center / no-repeat).
  *
  * @param {Object} background style.background attribute.
  * @return {Object|undefined} React style object.
  */
-function getCircleStyle(background = {}) {
+function getPillStyle(background = {}) {
 	const image = background?.backgroundImage;
 	const url = typeof image === "string" ? image : image?.url;
 
@@ -48,41 +31,42 @@ function getCircleStyle(background = {}) {
 	};
 }
 
-export default function Edit({ attributes, setAttributes }) {
-	const { heading, style } = attributes;
+export default function Edit({ attributes }) {
+	const pillStyle = getPillStyle(attributes.style?.background);
 
-	const circleStyle = getCircleStyle(style?.background);
-
+	// The editor's background hook still adds the image to the wrapper even
+	// with __experimentalSkipSerialization. Styles passed here are merged
+	// after the hook's styles, so these reset the wrapper's background.
 	const blockProps = useBlockProps({
-		className: "wbg-card-circle",
-	});
-
-	// Inner blocks render directly inside the block wrapper so the
-	// layout/blockGap styles target them as direct children. The circle
-	// and heading are rendered as siblings before them.
-	const { children, ...innerBlocksProps } = useInnerBlocksProps(blockProps, {
-		allowedBlocks: ALLOWED_BLOCKS,
-		template: TEMPLATE,
+		className: "wbg-content-pill-image alignfull",
+		style: {
+			backgroundImage: "none",
+			backgroundSize: undefined,
+			backgroundPosition: undefined,
+			backgroundRepeat: undefined,
+			backgroundAttachment: undefined,
+		},
 	});
 
 	return (
-		<div {...innerBlocksProps}>
-			<div
-				className={
-					"wbg-card-circle__circle" + (circleStyle ? " has-image" : "")
-				}
-				style={circleStyle}
-				aria-hidden="true"
-			/>
-			<RichText
-				tagName="h2"
-				className="wp-block-heading wbg-card-circle__heading"
-				value={heading}
-				onChange={(value) => setAttributes({ heading: value })}
-				placeholder={__("Heading…", "wbg-blocks")}
-				allowedFormats={["core/bold", "core/italic"]}
-			/>
-			{children}
+		<div {...blockProps}>
+			<div className="wbg-content-pill-image__inner">
+				<div
+					className={`wbg-content-pill-image__pill${
+						pillStyle ? "" : " is-empty"
+					}`}
+					style={pillStyle}
+				>
+					{!pillStyle && (
+						<span className="wbg-content-pill-image__placeholder">
+							{__(
+								"Choose a background image in the block settings.",
+								"wbg-blocks",
+							)}
+						</span>
+					)}
+				</div>
+			</div>
 		</div>
 	);
 }

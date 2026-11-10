@@ -1,66 +1,60 @@
 /**
- * WBG Card Pill – front-end + editor styles.
+ * WBG Content Pill Image – front-end + editor styles.
+ *
+ * Design: the pill is at most 970px wide, 430px tall, with a 214px radius.
+ * It sits centred inside a wide-size container (with root padding), and
+ * its height and radius scale from that ratio as the width shrinks.
  */
 
-.wbg-card-pill {
-	--wbg-card-circle-size: 167px;
-	--wbg-card-circle-offset: -32px;
+.wbg-content-pill-image {
+	// Design values (unitless). Adjust here if the design changes.
+	--wbg-pill-max-width: 970;
+	--wbg-pill-height: 430;
+	--wbg-pill-radius: 214;
 
-	position: relative;
-	border-radius: 24px; // Fallback; the Border panel's radius (inline style) overrides this.
-	transition: all 350ms ease-in-out;
+	// The image belongs on the pill only. The editor's background support
+	// can still apply it to the wrapper, so remove it here regardless of
+	// how it was added (inline style or generated class).
+	background-image: none !important;
 
-	// Absolutely positioned circle carrying the Background panel image.
-	> .wbg-card-circle__circle {
-		position: absolute;
-		top: var(--wbg-card-circle-offset);
-		width: var(--wbg-card-circle-size);
-		height: var(--wbg-card-circle-size);
-		margin: 0;
-		border-radius: 50%;
-		background-size: cover; // Defaults; inline styles from the panel override.
-		background-position: center;
-		background-repeat: no-repeat;
-		pointer-events: none;
+	&__inner {
+		box-sizing: border-box;
+		width: auto;
+		max-width: var(--wp--style--global--wide-size, 1200px);
+		margin-inline: auto;
+		padding-inline: var(--wp--style--root--padding-left, 1.5rem)
+			var(--wp--style--root--padding-right, 1.5rem);
+		// Lets the pill size its radius from this element's content width.
+		container-type: inline-size;
 	}
 
-	// Push the first in-flow element (heading, or first inner block if the
-	// heading is empty) below the part of the circle that sits inside the card.
-	// Resulting gap between circle and content equals the card's top padding.
-	> .wbg-card-circle__circle + * {
-		margin-block-start: calc(
-			var(--wbg-card-circle-size) + var(--wbg-card-circle-offset)
+	&__pill {
+		// Actual pill width: the container's content width, capped at 970px.
+		--wbg-pill-width: min(100cqi, var(--wbg-pill-max-width) * 1px);
+
+		width: 100%;
+		max-width: calc(var(--wbg-pill-max-width) * 1px);
+		margin-inline: auto;
+		aspect-ratio: var(--wbg-pill-max-width) / var(--wbg-pill-height);
+		border-radius: calc(
+			var(--wbg-pill-width) * var(--wbg-pill-radius) / var(--wbg-pill-max-width)
 		);
-	}
+		overflow: hidden;
+		background-size: cover;
+		background-position: 50% 50%;
+		background-repeat: no-repeat;
 
-	.wp-block-heading {
-		line-height: 1 !important;
-		color: inherit;
-	}
-
-	ul.wp-block-list {
-		padding-left: 1rem;
-
-		li {
-			font-size: 14px;
-			line-height: 21px;
+		// Editor only: render.php outputs nothing when there is no image.
+		&.is-empty {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 1rem;
+			background-color: rgba(0, 0, 0, 0.06);
+			outline: 1px dashed rgba(0, 0, 0, 0.3);
+			outline-offset: -1px;
+			text-align: center;
+			font-size: 0.875rem;
 		}
 	}
-}
-
-// Editor only: the editor's Background support still paints the chosen image
-// on the block wrapper as an inline style, even with serialization skipped.
-// The image belongs on the circle only, so strip it from the wrapper.
-// !important is needed to beat the inline style; background-color is untouched.
-.editor-styles-wrapper .wbg-card-circle {
-	background-image: none !important;
-}
-
-// Editor only: show where the circle is before an image is chosen.
-.editor-styles-wrapper
-	.wbg-card-circle
-	> .wbg-card-circle__circle:not(.has-image) {
-	outline: 2px dashed currentColor;
-	outline-offset: -2px;
-	opacity: 0.35;
 }

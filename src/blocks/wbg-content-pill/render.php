@@ -1,41 +1,48 @@
 <?php
 /**
- * Card - Circle: front-end render.
+ * Content - Pill Image: front-end render.
+ *
+ * The native Background panel stores its values in style.background, but
+ * serialization is skipped in block.json, so the wrapper only receives the
+ * background colour and padding. The image is applied to the inner pill.
  *
  * @var array    $attributes Block attributes.
- * @var string   $content    Inner blocks markup.
+ * @var string   $content    Block content (unused).
  * @var WP_Block $block      Block instance.
  *
  * @package wbg-blocks
  */
 
-$wbg_heading    = isset( $attributes['heading'] ) ? trim( $attributes['heading'] ) : '';
-$wbg_background = isset( $attributes['style']['background'] ) && is_array( $attributes['style']['background'] )
-	? $attributes['style']['background']
-	: array();
+$wbg_background = $attributes['style']['background'] ?? array();
+$wbg_image      = $wbg_background['backgroundImage'] ?? null;
+$wbg_image_url  = is_array( $wbg_image ) ? ( $wbg_image['url'] ?? '' ) : (string) $wbg_image;
 
-// Background support skips serialization, so core leaves the wrapper alone
-// and we apply the chosen image to the circle instead.
-$wbg_circle_css = '';
-if ( ! empty( $wbg_background['backgroundImage'] ) ) {
-	$wbg_circle_styles = wp_style_engine_get_styles( array( 'background' => $wbg_background ) );
-	$wbg_circle_css    = isset( $wbg_circle_styles['css'] ) ? $wbg_circle_styles['css'] : '';
+// Nothing to show without an image.
+if ( '' === $wbg_image_url ) {
+	return;
 }
 
-$wbg_circle_classes = 'wbg-card-circle__circle' . ( '' !== $wbg_circle_css ? ' has-image' : '' );
+$wbg_pill_styles = wp_style_engine_get_styles(
+	array(
+		'background' => array(
+			'backgroundImage'    => array( 'url' => esc_url_raw( $wbg_image_url ) ),
+			'backgroundSize'     => $wbg_background['backgroundSize'] ?? null,
+			'backgroundPosition' => $wbg_background['backgroundPosition'] ?? null,
+			'backgroundRepeat'   => $wbg_background['backgroundRepeat'] ?? null,
+		),
+	)
+);
+
+$wbg_pill_css = $wbg_pill_styles['css'] ?? '';
 
 $wbg_wrapper_attributes = get_block_wrapper_attributes(
 	array(
-		'class' => 'wbg-card-circle',
+		'class' => 'wbg-content-pill-image alignfull',
 	)
 );
 ?>
 <div <?php echo $wbg_wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-  <div class="<?php echo esc_attr( $wbg_circle_classes ); ?>"
-    <?php echo '' !== $wbg_circle_css ? ' style="' . esc_attr( $wbg_circle_css ) . '"' : ''; ?> aria-hidden="true">
+  <div class="wbg-content-pill-image__inner">
+    <div class="wbg-content-pill-image__pill" style="<?php echo esc_attr( $wbg_pill_css ); ?>"></div>
   </div>
-  <?php if ( '' !== $wbg_heading ) : ?>
-  <h3 class="wp-block-heading wbg-card-circle__heading fake--h2"><?php echo wp_kses_post( $wbg_heading ); ?></h3>
-  <?php endif; ?>
-  <?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 </div>

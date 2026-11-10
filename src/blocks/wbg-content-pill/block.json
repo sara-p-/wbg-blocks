@@ -1,31 +1,42 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "wbg-blocks/wbg-layout-pill",
-	"version": "0.2.0",
+	"name": "wbg-blocks/wbg-content-pill-image",
+	"version": "0.3.0",
 	"title": "Pill Image",
 	"category": "wbg-content",
-	"icon": "menu",
-	"description": "A section with a pill-shaped image",
-	"keywords": ["image"],
+	"icon": "format-image",
+	"description": "A section with a pill-shaped image.",
+	"keywords": ["image", "pill"],
 	"example": {
 		"viewportWidth": 1400,
-		"attributes": {}
+		"attributes": {
+			"style": {
+				"background": {
+					"backgroundImage": {
+						"url": "/wp-content/uploads/2026/10/2-col-example.webp",
+						"source": "file",
+						"title": "2-col-example"
+					},
+					"backgroundSize": "cover",
+					"backgroundPosition": "50% 50%",
+					"backgroundRepeat": "no-repeat"
+				}
+			}
+		}
 	},
 	"attributes": {
-		"heading": {
+		"align": {
 			"type": "string",
-			"default": ""
+			"default": "full"
 		},
 		"style": {
 			"type": "object",
 			"default": {
 				"spacing": {
 					"padding": {
-						"top": "var:preset|spacing|32",
-						"bottom": "var:preset|spacing|32",
-						"left": "var:preset|spacing|32",
-						"right": "var:preset|spacing|32"
+						"top": "var:preset|spacing|60",
+						"bottom": "var:preset|spacing|60"
 					}
 				}
 			}
@@ -33,17 +44,16 @@
 		"backgroundColor": {
 			"type": "string",
 			"default": "cream"
-		},
-		"textColor": {
-			"type": "string",
-			"default": "dark-green"
 		}
 	},
 	"supports": {
 		"html": false,
 		"color": {
-			"text": true,
-			"background": true
+			"background": true,
+			"text": false,
+			"__experimentalDefaultControls": {
+				"background": true
+			}
 		},
 		"background": {
 			"backgroundImage": true,
@@ -54,27 +64,10 @@
 			}
 		},
 		"spacing": {
-			"padding": ["top", "bottom", "left", "right"],
-			"blockGap": true,
+			"padding": ["top", "bottom"],
 			"__experimentalDefaultControls": {
-				"padding": true,
-				"blockGap": true
+				"padding": true
 			}
-		},
-		"__experimentalBorder": {
-			"color": true,
-			"radius": true,
-			"style": true,
-			"width": true,
-			"__experimentalDefaultControls": {
-				"color": true,
-				"radius": true,
-				"style": true,
-				"width": true
-			}
-		},
-		"layout": {
-			"allowEditing": false
 		}
 	},
 	"textdomain": "wbg-blocks",

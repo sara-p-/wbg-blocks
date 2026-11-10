@@ -28,6 +28,7 @@ export default function Edit({ attributes, setAttributes }) {
 	const blockProps = useBlockProps({
 		className: [
 			"wbg-hero-simple",
+			"alignfull",
 			textSize === "large" ? "font-size--large" : "",
 		]
 			.filter(Boolean)

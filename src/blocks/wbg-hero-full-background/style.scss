@@ -9,7 +9,8 @@
 		width: auto;
 		max-width: var(--wp--style--global--wide-size);
 		margin: 0 auto;
-		padding: 0 24px;
+		padding-inline: var(--wp--style--root--padding-left, 24px)
+			var(--wp--style--root--padding-right, 24px);
 	}
 	&__row {
 		display: flex;

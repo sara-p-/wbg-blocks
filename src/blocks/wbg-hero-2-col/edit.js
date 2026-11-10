@@ -26,6 +26,7 @@ export default function Edit({ attributes, setAttributes }) {
 	const blockProps = useBlockProps({
 		className: [
 			"wbg-hero-2-col",
+			"alignfull",
 			layout === "content-left" ? "layout--content-left" : "",
 		]
 			.filter(Boolean)

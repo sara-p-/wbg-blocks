@@ -82,7 +82,6 @@
 	},
 	"supports": {
 		"html": false,
-		"align": ["full"],
 		"color": {
 			"background": true,
 			"text": true

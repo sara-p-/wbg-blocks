@@ -34,7 +34,7 @@ $wbg_has_heading    = wbg_hero_full_background_has_text( $wbg_heading );
 $wbg_heading_tag   = $wbg_has_subheading ? 'h2' : 'h2';
 $wbg_heading_class = 'wp-block-heading wbg-hero-full-background__heading' . ( $wbg_has_subheading ? ' fake--h2' : '' );
 
-$wbg_wrapper_classes = array( 'wbg-hero-full-background' );
+$wbg_wrapper_classes = array( 'wbg-hero-full-background', 'alignfull' );
 
 if ( 'content-left' === $wbg_layout ) {
 	$wbg_wrapper_classes[] = 'layout--content-left';

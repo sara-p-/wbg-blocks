@@ -35,7 +35,7 @@ $wbg_has_text       = wbg_hero_simple_has_text( $wbg_text );
 $wbg_heading_tag   = $wbg_has_subheading ? 'h2' : 'h1';
 $wbg_heading_class = 'wp-block-heading wbg-hero-simple__heading' . ( $wbg_has_subheading ? ' fake--h1' : '' );
 
-$wbg_wrapper_classes = array( 'wbg-hero-simple' );
+$wbg_wrapper_classes = array( 'wbg-hero-simple', 'alignfull' );
 
 if ( 'large' === $wbg_text_size ) {
 	$wbg_wrapper_classes[] = 'font-size--large';

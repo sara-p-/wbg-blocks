@@ -16,7 +16,7 @@ if ( '' === trim( wp_strip_all_tags( $wbg_heading ) ) ) {
 	return;
 }
 
-$wbg_classes = array( 'wbg-hero-headline' );
+$wbg_classes = array( 'wbg-hero-headline alignfull' );
 
 if ( 'wide' === ( $attributes['contentWidth'] ?? 'normal' ) ) {
 	$wbg_classes[] = 'is-width--wide';

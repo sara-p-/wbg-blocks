@@ -14,7 +14,8 @@
 		place-items: center;
 		gap: var(--wp--preset--spacing--32);
 		margin: 0 auto;
-		padding: 0 var(--wp--preset--spacing--24);
+		padding-inline: var(--wp--style--root--padding-left, 1.5rem)
+			var(--wp--style--root--padding-right, 1.5rem);
 	}
 	&__content {
 		display: flex;

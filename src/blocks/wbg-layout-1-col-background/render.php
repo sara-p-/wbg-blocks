@@ -21,9 +21,33 @@ if ( ! function_exists( 'wbg_layout_1_col_background_has_text' ) ) {
 	}
 }
 
-$wbg_subheading  = $attributes['subheading'] ?? '';
-$wbg_heading     = $attributes['heading'] ?? '';
-$wbg_layout = $attributes['contentLayout'] ?? 'content-right';
+if ( ! function_exists( 'wbg_layout_1_col_background_css_value' ) ) {
+	/**
+	 * Converts a preset reference like "var:preset|spacing|24" into
+	 * "var(--wp--preset--spacing--24)". Custom values (e.g. "2rem") pass through.
+	 *
+	 * @param mixed $value Stored style value.
+	 * @return string
+	 */
+	function wbg_layout_1_col_background_css_value( $value ) {
+		if ( ! is_string( $value ) || '' === $value ) {
+			return '';
+		}
+		if ( 0 === strpos( $value, 'var:' ) ) {
+			return 'var(--wp--' . str_replace( '|', '--', substr( $value, 4 ) ) . ')';
+		}
+		return $value;
+	}
+}
+
+$wbg_content_gap = wbg_layout_1_col_background_css_value( $attributes['style']['spacing']['blockGap'] ?? '' );
+$wbg_content_style = $wbg_content_gap ? '--wbg-content-gap: ' . $wbg_content_gap . ';' : '';
+
+$wbg_subheading = $attributes['subheading'] ?? '';
+$wbg_heading    = $attributes['heading'] ?? '';
+$wbg_layout     = $attributes['contentLayout'] ?? 'content-right';
+$wbg_overlay    = $attributes['overlay'] ?? 'no-overlay';
+$wbg_width      = $attributes['contentWidth'] ?? 'normal';
 
 
 $wbg_has_subheading = wbg_layout_1_col_background_has_text( $wbg_subheading );
@@ -38,6 +62,14 @@ $wbg_wrapper_classes = array( 'wbg-layout-1-col-background', 'alignfull' );
 
 if ( 'content-left' === $wbg_layout ) {
 	$wbg_wrapper_classes[] = 'layout--content-left';
+}
+
+if ( 'overlay' === $wbg_overlay ) {
+	$wbg_wrapper_classes[] = 'has-overlay';
+}
+
+if ( 'wide' === $wbg_width ) {
+	$wbg_wrapper_classes[] = 'content-width--wide';
 }
 
 
@@ -64,7 +96,8 @@ $wbg_wrapper_attributes = get_block_wrapper_attributes(
           <?php endif; ?>
         </div>
         <?php if ( '' !== trim( $content ) ) : ?>
-        <div class="wbg-layout-1-col-background__content">
+        <div class="wbg-layout-1-col-background__content"
+          <?php echo $wbg_content_style ? ' style="' . esc_attr( $wbg_content_style ) . '"' : ''; ?>>
           <?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
         </div>
         <?php endif; ?>

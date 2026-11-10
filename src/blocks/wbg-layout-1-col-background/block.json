@@ -79,6 +79,16 @@
 			"enum": ["content-right", "content-left"],
 			"default": "content-right"
 		},
+		"overlay": {
+			"type": "string",
+			"enum": ["overlay", "no-overlay"],
+			"default": "no-overlay"
+		},
+		"contentWidth": {
+			"type": "string",
+			"enum": ["normal", "wide"],
+			"default": "normal"
+		},
 		"subheading": {
 			"type": "string",
 			"default": ""
@@ -103,8 +113,11 @@
 		},
 		"spacing": {
 			"padding": ["top", "bottom"],
+			"blockGap": true,
+			"__experimentalSkipSerialization": ["blockGap"],
 			"__experimentalDefaultControls": {
-				"padding": true
+				"padding": true,
+				"blockGap": true
 			}
 		}
 	},

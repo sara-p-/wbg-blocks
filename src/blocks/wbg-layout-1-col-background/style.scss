@@ -5,6 +5,10 @@
 
 .wbg-layout-1-col-background {
 	$self: &;
+
+	// Overlay strength. Change this value to make the overlay lighter or darker.
+	--wbg-overlay-color: rgba(0, 0, 0, 0.4);
+
 	&__wrapper {
 		width: auto;
 		max-width: var(--wp--style--global--wide-size);
@@ -23,6 +27,11 @@
 		flex-direction: column;
 		gap: var(--wp--preset--spacing--24);
 	}
+	&.content-width--wide {
+		#{$self}__col {
+			max-width: 760px;
+		}
+	}
 	&__headings {
 		// max-width: 750px;
 		display: flex;
@@ -34,7 +43,12 @@
 		display: flex;
 		flex-direction: column;
 		place-items: flex-start;
-		gap: var(--wp--preset--spacing--24);
+		// Set from the block's Block spacing control; falls back to the original gap.
+		gap: var(--wbg-content-gap, var(--wp--preset--spacing--24));
+
+		> * {
+			margin-block: 0;
+		}
 	}
 	&__subheading {
 		margin: 0;
@@ -51,6 +65,27 @@
 
 	&.layout--content-left #{$self}__row {
 		justify-content: flex-start;
+	}
+
+	// Overlay: a darkening layer between the background image and the content.
+	// Uses ::before because the editor uses ::after for the block selection outline.
+	&.has-overlay {
+		position: relative;
+		isolation: isolate;
+
+		&::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			z-index: 0;
+			background-color: var(--wbg-overlay-color);
+			pointer-events: none;
+		}
+
+		#{$self}__wrapper {
+			position: relative;
+			z-index: 1;
+		}
 	}
 }
 

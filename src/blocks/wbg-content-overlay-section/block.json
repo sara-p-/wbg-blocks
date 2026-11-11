@@ -12,7 +12,56 @@
 		"viewportWidth": 1440,
 		"attributes": {
 			"contentWidth": "wide"
-		}
+		},
+		"innerBlocks": [
+			{
+				"name": "wbg-blocks/wbg-content-overlay-2-col",
+				"attributes": {
+					"showSubHeading": true,
+					"heading": "A Living Legacy",
+					"overhang": 100,
+					"contentPosition": "content-right",
+					"style": {
+						"background": {
+							"backgroundImage": {
+								"url": "/wp-content/uploads/2026/11/overlay-2-col-example.webp",
+								"source": "file",
+								"title": "2-col-example"
+							},
+							"backgroundSize": "contain",
+							"backgroundPosition": "50% 50%",
+							"backgroundRepeat": "no-repeat"
+						},
+						"spacing": {
+							"padding": {
+								"top": "var:preset|spacing|60",
+								"bottom": "var:preset|spacing|60"
+							}
+						}
+					}
+				},
+				"innerBlocks": [
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "There's so much more to come. What's ahead includes a bonsai garden, a two-acre Japanese garden designed in Kyoto, a children's garden, and eventually a conservatory. We'd be glad to have you along for the rest of it.",
+							"textColor": "cream"
+						}
+					},
+					{
+						"name": "core/buttons",
+						"innerBlocks": [
+							{
+								"name": "core/button",
+								"attributes": {
+									"text": "Stay in Touch"
+								}
+							}
+						]
+					}
+				]
+			}
+		]
 	},
 	"attributes": {
 		"contentWidth": {

@@ -9,9 +9,16 @@
 	"description": "A simple headline.",
 	"keywords": ["section", "headline", "heading"],
 	"example": {
-		"viewportWidth": 1188,
+		"viewportWidth": 1440,
 		"attributes": {
-			"heading": "Headline goes here."
+			"heading": "Gather at the Gardens.",
+			"headingSize": "large",
+			"contentWidth": "wide",
+			"style": {
+				"typography": {
+					"textAlign": "center"
+				}
+			}
 		}
 	},
 	"attributes": {

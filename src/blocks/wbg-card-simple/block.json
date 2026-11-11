@@ -9,23 +9,40 @@
 	"description": "A simple card with inner blocks.",
 	"keywords": ["card"],
 	"example": {
-		"viewportWidth": 350,
+		"viewportWidth": 450,
 		"attributes": {
-			"heading": "Card heading"
+			"heading": "Walking Paths",
+			"isPreview": true,
+			"textColor": "green",
+			"style": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|32",
+						"bottom": "var:preset|spacing|32",
+						"left": "var:preset|spacing|32",
+						"right": "var:preset|spacing|32"
+					}
+				}
+			}
 		},
 		"innerBlocks": [
 			{
-				"name": "core/heading",
+				"name": "core/paragraph",
 				"attributes": {
-					"level": 2,
-					"content": "Headline goes here."
+					"content": "To avoid potentially damaging the plants, please refrain from stepping or walking in the beds. We also ask that you don’t pick, cut, or remove flowers, plants, or seeds. Please do not climb trees or structures in the Gardens.",
+					"textColor": "dark-green"
 				}
 			},
 			{
-				"name": "core/paragraph",
-				"attributes": {
-					"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum massa sed eros vestibulum."
-				}
+				"name": "core/buttons",
+				"innerBlocks": [
+					{
+						"name": "core/button",
+						"attributes": {
+							"text": "Button Here"
+						}
+					}
+				]
 			}
 		]
 	},
@@ -33,6 +50,10 @@
 		"heading": {
 			"type": "string",
 			"default": ""
+		},
+		"isPreview": {
+			"type": "boolean",
+			"default": false
 		},
 		"style": {
 			"type": "object",

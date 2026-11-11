@@ -1,5 +1,5 @@
 import { registerBlockType } from "@wordpress/blocks";
-import { addCard } from "@wordpress/icons";
+import { border } from "@wordpress/icons";
 
 import "./style.scss";
 
@@ -8,7 +8,7 @@ import save from "./save";
 import metadata from "./block.json";
 
 registerBlockType(metadata.name, {
-	icon: addCard,
+	icon: border,
 	edit: Edit,
 	save,
 });

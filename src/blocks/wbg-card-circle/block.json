@@ -9,7 +9,7 @@
 	"description": "A card with a circular image, a heading and inner blocks.",
 	"keywords": ["card", "circle"],
 	"example": {
-		"viewportWidth": 450,
+		"viewportWidth": 600,
 		"attributes": {
 			"heading": "Card heading",
 			"isPreview": true,

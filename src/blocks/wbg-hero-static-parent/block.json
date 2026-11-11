@@ -27,7 +27,7 @@
 			{
 				"name": "wbg-blocks/wbg-hero-static-child",
 				"attributes": {
-					"heading": "Every path is personal.",
+					"heading": "Learn at the Gardens",
 					"style": {
 						"background": {
 							"backgroundImage": {
@@ -45,8 +45,26 @@
 					{
 						"name": "core/paragraph",
 						"attributes": {
-							"content": "Explore the gardens at your own pace."
+							"content": "Whether you're here for a class, a camp, or a Saturday morning with the kids, there's something to explore on every path. Come see what captures your curiosity."
 						}
+					},
+					{
+						"name": "core/buttons",
+						"innerBlocks": [
+							{
+								"name": "core/button",
+								"attributes": {
+									"text": "Explore Programs"
+								}
+							},
+							{
+								"name": "core/button",
+								"attributes": {
+									"text": "Browse Resources",
+									"className": "is-style-outline-light"
+								}
+							}
+						]
 					}
 				]
 			}

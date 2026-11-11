@@ -1,5 +1,5 @@
 import { registerBlockType } from "@wordpress/blocks";
-import { image } from "@wordpress/icons";
+import { alignNone } from "@wordpress/icons";
 
 import "./style.scss";
 
@@ -8,7 +8,7 @@ import save from "./save";
 import metadata from "./block.json";
 
 registerBlockType(metadata.name, {
-	icon: image,
+	icon: alignNone,
 	edit: Edit,
 	save,
 });

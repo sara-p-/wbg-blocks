@@ -8,7 +8,8 @@ import {
 	useInnerBlocksProps,
 	store as blockEditorStore,
 } from "@wordpress/block-editor";
-import { useSelect } from "@wordpress/data";
+import { useSelect, useDispatch } from "@wordpress/data";
+import { useEffect } from "@wordpress/element";
 
 const ALLOWED_BLOCKS = [
 	"core/heading",
@@ -26,20 +27,73 @@ const TEMPLATE = [
 	],
 ];
 
+// Heading levels allowed inside the card.
+const HEADING_LEVELS = [3, 4, 5, 6];
+
+const hasAllowedLevelOptions = (levelOptions) =>
+	Array.isArray(levelOptions) &&
+	levelOptions.length === HEADING_LEVELS.length &&
+	HEADING_LEVELS.every((level, i) => levelOptions[i] === level);
+
+// Backdrop shown only in the block inserter/styles preview.
+const PREVIEW_STYLE = {
+	backgroundColor: "var(--wp--preset--color--green)",
+	padding: "var(--wp--preset--spacing--32)",
+};
+
 export default function Edit({
 	attributes,
 	setAttributes,
 	isSelected,
 	clientId,
 }) {
-	const { heading } = attributes;
+	const { heading, isPreview } = attributes;
+
+	const { hasSelectedInnerBlock, innerBlocks } = useSelect(
+		(select) => {
+			const store = select(blockEditorStore);
+			return {
+				hasSelectedInnerBlock: store.hasSelectedInnerBlock(clientId, true),
+				innerBlocks: store.getBlocks(clientId),
+			};
+		},
+		[clientId],
+	);
+
+	const { updateBlockAttributes, __unstableMarkNextChangeAsNotPersistent } =
+		useDispatch(blockEditorStore);
+
+	// Restrict inner core/heading blocks to H3–H6: limit the level
+	// dropdown and bump any H1/H2 (e.g. newly inserted or pasted) to H3.
+	useEffect(() => {
+		innerBlocks.forEach((block) => {
+			if (block.name !== "core/heading") {
+				return;
+			}
+
+			const updates = {};
+
+			if (!hasAllowedLevelOptions(block.attributes.levelOptions)) {
+				updates.levelOptions = HEADING_LEVELS;
+			}
+
+			if (!HEADING_LEVELS.includes(block.attributes.level)) {
+				updates.level = HEADING_LEVELS[0];
+			}
+
+			if (Object.keys(updates).length) {
+				__unstableMarkNextChangeAsNotPersistent();
+				updateBlockAttributes(block.clientId, updates);
+			}
+		});
+	}, [
+		innerBlocks,
+		updateBlockAttributes,
+		__unstableMarkNextChangeAsNotPersistent,
+	]);
 
 	// Show the optional heading field when it has content, or while the
 	// card (or anything inside it) is selected so it can be filled in.
-	const hasSelectedInnerBlock = useSelect(
-		(select) => select(blockEditorStore).hasSelectedInnerBlock(clientId, true),
-		[clientId],
-	);
 	const showHeading = !!heading || isSelected || hasSelectedInnerBlock;
 
 	const blockProps = useBlockProps({
@@ -54,7 +108,7 @@ export default function Edit({
 		template: TEMPLATE,
 	});
 
-	return (
+	const card = (
 		<div {...innerBlocksProps}>
 			{showHeading && (
 				<RichText
@@ -69,4 +123,10 @@ export default function Edit({
 			{children}
 		</div>
 	);
+
+	if (isPreview) {
+		return <div style={PREVIEW_STYLE}>{card}</div>;
+	}
+
+	return card;
 }

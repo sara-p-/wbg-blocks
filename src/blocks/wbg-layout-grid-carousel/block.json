@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "wbg-blocks/wbg-layout-grid-carousel",
 	"version": "0.1.0",
-	"title": "Grid - Carousel",
+	"title": "Grid - (Mobile) Carousel",
 	"category": "wbg-layout",
 	"icon": "grid-view",
 	"description": "A grid layout of 2–4 columns that holds card blocks, with an optional heading. On tablet and mobile it turns into a carousel.",

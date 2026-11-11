@@ -1,0 +1,55 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-content-overlay-section",
+	"version": "0.1.0",
+	"title": "Overlay Image Section",
+	"category": "wbg-content",
+	"icon": "menu",
+	"description": "An section that takes one of the overlay blocks.",
+	"keywords": ["section", "headline", "heading"],
+	"example": {
+		"viewportWidth": 1440,
+		"attributes": {
+			"contentWidth": "wide"
+		}
+	},
+	"attributes": {
+		"contentWidth": {
+			"type": "string",
+			"enum": ["normal", "wide"],
+			"default": "wide"
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|60",
+						"bottom": "var:preset|spacing|60"
+					}
+				}
+			}
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "cream"
+		}
+	},
+	"supports": {
+		"html": false,
+		"color": {
+			"background": true
+		},
+		"spacing": {
+			"padding": ["top", "bottom"],
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

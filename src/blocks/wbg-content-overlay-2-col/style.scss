@@ -1,0 +1,173 @@
+/**
+ * WBG Content - Overlay - 2 Column – front-end + editor styles.
+ *
+ * The block is the green panel: native background color, padding and
+ * text color all land on the wrapper. Inside the padding it's a grid of two
+ * equal columns: [image | content].
+ *
+ * __media is absolutely positioned across the image column. Horizontally it
+ * spans the column; vertically it runs from the panel's bottom edge to
+ * --wbg-overhang above the panel's top edge (so it's that much taller than
+ * the panel). --wbg-overhang comes from the block's "Image overhang"
+ * setting (output inline by edit.js / render.php). The image is its background, sized with the native controls.
+ * The block's top margin matches the overhang so the block above is clear.
+ *
+ * Stacking order (inside the block's own stacking context):
+ *   1 – __media   (image)
+ *   2 – __wrapper (subheading, heading, body)
+ */
+
+// ---------------------------------------------------------------------------
+// Settings
+// ---------------------------------------------------------------------------
+
+// How much taller the image div is than the green panel (it sticks out
+// above the panel by this much). Set per block with the "Image overhang"
+// setting; this is only the fallback.
+$wbg-content-overlay-2-col-overhang: 80px;
+
+// Left/right padding of the panel (not editable in the block settings).
+$wbg-content-overlay-2-col-padding-inline: var(--wp--preset--spacing--48, 2rem);
+
+// Space between the two columns. The columns stay equal widths.
+$wbg-content-overlay-2-col-gap: clamp(1.5rem, 3vw, 2.5rem);
+
+// Max width of the inner blocks body.
+$wbg-content-overlay-2-col-body-max-width: 600px;
+
+// Image height once the columns stack on small screens.
+$wbg-content-overlay-2-col-media-height-mobile: 300px;
+
+$wbg-content-overlay-2-col-radius: 30px;
+$wbg-content-overlay-2-col-breakpoint: 781px;
+
+// ---------------------------------------------------------------------------
+// Block
+// ---------------------------------------------------------------------------
+
+.wbg-content-overlay-2-col {
+	$self: &;
+
+	position: relative; // Containing block for __media.
+	isolation: isolate;
+	box-sizing: border-box;
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	column-gap: $wbg-content-overlay-2-col-gap;
+	align-items: center;
+	width: auto;
+	border-radius: $wbg-content-overlay-2-col-radius;
+
+	// Left/right padding. Extra specificity is needed because WordPress's
+	// global styles include
+	//   .has-global-padding > .alignfull:where(...) { padding-left: 0; padding-right: 0; }
+	// which zeroes the side padding of full-width blocks inside a parent
+	// with root padding (this block always has the alignfull class).
+	&#{&}#{&} {
+		padding-inline: $wbg-content-overlay-2-col-padding-inline;
+	}
+
+	// Room above for the image overhang (desktop only; on small screens the
+	// parent's normal spacing applies). Repeating the class beats the
+	// parent layout's first-child / block-gap margin rules.
+	@media (min-width: #{$wbg-content-overlay-2-col-breakpoint + 1}) {
+		&#{&} {
+			margin-block-start: var(
+				--wbg-overhang,
+				#{$wbg-content-overlay-2-col-overhang}
+			);
+		}
+	}
+
+	// Image. An absolutely positioned grid child: grid-column sets its left
+	// and right edges to the image column (both lines are needed), while
+	// top / bottom are measured from the panel's own edges.
+	&__media {
+		position: absolute;
+		z-index: 1;
+		grid-column: 1 / 2;
+		top: calc(-1 * var(--wbg-overhang, #{$wbg-content-overlay-2-col-overhang}));
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		pointer-events: none;
+	}
+
+	&__wrapper {
+		position: relative;
+		z-index: 2;
+		grid-column: 2 / 3;
+		grid-row: 1;
+		min-width: 0;
+	}
+
+	// Headings follow the block's text color.
+	&__subheading,
+	&__heading {
+		color: inherit;
+		margin-top: 0;
+	}
+
+	&__subheading {
+		margin-bottom: 0.5rem;
+	}
+
+	&__heading {
+		margin-bottom: var(--wp--preset--spacing--30, 1rem);
+	}
+
+	// Block gap applies to the inner blocks only.
+	&__body {
+		display: flex;
+		flex-direction: column;
+		gap: var(--wbg-block-gap, var(--wp--style--block-gap, 1.5rem));
+		max-width: $wbg-content-overlay-2-col-body-max-width;
+
+		> * {
+			margin-block: 0;
+		}
+	}
+
+	// Content Left: swap the columns.
+	&.content--left {
+		#{$self}__media {
+			grid-column: 2 / 3;
+		}
+
+		#{$self}__wrapper {
+			grid-column: 1 / 2;
+		}
+	}
+
+	// Stack on small screens: content first, then the image sitting on the
+	// bottom edge of the panel (for both content positions). The negative
+	// bottom margin cancels the panel's bottom padding, which edit.js and
+	// render.php pass in as --wbg-pad-bottom.
+	@media (max-width: $wbg-content-overlay-2-col-breakpoint) {
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		row-gap: var(--wp--preset--spacing--50, 2rem);
+
+		&__media {
+			position: relative;
+			order: 1;
+			top: auto;
+			bottom: auto;
+			left: auto;
+			right: auto;
+			height: $wbg-content-overlay-2-col-media-height-mobile;
+			margin-block-end: calc(-1 * var(--wbg-pad-bottom, 0px));
+		}
+	}
+}
+
+// Editor only: show where the image goes until one is chosen.
+.editor-styles-wrapper .wbg-content-overlay-2-col__media.is-empty {
+	background-color: rgba(0, 0, 0, 0.08);
+	outline: 1px dashed currentColor;
+	outline-offset: -1px;
+}

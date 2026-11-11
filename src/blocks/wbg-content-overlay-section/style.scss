@@ -1,0 +1,23 @@
+/**
+ * WBG Content - Overlay Section – front-end + editor styles.
+ *
+ */
+
+.wbg-content-overlay-section {
+	$self: &;
+	width: auto;
+
+	&__wrapper {
+		width: auto;
+		max-width: var(--wp--style--global--wide-size);
+		margin-inline: auto;
+		padding-inline: var(--wp--style--root--padding-left, 1.5rem)
+			var(--wp--style--root--padding-right, 1.5rem);
+	}
+
+	&.is-width--wide {
+		#{$self}__wrapper {
+			max-width: var(--wp--custom--layout--extra-wide);
+		}
+	}
+}

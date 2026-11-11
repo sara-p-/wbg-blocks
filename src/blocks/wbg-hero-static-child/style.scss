@@ -1,0 +1,135 @@
+/**
+ * WBG Hero - Static - Child – front-end + editor styles.
+ *
+ * Design: the pill is at most 970px wide, 430px tall, with a 214px radius.
+ * It sits centred inside the wrapper, and its height and radius scale
+ * from that ratio as the width shrinks.
+ *
+ * Mobile (wrapper narrower than 600px): the pill turns vertical, at most
+ * 430px wide and 970px tall, scaling the same way.
+ */
+
+.wbg-hero-static-child {
+	// Design values (unitless). Adjust here if the design changes.
+	--wbg-pill-max-width: 970;
+	--wbg-pill-height: 430;
+	--wbg-pill-radius: 214;
+
+	// Mobile (vertical) pill. Defaults to the desktop pill turned on its
+	// side; lower the height for a shorter pill on phones.
+	--wbg-pill-mobile-max-width: 236;
+	--wbg-pill-mobile-height: 385;
+
+	// The image belongs on the pill only. render.php never puts it on the
+	// wrapper, but the editor's background support can, so clear it here.
+	background-image: none !important;
+
+	&__wrapper {
+		box-sizing: border-box;
+		margin-inline: auto;
+		// Lets the pill size its radius from this element's content width,
+		// and switch to vertical when this element is narrow.
+		container-type: inline-size;
+	}
+
+	&__pill {
+		// Actual pill width: the container's content width, capped at 970px.
+		--wbg-pill-width: min(100cqi, var(--wbg-pill-max-width) * 1px);
+
+		box-sizing: border-box;
+		width: 100%;
+		max-width: calc(var(--wbg-pill-max-width) * 1px);
+		margin-inline: auto;
+		aspect-ratio: var(--wbg-pill-max-width) / var(--wbg-pill-height);
+		border-radius: calc(
+			var(--wbg-pill-width) * var(--wbg-pill-radius) / var(--wbg-pill-max-width)
+		);
+		overflow: hidden;
+		background-size: cover;
+		background-position: 50% 50%;
+		background-repeat: no-repeat;
+
+		// Mobile: vertical pill. The radius is half the width, so the
+		// rounded ends sit at the top and bottom.
+		@container (max-width: 599px) {
+			--wbg-pill-width: min(100cqi, var(--wbg-pill-mobile-max-width) * 1px);
+
+			max-width: calc(var(--wbg-pill-mobile-max-width) * 1px);
+			aspect-ratio: var(--wbg-pill-mobile-max-width) /
+				var(--wbg-pill-mobile-height);
+			border-radius: calc(var(--wbg-pill-width) / 2);
+		}
+
+		// Editor only: render.php omits the pill when there is no image.
+		&.is-empty {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 1rem;
+			background-color: rgba(0, 0, 0, 0.06);
+			outline: 1px dashed rgba(0, 0, 0, 0.3);
+			outline-offset: -1px;
+			text-align: center;
+			font-size: 0.875rem;
+		}
+	}
+
+	&__heading-container {
+		margin-top: clamp(-70px, calc(-34.286px - 2.976vw), -45px);
+	}
+
+	&__heading {
+		margin: 0 auto;
+		text-align: center;
+		line-height: 1.1;
+		margin-bottom: var(--wp--preset--spacing--24);
+	}
+
+	&__content {
+		// Default alignment: centred. Text alignment is inherited, so a
+		// paragraph's own alignment class still wins.
+		text-align: center;
+
+		// Inner blocks are spaced by the block gap from the Dimensions panel
+		// (set inline as --wbg-content-gap), defaulting to the 48 spacing preset.
+		> * {
+			margin-block: 0;
+		}
+
+		> * + * {
+			margin-block-start: var(
+				--wbg-content-gap,
+				var(--wp--preset--spacing--48, 3rem)
+			);
+		}
+
+		// The buttons rule uses :where() (zero specificity) so a
+		// justification the user picks in the toolbar still overrides it.
+		:where(& > .wp-block-buttons) {
+			justify-content: center;
+		}
+
+		// Core paragraphs are saved as a plain <p> (no .wp-block-paragraph
+		// class), so target both to match in the editor and on the front end.
+		.wp-block-paragraph,
+		> p {
+			max-width: 550px;
+			margin-inline: auto;
+		}
+	}
+
+	// The h1 picks up the theme's h1 styles through .wp-block-heading.
+	// When the user sets a text colour, make the heading follow it rather
+	// than any colour theme.json assigns to h1.
+	&.has-text-color &__heading {
+		color: inherit;
+	}
+}
+
+// @media screen and (max-width: 782px) {
+// 	.wbg-hero-static-child {
+// 		&__heading-container {
+// 			margin-top: -45px;
+// 		}
+// 	}
+// }

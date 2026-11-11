@@ -1,0 +1,74 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-hero-static-child",
+	"version": "0.4.0",
+	"title": "Hero - Static - Child",
+	"category": "wbg-heros",
+	"icon": "format-image",
+	"description": "A hero with a heading, a pill-shaped image, and content.",
+	"keywords": ["image", "pill", "hero"],
+	"parent": ["wbg-blocks/wbg-hero-static-parent"],
+	"textdomain": "wbg-blocks",
+	"attributes": {
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
+		"textColor": {
+			"type": "string",
+			"default": "cream"
+		}
+	},
+	"supports": {
+		"html": false,
+		"spacing": {
+			"blockGap": true,
+			"__experimentalDefaultControls": {
+				"blockGap": true
+			}
+		},
+		"color": {
+			"text": true,
+			"background": false,
+			"link": false
+		},
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalSkipSerialization": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		}
+	},
+	"example": {
+		"viewportWidth": 1400,
+		"attributes": {
+			"heading": "Every path is personal.",
+			"style": {
+				"background": {
+					"backgroundImage": {
+						"url": "/wp-content/uploads/2026/10/2-col-example.webp",
+						"source": "file",
+						"title": "2-col-example"
+					},
+					"backgroundSize": "cover",
+					"backgroundPosition": "50% 50%",
+					"backgroundRepeat": "no-repeat"
+				}
+			}
+		},
+		"innerBlocks": [
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Explore the gardens at your own pace."
+				}
+			}
+		]
+	},
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

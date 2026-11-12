@@ -1,0 +1,110 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-content-curve-images",
+	"version": "0.1.0",
+	"title": "Curve Slider - Images Only",
+	"category": "wbg-content",
+	"icon": "grid-view",
+	"description": "A section with 1 column of static content, and 1 column that contains an image slider.",
+	"keywords": ["section", "columns", "2-column", "image", "slider"],
+	"example": {
+		"viewportWidth": 1400,
+		"attributes": {
+			"title": "Adult Education",
+			"date": "August 12",
+			"time": "6:00pm - 8:00pm",
+			"price": "$36",
+			"memberPrice": "$28",
+			"subheading": "Subheading Here",
+			"heading": "Summer Cooking Demo: Tomatoes & Peppers 'Beyond BLTs and Salsa'",
+			"text": "Join Chef Sherry Hurley for a live cooking demonstration, where she’ll share some of her favorite summertime recipes using fresh, local ingredients. ",
+			"contentPosition": "content-left"
+		},
+		"innerBlocks": [
+			{
+				"name": "wbg-blocks/wbg-slider-curve",
+				"innerBlocks": [
+					{
+						"name": "wbg-blocks/wbg-slide-image",
+						"attributes": {
+							"style": {
+								"background": {
+									"backgroundImage": {
+										"url": "/wp-content/uploads/2026/10/slide-block-example.webp",
+										"source": "file",
+										"title": "slide-block-example"
+									},
+									"backgroundSize": "cover",
+									"backgroundPosition": "50% 50%",
+									"backgroundRepeat": "no-repeat"
+								}
+							}
+						}
+					}
+				]
+			}
+		]
+	},
+	"allowedBlocks": ["wbg-blocks/wbg-slider-curve"],
+	"attributes": {
+		"contentPosition": {
+			"type": "string",
+			"enum": ["content-right", "content-left"],
+			"default": "content-left"
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"subheading": {
+			"type": "string",
+			"default": ""
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|60",
+						"bottom": "var:preset|spacing|60"
+					}
+				}
+			}
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "cream"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "dark-green"
+		}
+	},
+	"supports": {
+		"html": false,
+		"color": {
+			"background": true,
+			"text": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+
+		"spacing": {
+			"padding": ["top", "bottom"],
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

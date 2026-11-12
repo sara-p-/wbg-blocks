@@ -1,0 +1,42 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-slide-image",
+	"version": "0.1.0",
+	"title": "Slide - Image",
+	"category": "wbg-slides",
+	"icon": "",
+	"description": "A simple image slide used in the Curve Image Slider.",
+	"keywords": ["slide", "slider", "background", "image"],
+	"textdomain": "wbg-blocks",
+	"supports": {
+		"html": false,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		}
+	},
+	"example": {
+		"viewportWidth": 600,
+		"attributes": {
+			"style": {
+				"background": {
+					"backgroundImage": {
+						"url": "/wp-content/uploads/2026/11/slide-simple-example.webp",
+						"source": "file",
+						"title": "slide-image-example"
+					},
+					"backgroundSize": "cover",
+					"backgroundPosition": "50% 50%",
+					"backgroundRepeat": "no-repeat"
+				}
+			}
+		}
+	},
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

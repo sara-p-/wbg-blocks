@@ -1,0 +1,44 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-slider-curve",
+	"version": "0.1.0",
+	"title": "Slider - Curve",
+	"category": "wbg-sliders",
+	"icon": "slides",
+	"description": "A curved image slider with fading slides and navigation arrows.",
+	"keywords": ["slider", "carousel", "image", "curve"],
+	"textdomain": "wbg-blocks",
+	"allowedBlocks": ["wbg-blocks/wbg-slide-image"],
+	"supports": {
+		"html": false,
+		"align": false,
+		"layout": false
+	},
+	"example": {
+		"viewportWidth": 600,
+		"innerBlocks": [
+			{
+				"name": "wbg-blocks/wbg-slide-image",
+				"attributes": {
+					"style": {
+						"background": {
+							"backgroundImage": {
+								"url": "/wp-content/uploads/2026/10/slide-block-example.webp",
+								"source": "file",
+								"title": "slide-block-example"
+							},
+							"backgroundSize": "cover",
+							"backgroundPosition": "50% 50%",
+							"backgroundRepeat": "no-repeat"
+						}
+					}
+				}
+			}
+		]
+	},
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}

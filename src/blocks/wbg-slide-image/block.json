@@ -8,6 +8,7 @@
 	"icon": "",
 	"description": "A simple image slide used in the Curve Image Slider.",
 	"keywords": ["slide", "slider", "background", "image"],
+	"parent": ["wbg-blocks/wbg-slider-curve-images-parent"],
 	"textdomain": "wbg-blocks",
 	"supports": {
 		"html": false,

@@ -5,7 +5,7 @@
  * - Mobile: one column. Content first, slider below, whatever the
  *   content position is.
  * - Title circle: its own row above the flex row (not part of the content
- *   column), lined up with the content column's left edge.
+ *   column). Always on the left, whatever the content position is.
  * - Desktop: content column (max 515px) + an empty spacer column. The
  *   slider is absolutely positioned over the spacer and bleeds to the edge
  *   of the screen on its side.
@@ -35,7 +35,7 @@ $wbg-cci-mobile-gap: 2.5rem; // Space between content and slider on mobile.
 $wbg-cci-circle-size: clamp(200px, 22vw, 296px);
 $wbg-cci-circle-bg: #e2dc4f;
 $wbg-cci-circle-padding: 1.5rem;
-// On wide screens the circle sits a little left of the text (content-left).
+// On wide screens the circle sits a little further left than the row's edge.
 $wbg-cci-circle-offset: 4rem;
 $wbg-cci-circle-offset-breakpoint: 1360px;
 
@@ -43,7 +43,7 @@ $wbg-cci-circle-offset-breakpoint: 1360px;
 /* Block                                                                  */
 /* ---------------------------------------------------------------------- */
 
-.wbg-content-curve-images {
+.wbg-slider-curve-images-parent {
 	$self: &;
 
 	--wbg-cci-pad-left: var(--wp--style--root--padding-left, 24px);
@@ -112,6 +112,7 @@ $wbg-cci-circle-offset-breakpoint: 1360px;
 	&__meta-line {
 		margin: 0;
 		font-weight: 600; // Mockup shows the meta lines in bold.
+		text-transform: none;
 	}
 
 	&__subheading {
@@ -145,14 +146,14 @@ $wbg-cci-circle-offset-breakpoint: 1360px;
 		text-decoration: none;
 
 		&--outline {
-			border-color: var(--wp--preset--color--dark-green);
-			background-color: transparent;
-			color: var(--wp--preset--color--dark-green);
+			border: 1px solid var(--wp--preset--color--dark-green) !important;
+			background-color: transparent !important;
+			color: var(--wp--preset--color--dark-green) !important;
 
 			&:hover,
 			&:focus-visible {
-				background-color: color-mix(in srgb, currentColor 8%, transparent);
-				color: inherit;
+				background-color: var(--wp--preset--color--dark-green) !important;
+				color: var(--wp--preset--color--light-green) !important;
 			}
 		}
 	}
@@ -178,7 +179,7 @@ $wbg-cci-circle-offset-breakpoint: 1360px;
 	}
 
 	// Content on the right: the slider sits on the left, so flip its curve.
-	&.content--right .wbg-slider-curve__viewport {
+	&.content--right .wbg-slider-curve-child__viewport {
 		border-radius: 0 9999px 9999px 0;
 	}
 
@@ -198,11 +199,6 @@ $wbg-cci-circle-offset-breakpoint: 1360px;
 
 		&.content--right #{$self}__row {
 			flex-direction: row-reverse;
-		}
-
-		// Content on the right: move the circle over the content column.
-		&.content--right #{$self}__title-container {
-			margin-inline-start: calc(100% - #{$wbg-cci-content-width});
 		}
 
 		&__col {
@@ -247,7 +243,7 @@ $wbg-cci-circle-offset-breakpoint: 1360px;
 	}
 
 	@media (min-width: $wbg-cci-circle-offset-breakpoint) {
-		&:not(.content--right) #{$self}__title-container {
+		&__title-container {
 			margin-inline-start: -$wbg-cci-circle-offset;
 		}
 	}

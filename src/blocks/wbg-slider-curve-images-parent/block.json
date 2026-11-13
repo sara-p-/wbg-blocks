@@ -1,10 +1,10 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "wbg-blocks/wbg-content-curve-images",
+	"name": "wbg-blocks/wbg-slider-curve-images-parent",
 	"version": "0.1.0",
 	"title": "Curve Slider - Images Only",
-	"category": "wbg-content",
+	"category": "wbg-sliders",
 	"icon": "grid-view",
 	"description": "A section with 1 column of static content, and 1 column that contains an image slider.",
 	"keywords": ["section", "columns", "2-column", "image", "slider"],
@@ -26,7 +26,7 @@
 		},
 		"innerBlocks": [
 			{
-				"name": "wbg-blocks/wbg-slider-curve",
+				"name": "wbg-blocks/wbg-slider-curve-child",
 				"innerBlocks": [
 					{
 						"name": "wbg-blocks/wbg-slide-image",
@@ -49,7 +49,7 @@
 			}
 		]
 	},
-	"allowedBlocks": ["wbg-blocks/wbg-slider-curve"],
+	"allowedBlocks": ["wbg-blocks/wbg-slider-curve-child"],
 	"attributes": {
 		"contentPosition": {
 			"type": "string",

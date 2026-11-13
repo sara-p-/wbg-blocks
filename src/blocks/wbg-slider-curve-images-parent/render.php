@@ -73,27 +73,27 @@ if ( $wbg_has_title ) {
  * Meta lines: "date | time" and "$price Non-Members | $memberPrice Members".
  * ------------------------------------------------------------------------ */
 
-$wbg_sep = ' <span class="wbg-content-curve-images__sep" aria-hidden="true">|</span> ';
+$wbg_sep = ' <span class="wbg-slider-curve-images-parent__sep" aria-hidden="true">|</span> ';
 
 $wbg_line_datetime = array();
 if ( $wbg_has_text( $wbg_date ) ) {
-	$wbg_line_datetime[] = '<span class="wbg-content-curve-images__date">' . wp_kses_post( $wbg_date ) . '</span>';
+	$wbg_line_datetime[] = '<span class="wbg-slider-curve-images-parent__date">' . wp_kses_post( $wbg_date ) . '</span>';
 }
 if ( $wbg_has_text( $wbg_time ) ) {
-	$wbg_line_datetime[] = '<span class="wbg-content-curve-images__time">' . wp_kses_post( $wbg_time ) . '</span>';
+	$wbg_line_datetime[] = '<span class="wbg-slider-curve-images-parent__time">' . wp_kses_post( $wbg_time ) . '</span>';
 }
 
 $wbg_line_pricing = array();
 if ( $wbg_has_text( $wbg_price ) ) {
 	$wbg_line_pricing[] = sprintf(
-		'<span class="wbg-content-curve-images__price">%1$s <span class="wbg-content-curve-images__price-label">%2$s</span></span>',
+		'<span class="wbg-slider-curve-images-parent__price">%1$s <span class="wbg-slider-curve-images-parent__price-label">%2$s</span></span>',
 		wp_kses_post( $wbg_price ),
 		esc_html__( 'Non-Members', 'wbg-blocks' )
 	);
 }
 if ( $wbg_has_text( $wbg_member_price ) ) {
 	$wbg_line_pricing[] = sprintf(
-		'<span class="wbg-content-curve-images__member-price">%1$s <span class="wbg-content-curve-images__price-label">%2$s</span></span>',
+		'<span class="wbg-slider-curve-images-parent__member-price">%1$s <span class="wbg-slider-curve-images-parent__price-label">%2$s</span></span>',
 		wp_kses_post( $wbg_member_price ),
 		esc_html__( 'Members', 'wbg-blocks' )
 	);
@@ -115,7 +115,7 @@ $wbg_buttons = array();
 foreach (
 	array(
 		'button1' => '',
-		'button2' => 'wbg-content-curve-images__button--outline',
+		'button2' => 'wbg-slider-curve-images-parent__button--outline',
 	) as $wbg_prefix => $wbg_modifier
 ) {
 	$wbg_button_text = $wbg_get( $wbg_prefix . 'Text' );
@@ -137,7 +137,7 @@ foreach (
 
 	$wbg_buttons[] = sprintf(
 		'<a class="%1$s" href="%2$s"%3$s%4$s>%5$s%6$s</a>',
-		esc_attr( trim( 'wp-element-button wbg-content-curve-images__button ' . $wbg_modifier ) ),
+		esc_attr( trim( 'wp-element-button wbg-slider-curve-images-parent__button ' . $wbg_modifier ) ),
 		esc_url( $wbg_button_url ),
 		$wbg_new_tab ? ' target="_blank"' : '',
 		$wbg_rel ? ' rel="' . esc_attr( implode( ' ', $wbg_rel ) ) . '"' : '',
@@ -180,7 +180,7 @@ $wbg_wrapper_attributes = get_block_wrapper_attributes(
 			' ',
 			array_filter(
 				array(
-					'wbg-content-curve-images',
+					'wbg-slider-curve-images-parent',
 					'alignfull',
 					$wbg_is_right ? 'content--right' : '',
 				)
@@ -191,20 +191,20 @@ $wbg_wrapper_attributes = get_block_wrapper_attributes(
 ?>
 <div <?php echo $wbg_wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
   <?php if ( $wbg_has_title ) : ?>
-  <div class="wbg-content-curve-images__title-row">
-    <div class="wbg-content-curve-images__title-container">
-      <h2 class="wbg-content-curve-images__title h2--alt-small"><?php echo wp_kses_post( $wbg_title ); ?></h2>
+  <div class="wbg-slider-curve-images-parent__title-row">
+    <div class="wbg-slider-curve-images-parent__title-container">
+      <h2 class="wbg-slider-curve-images-parent__title h2--alt-small"><?php echo wp_kses_post( $wbg_title ); ?></h2>
     </div>
   </div>
   <?php endif; ?>
 
-  <div class="wbg-content-curve-images__row">
-    <div class="wbg-content-curve-images__col wbg-content-curve-images__col--content">
-      <div class="wbg-content-curve-images__content">
+  <div class="wbg-slider-curve-images-parent__row">
+    <div class="wbg-slider-curve-images-parent__col wbg-slider-curve-images-parent__col--content">
+      <div class="wbg-slider-curve-images-parent__content">
         <?php if ( $wbg_meta_lines ) : ?>
-        <div class="wbg-content-curve-images__meta">
+        <div class="wbg-slider-curve-images-parent__meta">
           <?php foreach ( $wbg_meta_lines as $wbg_line ) : ?>
-          <<?php echo esc_html( $wbg_meta_tag ); ?> class="wbg-content-curve-images__meta-line fake--p">
+          <<?php echo esc_html( $wbg_meta_tag ); ?> class="wbg-slider-curve-images-parent__meta-line fake--p">
             <?php echo $wbg_line; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped above. ?>
           </<?php echo esc_html( $wbg_meta_tag ); ?>>
           <?php endforeach; ?>
@@ -212,32 +212,32 @@ $wbg_wrapper_attributes = get_block_wrapper_attributes(
         <?php endif; ?>
 
         <?php if ( $wbg_has_subheading ) : ?>
-        <<?php echo esc_html( $wbg_subheading_tag ); ?> class="wbg-content-curve-images__subheading fake--h6">
+        <<?php echo esc_html( $wbg_subheading_tag ); ?> class="wbg-slider-curve-images-parent__subheading fake--h6">
           <?php echo wp_kses_post( $wbg_subheading ); ?></<?php echo esc_html( $wbg_subheading_tag ); ?>>
         <?php endif; ?>
 
         <?php if ( $wbg_has_text( $wbg_heading ) ) : ?>
-        <<?php echo esc_html( $wbg_heading_tag ); ?> class="wbg-content-curve-images__heading h2--alt-small">
+        <<?php echo esc_html( $wbg_heading_tag ); ?> class="wbg-slider-curve-images-parent__heading h2--alt-small">
           <?php echo wp_kses_post( $wbg_heading ); ?></<?php echo esc_html( $wbg_heading_tag ); ?>>
         <?php endif; ?>
 
         <?php if ( $wbg_has_text( $wbg_text ) ) : ?>
-        <p class="wbg-content-curve-images__text"><?php echo wp_kses_post( $wbg_text ); ?></p>
+        <p class="wbg-slider-curve-images-parent__text"><?php echo wp_kses_post( $wbg_text ); ?></p>
         <?php endif; ?>
 
         <?php if ( $wbg_buttons ) : ?>
-        <div class="wbg-content-curve-images__buttons">
+        <div class="wbg-slider-curve-images-parent__buttons">
           <?php echo implode( '', $wbg_buttons ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped above. ?>
         </div>
         <?php endif; ?>
       </div>
     </div>
 
-    <div class="wbg-content-curve-images__col wbg-content-curve-images__col--spacer fake-slider-container"></div>
+    <div class="wbg-slider-curve-images-parent__col wbg-slider-curve-images-parent__col--spacer fake-slider-container"></div>
 
     <?php if ( $wbg_slider ) : ?>
-    <div class="wbg-content-curve-images__slider-container" aria-hidden="true">
-      <div class="wbg-content-curve-images__slider">
+    <div class="wbg-slider-curve-images-parent__slider-container" aria-hidden="true">
+      <div class="wbg-slider-curve-images-parent__slider">
         <?php echo $wbg_slider; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Inner blocks markup. ?>
       </div>
     </div>

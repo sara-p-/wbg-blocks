@@ -38,8 +38,8 @@ import {
 } from "@wordpress/components";
 import { link, linkOff, plus } from "@wordpress/icons";
 
-const ALLOWED_BLOCKS = ["wbg-blocks/wbg-slider-curve"];
-const TEMPLATE = [["wbg-blocks/wbg-slider-curve"]];
+const ALLOWED_BLOCKS = ["wbg-blocks/wbg-slider-curve-child"];
+const TEMPLATE = [["wbg-blocks/wbg-slider-curve-child"]];
 const SLIDE_BLOCK = "wbg-blocks/wbg-slide-image";
 
 const TEXT_FORMATS = ["core/bold", "core/italic"];
@@ -76,7 +76,7 @@ export default function Edit({
 		},
 		{
 			key: "button2",
-			className: "wbg-content-curve-images__button--outline",
+			className: "wbg-slider-curve-images-parent__button--outline",
 			placeholder: __("Optional Button 2", "wbg-blocks"),
 		},
 	];
@@ -163,7 +163,7 @@ export default function Edit({
 
 	const blockProps = useBlockProps({
 		className: [
-			"wbg-content-curve-images",
+			"wbg-slider-curve-images-parent",
 			"alignfull",
 			isContentRight ? "content--right" : "",
 		]
@@ -173,7 +173,7 @@ export default function Edit({
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(
-		{ className: "wbg-content-curve-images__slider" },
+		{ className: "wbg-slider-curve-images-parent__slider" },
 		{
 			allowedBlocks: ALLOWED_BLOCKS,
 			template: TEMPLATE,
@@ -287,11 +287,11 @@ export default function Edit({
 
 			<div {...blockProps}>
 				{/* Title circle: outside the flex row, lined up with the content column. */}
-				<div className="wbg-content-curve-images__title-row">
-					<div className="wbg-content-curve-images__title-container">
+				<div className="wbg-slider-curve-images-parent__title-row">
+					<div className="wbg-slider-curve-images-parent__title-container">
 						<RichText
 							tagName="h2"
-							className="wbg-content-curve-images__title h2--alt-small"
+							className="wbg-slider-curve-images-parent__title h2--alt-small"
 							value={title}
 							onChange={(value) => setAttributes({ title: value })}
 							placeholder={__("Title (optional)", "wbg-blocks")}
@@ -300,36 +300,36 @@ export default function Edit({
 					</div>
 				</div>
 
-				<div className="wbg-content-curve-images__row">
-					<div className="wbg-content-curve-images__col wbg-content-curve-images__col--content">
-						<div className="wbg-content-curve-images__content">
-							<div className="wbg-content-curve-images__meta">
-								<p className="wbg-content-curve-images__meta-line">
+				<div className="wbg-slider-curve-images-parent__row">
+					<div className="wbg-slider-curve-images-parent__col wbg-slider-curve-images-parent__col--content">
+						<div className="wbg-slider-curve-images-parent__content">
+							<div className="wbg-slider-curve-images-parent__meta">
+								<p className="wbg-slider-curve-images-parent__meta-line">
 									<RichText
 										tagName="span"
-										className="wbg-content-curve-images__date"
+										className="wbg-slider-curve-images-parent__date"
 										value={date}
 										onChange={(value) => setAttributes({ date: value })}
 										placeholder={__("Date", "wbg-blocks")}
 										allowedFormats={TEXT_FORMATS}
 									/>{" "}
 									<span
-										className="wbg-content-curve-images__sep"
+										className="wbg-slider-curve-images-parent__sep"
 										aria-hidden="true"
 									>
 										|
 									</span>{" "}
 									<RichText
 										tagName="span"
-										className="wbg-content-curve-images__time"
+										className="wbg-slider-curve-images-parent__time"
 										value={time}
 										onChange={(value) => setAttributes({ time: value })}
 										placeholder={__("Time", "wbg-blocks")}
 										allowedFormats={TEXT_FORMATS}
 									/>
 								</p>
-								<p className="wbg-content-curve-images__meta-line">
-									<span className="wbg-content-curve-images__price">
+								<p className="wbg-slider-curve-images-parent__meta-line">
+									<span className="wbg-slider-curve-images-parent__price">
 										<RichText
 											tagName="span"
 											value={price}
@@ -337,17 +337,17 @@ export default function Edit({
 											placeholder={__("Price", "wbg-blocks")}
 											allowedFormats={TEXT_FORMATS}
 										/>{" "}
-										<span className="wbg-content-curve-images__price-label">
+										<span className="wbg-slider-curve-images-parent__price-label">
 											{__("Non-Members", "wbg-blocks")}
 										</span>
 									</span>{" "}
 									<span
-										className="wbg-content-curve-images__sep"
+										className="wbg-slider-curve-images-parent__sep"
 										aria-hidden="true"
 									>
 										|
 									</span>{" "}
-									<span className="wbg-content-curve-images__member-price">
+									<span className="wbg-slider-curve-images-parent__member-price">
 										<RichText
 											tagName="span"
 											value={memberPrice}
@@ -357,7 +357,7 @@ export default function Edit({
 											placeholder={__("Member Price", "wbg-blocks")}
 											allowedFormats={TEXT_FORMATS}
 										/>{" "}
-										<span className="wbg-content-curve-images__price-label">
+										<span className="wbg-slider-curve-images-parent__price-label">
 											{__("Members", "wbg-blocks")}
 										</span>
 									</span>
@@ -366,7 +366,7 @@ export default function Edit({
 
 							<RichText
 								tagName="h6"
-								className="wbg-content-curve-images__subheading"
+								className="wbg-slider-curve-images-parent__subheading"
 								value={subheading}
 								onChange={(value) => setAttributes({ subheading: value })}
 								placeholder={__("Optional Subheading", "wbg-blocks")}
@@ -374,7 +374,7 @@ export default function Edit({
 							/>
 							<RichText
 								tagName="h2"
-								className="wbg-content-curve-images__heading h2--alt-small"
+								className="wbg-slider-curve-images-parent__heading h2--alt-small"
 								value={heading}
 								onChange={(value) => setAttributes({ heading: value })}
 								placeholder={__("Heading", "wbg-blocks")}
@@ -382,14 +382,14 @@ export default function Edit({
 							/>
 							<RichText
 								tagName="p"
-								className="wbg-content-curve-images__text"
+								className="wbg-slider-curve-images-parent__text"
 								value={text}
 								onChange={(value) => setAttributes({ text: value })}
 								placeholder={__("Text", "wbg-blocks")}
 								allowedFormats={TEXT_FORMATS}
 							/>
 
-							<div className="wbg-content-curve-images__buttons">
+							<div className="wbg-slider-curve-images-parent__buttons">
 								{buttons.map(({ key, className, placeholder }) => (
 									<RichText
 										key={key}
@@ -398,7 +398,7 @@ export default function Edit({
 										tagName="div"
 										className={[
 											"wp-element-button",
-											"wbg-content-curve-images__button",
+											"wbg-slider-curve-images-parent__button",
 											className,
 										]
 											.filter(Boolean)
@@ -418,10 +418,10 @@ export default function Edit({
 					</div>
 
 					{/* Empty column: reserves the space the slider sits in. */}
-					<div className="wbg-content-curve-images__col wbg-content-curve-images__col--spacer fake-slider-container" />
+					<div className="wbg-slider-curve-images-parent__col wbg-slider-curve-images-parent__col--spacer fake-slider-container" />
 
 					{/* Absolutely positioned on desktop; below the content on mobile. */}
-					<div className="wbg-content-curve-images__slider-container">
+					<div className="wbg-slider-curve-images-parent__slider-container">
 						<div {...innerBlocksProps} />
 					</div>
 				</div>

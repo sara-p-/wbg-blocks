@@ -10,6 +10,7 @@
 	"keywords": ["slider", "carousel", "image", "curve"],
 	"textdomain": "wbg-blocks",
 	"allowedBlocks": ["wbg-blocks/wbg-slide-image"],
+	"parent": ["wbg-blocks/wbg-content-curve-images"],
 	"supports": {
 		"html": false,
 		"align": false,

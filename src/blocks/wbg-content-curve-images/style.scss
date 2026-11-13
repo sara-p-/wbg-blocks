@@ -1,129 +1,254 @@
 /**
- * WBG Layout - 2 Column – front-end + editor styles.
+ * WBG Content - Curve - Images – front-end + editor styles.
  *
+ * Layout
+ * - Mobile: one column. Content first, slider below, whatever the
+ *   content position is.
+ * - Title circle: its own row above the flex row (not part of the content
+ *   column), lined up with the content column's left edge.
+ * - Desktop: content column (max 515px) + an empty spacer column. The
+ *   slider is absolutely positioned over the spacer and bleeds to the edge
+ *   of the screen on its side.
+ *
+ * The block is a size container, so `100cqw` below is the block's full
+ * width. That's how the slider reaches the screen edge without 100vw
+ * (which causes a horizontal scrollbar on Windows).
  */
 
-$wbg-layout-2-col-media-height-mobile: 300px;
-$wbg-layout-2-col-media-height: 500px;
-$wbg-layout-2-col-breakpoint: 781px;
+/* ---------------------------------------------------------------------- */
+/* Settings                                                               */
+/* ---------------------------------------------------------------------- */
 
-// Space between the image's edge (the page center) and the text.
-$wbg-layout-2-col-gap: clamp(2rem, 4vw, 3.5rem);
+$wbg-cci-breakpoint: 1024px; // Two columns from here up.
 
-.wbg-layout-2-col {
+$wbg-cci-content-width: 515px; // Max width of the content column.
+$wbg-cci-column-gap: 4rem; // Space between content and slider.
+
+// Room the row keeps for the slider on desktop. Match these to the Slider -
+// Curve block: its max height, plus half an arrow hanging below it.
+$wbg-cci-slider-max-height: 500px;
+$wbg-cci-slider-arrow-room: 1.25rem;
+
+$wbg-cci-mobile-gap: 2.5rem; // Space between content and slider on mobile.
+
+// Title circle.
+$wbg-cci-circle-size: clamp(200px, 22vw, 296px);
+$wbg-cci-circle-bg: #e2dc4f;
+$wbg-cci-circle-padding: 1.5rem;
+// On wide screens the circle sits a little left of the text (content-left).
+$wbg-cci-circle-offset: 4rem;
+$wbg-cci-circle-offset-breakpoint: 1360px;
+
+/* ---------------------------------------------------------------------- */
+/* Block                                                                  */
+/* ---------------------------------------------------------------------- */
+
+.wbg-content-curve-images {
 	$self: &;
 
+	--wbg-cci-pad-left: var(--wp--style--root--padding-left, 24px);
+	--wbg-cci-pad-right: var(--wp--style--root--padding-right, 24px);
+
 	position: relative;
+	box-sizing: border-box;
+	container-type: inline-size;
 
-	// Absolutely positioned image block.
-	&__media {
-		position: absolute;
-		top: 50%;
-		left: 0;
-		width: 50%;
-		height: $wbg-layout-2-col-media-height;
-		transform: translateY(-50%);
-		background-size: cover;
-		background-position: center;
-		background-repeat: no-repeat;
-		pointer-events: none;
-		border-radius: 0 300px 300px 0;
-	}
-
-	&__wrapper {
-		position: relative;
-		z-index: 1;
-		display: flex;
-		align-items: center;
-		min-height: $wbg-layout-2-col-media-height;
+	// The title row and the flex row share the same width and padding, so
+	// the title circle lines up with the content column below it.
+	&__title-row,
+	&__row {
+		box-sizing: border-box;
 		max-width: var(--wp--style--global--wide-size, 1200px);
 		margin-inline: auto;
-		padding-inline: var(--wp--style--root--padding-left, 1.5rem)
-			var(--wp--style--root--padding-right, 1.5rem);
+		padding-inline: var(--wbg-cci-pad-left) var(--wbg-cci-pad-right);
 	}
 
-	&__content {
-		// border-box keeps the padding inside the 50% width, so the padding
-		// pushes the text away from the image instead of widening the column.
+	&__row {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: $wbg-cci-mobile-gap;
+	}
+
+	&__col {
 		box-sizing: border-box;
-		width: 50%;
-		max-width: 500px;
-		// Anchor the column to the center line (where the image ends) rather
-		// than the right edge, so the gap stays the same at every width.
-		margin-left: 50%;
-		padding-left: $wbg-layout-2-col-gap;
+		min-width: 0;
+
+		&--spacer {
+			display: none;
+		}
 	}
 
-	// Headings follow the block's text color.
-	&__subheading,
-	&__heading {
-		color: inherit;
-		margin-top: 0;
+	/* -------------------------------------------------------------------- */
+	/* Title circle                                                         */
+	/* -------------------------------------------------------------------- */
+
+	&__title-container {
+		box-sizing: border-box;
+		display: grid;
+		place-items: center;
+		width: $wbg-cci-circle-size;
+		aspect-ratio: 1;
+		margin-block-end: 2.5rem;
+		padding: $wbg-cci-circle-padding;
+		border-radius: 50%;
+		background-color: $wbg-cci-circle-bg;
+		text-align: center;
+	}
+
+	&__title {
+		width: 100%;
+		margin: 0;
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Content                                                              */
+	/* -------------------------------------------------------------------- */
+
+	&__meta {
+		margin-block-end: 1.25rem;
+	}
+
+	&__meta-line {
+		margin: 0;
+		font-weight: 600; // Mockup shows the meta lines in bold.
 	}
 
 	&__subheading {
-		margin-bottom: 0.5rem;
+		margin: 0 0 0.75rem;
 	}
 
 	&__heading {
-		margin-bottom: var(--wp--preset--spacing--40, 1.5rem);
+		margin: 0 0 1.5rem;
 	}
 
-	// Block gap applies to the inner blocks only.
-	&__body {
+	&__text {
+		margin: 0;
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Buttons                                                              */
+	/* -------------------------------------------------------------------- */
+
+	// Base look comes from the theme's button styles (.wp-element-button).
+	&__buttons {
 		display: flex;
-		flex-direction: column;
-		gap: var(--wbg-block-gap, var(--wp--style--block-gap, 1.5rem));
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		margin-block-start: 2.5rem;
+	}
 
-		> * {
-			margin-block: 0;
+	&__button {
+		display: inline-block;
+		// Same border width as the outline button, so both are the same size.
+		border: 1px solid transparent;
+		text-decoration: none;
+
+		&--outline {
+			border-color: var(--wp--preset--color--dark-green);
+			background-color: transparent;
+			color: var(--wp--preset--color--dark-green);
+
+			&:hover,
+			&:focus-visible {
+				background-color: color-mix(in srgb, currentColor 8%, transparent);
+				color: inherit;
+			}
 		}
 	}
 
-	// Content Left: swap the columns.
-	&.content--left {
-		#{$self}__media {
-			left: auto;
-			right: 0;
-			border-radius: 300px 0 0 300px;
-		}
+	/* -------------------------------------------------------------------- */
+	/* Slider (mobile: below the content)                                   */
+	/* -------------------------------------------------------------------- */
 
-		#{$self}__content {
-			margin-left: auto;
-			margin-right: 50%;
-			padding-left: 0;
-			padding-right: $wbg-layout-2-col-gap;
-		}
+	&__slider-container {
+		position: relative;
+		// Bleed to the edge of the block on the slider's side.
+		// (100% = row's content width, 100cqw = block width.)
+		margin-inline-end: calc((100% - 100cqw) / 2);
 	}
 
-	// Stack on small screens: image first, then content.
-	@media (max-width: $wbg-layout-2-col-breakpoint) {
-		&__media,
-		&.content--left #{$self}__media {
-			position: relative;
-			top: auto;
-			left: auto;
-			right: auto;
-			width: 85%;
-			transform: none;
-			height: $wbg-layout-2-col-media-height-mobile;
+	&.content--right #{$self}__slider-container {
+		margin-inline-start: calc((100% - 100cqw) / 2);
+		margin-inline-end: 0;
+	}
+
+	&__slider {
+		width: 100%;
+	}
+
+	// Content on the right: the slider sits on the left, so flip its curve.
+	&.content--right .wbg-slider-curve__viewport {
+		border-radius: 0 9999px 9999px 0;
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Desktop                                                              */
+	/* -------------------------------------------------------------------- */
+
+	@media (min-width: $wbg-cci-breakpoint) {
+		&__row {
+			flex-direction: row;
+			align-items: center;
+			gap: $wbg-cci-column-gap;
+			min-height: calc(
+				#{$wbg-cci-slider-max-height} + #{$wbg-cci-slider-arrow-room}
+			);
 		}
 
-		&.content--left #{$self}__media {
-			margin-left: auto;
+		&.content--right #{$self}__row {
+			flex-direction: row-reverse;
 		}
 
-		&__wrapper {
-			min-height: 0;
-			padding-top: var(--wp--preset--spacing--50, 2rem);
+		// Content on the right: move the circle over the content column.
+		&.content--right #{$self}__title-container {
+			margin-inline-start: calc(100% - #{$wbg-cci-content-width});
 		}
 
-		&__content,
-		&.content--left #{$self}__content {
-			width: 100%;
-			max-width: none;
+		&__col {
+			&--content {
+				flex: 0 0 $wbg-cci-content-width;
+				max-width: $wbg-cci-content-width;
+			}
+
+			&--spacer {
+				display: block;
+				flex: 1 1 0;
+				align-self: stretch;
+			}
+		}
+
+		// Positioned against the row: starts where the spacer column starts
+		// and runs to the edge of the block. Centred on the row vertically.
+		&__slider-container,
+		&.content--right #{$self}__slider-container {
+			position: absolute;
+			inset-block: 0;
+			display: flex;
+			align-items: center;
 			margin: 0;
-			padding-inline: 0;
+		}
+
+		&__slider-container {
+			left: calc(
+				var(--wbg-cci-pad-left) + #{$wbg-cci-content-width} +
+					#{$wbg-cci-column-gap}
+			);
+			right: calc((100% - 100cqw) / 2);
+		}
+
+		&.content--right #{$self}__slider-container {
+			left: calc((100% - 100cqw) / 2);
+			right: calc(
+				var(--wbg-cci-pad-right) + #{$wbg-cci-content-width} +
+					#{$wbg-cci-column-gap}
+			);
+		}
+	}
+
+	@media (min-width: $wbg-cci-circle-offset-breakpoint) {
+		&:not(.content--right) #{$self}__title-container {
+			margin-inline-start: -$wbg-cci-circle-offset;
 		}
 	}
 }

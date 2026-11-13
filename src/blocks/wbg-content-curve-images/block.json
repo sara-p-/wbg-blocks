@@ -11,14 +11,17 @@
 	"example": {
 		"viewportWidth": 1400,
 		"attributes": {
-			"title": "Adult Education",
-			"date": "August 12",
+			"title": "<em>Adult</em> Education",
+			"date": "August 26",
 			"time": "6:00pm - 8:00pm",
 			"price": "$36",
 			"memberPrice": "$28",
-			"subheading": "Subheading Here",
-			"heading": "Summer Cooking Demo: Tomatoes & Peppers 'Beyond BLTs and Salsa'",
-			"text": "Join Chef Sherry Hurley for a live cooking demonstration, where she’ll share some of her favorite summertime recipes using fresh, local ingredients. ",
+			"heading": "<em>Summer Cooking Demo:</em> Tomatoes &amp; Peppers “Beyond BLTs and Salsa”",
+			"text": "Join Chef Sherry Hurley for a live cooking demonstration, where she’ll share some of her favorite summertime recipes using fresh, local ingredients.",
+			"button1Text": "Register Here",
+			"button1Url": "#",
+			"button2Text": "Browse Classes",
+			"button2Url": "#",
 			"contentPosition": "content-left"
 		},
 		"innerBlocks": [
@@ -57,6 +60,22 @@
 			"type": "string",
 			"default": ""
 		},
+		"date": {
+			"type": "string",
+			"default": ""
+		},
+		"time": {
+			"type": "string",
+			"default": ""
+		},
+		"price": {
+			"type": "string",
+			"default": ""
+		},
+		"memberPrice": {
+			"type": "string",
+			"default": ""
+		},
 		"subheading": {
 			"type": "string",
 			"default": ""
@@ -64,6 +83,42 @@
 		"heading": {
 			"type": "string",
 			"default": ""
+		},
+		"text": {
+			"type": "string",
+			"default": ""
+		},
+		"button1Text": {
+			"type": "string",
+			"default": ""
+		},
+		"button1Url": {
+			"type": "string",
+			"default": ""
+		},
+		"button1OpensInNewTab": {
+			"type": "boolean",
+			"default": false
+		},
+		"button1Nofollow": {
+			"type": "boolean",
+			"default": false
+		},
+		"button2Text": {
+			"type": "string",
+			"default": ""
+		},
+		"button2Url": {
+			"type": "string",
+			"default": ""
+		},
+		"button2OpensInNewTab": {
+			"type": "boolean",
+			"default": false
+		},
+		"button2Nofollow": {
+			"type": "boolean",
+			"default": false
 		},
 		"style": {
 			"type": "object",
@@ -95,7 +150,6 @@
 				"text": true
 			}
 		},
-
 		"spacing": {
 			"padding": ["top", "bottom"],
 			"__experimentalDefaultControls": {

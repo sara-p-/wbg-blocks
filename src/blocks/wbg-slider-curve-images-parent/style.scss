@@ -24,16 +24,19 @@ $wbg-cci-breakpoint: 1024px; // Two columns from here up.
 $wbg-cci-content-width: 515px; // Max width of the content column.
 $wbg-cci-column-gap: 4rem; // Space between content and slider.
 
-// Room the row keeps for the slider on desktop. Match these to the Slider -
-// Curve block: its max height, plus half an arrow hanging below it.
-$wbg-cci-slider-max-height: 500px;
+// Slider height. Same as the image in Slide - Curve - Full: a fixed height
+// on desktop, and a clamp that scales with the screen width on mobile.
+$wbg-cci-slider-height: 500px; // Desktop. Also the row's min height.
+$wbg-cci-slider-height-mobile: clamp(240px, 65vw, 420px);
+
+// Half an arrow hangs below the slider; the row leaves room for it.
 $wbg-cci-slider-arrow-room: 1.25rem;
 
 $wbg-cci-mobile-gap: 2.5rem; // Space between content and slider on mobile.
 
 // Title circle.
 $wbg-cci-circle-size: clamp(200px, 22vw, 296px);
-$wbg-cci-circle-bg: #e2dc4f;
+$wbg-cci-circle-bg: var(--wp--preset--color--light-green);
 $wbg-cci-circle-padding: 1.5rem;
 // On wide screens the circle sits a little further left than the row's edge.
 $wbg-cci-circle-offset: 4rem;
@@ -113,6 +116,9 @@ $wbg-cci-circle-offset-breakpoint: 1360px;
 		margin: 0;
 		font-weight: 600; // Mockup shows the meta lines in bold.
 		text-transform: none;
+		&:first-child {
+			margin-bottom: 12px;
+		}
 	}
 
 	&__subheading {
@@ -178,6 +184,11 @@ $wbg-cci-circle-offset-breakpoint: 1360px;
 		width: 100%;
 	}
 
+	// Overrides the Slider - Curve block's own height.
+	.wbg-slider-curve-child__viewport {
+		height: $wbg-cci-slider-height-mobile;
+	}
+
 	// Content on the right: the slider sits on the left, so flip its curve.
 	&.content--right .wbg-slider-curve-child__viewport {
 		border-radius: 0 9999px 9999px 0;
@@ -193,7 +204,7 @@ $wbg-cci-circle-offset-breakpoint: 1360px;
 			align-items: center;
 			gap: $wbg-cci-column-gap;
 			min-height: calc(
-				#{$wbg-cci-slider-max-height} + #{$wbg-cci-slider-arrow-room}
+				#{$wbg-cci-slider-height} + #{$wbg-cci-slider-arrow-room}
 			);
 		}
 
@@ -231,6 +242,10 @@ $wbg-cci-circle-offset-breakpoint: 1360px;
 					#{$wbg-cci-column-gap}
 			);
 			right: calc((100% - 100cqw) / 2);
+		}
+
+		.wbg-slider-curve-child__viewport {
+			height: $wbg-cci-slider-height;
 		}
 
 		&.content--right #{$self}__slider-container {

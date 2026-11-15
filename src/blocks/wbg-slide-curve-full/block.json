@@ -1,0 +1,114 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-slide-curve-full",
+	"version": "0.1.0",
+	"title": "Curve Slide - Full",
+	"category": "wbg-slides",
+	"icon": "grid-view",
+	"description": "A 2-column slide featuring text content and an image.",
+	"keywords": ["section", "columns", "2-column", "image", "slider"],
+	"allowedBlocks": [
+		"core/paragraph",
+		"core/buttons",
+		"core/list",
+		"core/image"
+	],
+	"example": {
+		"viewportWidth": 1400,
+		"attributes": {
+			"date": "August 26",
+			"time": "6:00pm - 8:00pm",
+			"price": "$36",
+			"memberPrice": "$28",
+			"heading": "<em>Summer Cooking Demo:</em> Tomatoes &amp; Peppers “Beyond BLTs and Salsa”",
+			"contentPosition": "content-left",
+			"style": {
+				"background": {
+					"backgroundImage": {
+						"url": "/wp-content/uploads/2026/10/2-col-example.webp",
+						"source": "file",
+						"title": "2-col-example"
+					},
+					"backgroundSize": "cover",
+					"backgroundPosition": "50% 50%",
+					"backgroundRepeat": "no-repeat"
+				}
+			}
+		},
+		"innerBlocks": [
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Join Chef Sherry Hurley for a live cooking demonstration, where she’ll share some of her favorite summertime recipes using fresh, local ingredients."
+				}
+			},
+			{
+				"name": "core/buttons",
+				"innerBlocks": [
+					{
+						"name": "core/button",
+						"attributes": { "text": "Register Here", "url": "#" }
+					},
+					{
+						"name": "core/button",
+						"attributes": { "text": "Browse Classes", "url": "#" }
+					}
+				]
+			}
+		]
+	},
+	"attributes": {
+		"contentPosition": {
+			"type": "string",
+			"enum": ["content-right", "content-left"],
+			"default": "content-left"
+		},
+		"date": {
+			"type": "string",
+			"default": ""
+		},
+		"time": {
+			"type": "string",
+			"default": ""
+		},
+		"price": {
+			"type": "string",
+			"default": ""
+		},
+		"memberPrice": {
+			"type": "string",
+			"default": ""
+		},
+		"subheading": {
+			"type": "string",
+			"default": ""
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalSkipSerialization": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		},
+		"spacing": {
+			"blockGap": true,
+			"__experimentalSkipSerialization": ["blockGap"],
+			"__experimentalDefaultControls": {
+				"blockGap": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

@@ -1,0 +1,208 @@
+/**
+ * WBG Slide - Curve - Full – front-end + editor styles.
+ *
+ * Layout
+ * - The block is 100% of whatever it sits in (the parent slider sets the
+ *   width).
+ *
+ * - Mobile: one column. Content first, image below, whatever the
+ *   content position is.
+ *
+ * - Desktop: content column (max 515px) + an empty spacer column. The
+ *   image is absolutely positioned over the spacer and bleeds to the edge
+ *   of the screen on its side.
+ *
+ * Bleed
+ * `--wbg-scf-bleed` is the distance from the block's edge to the screen
+ * edge. By default it's worked out with `100cqw`, which is:
+ *   - the width of the nearest ancestor with `container-type: inline-size`
+ *     (put that on the full-width parent slider: no scrollbar issues), or
+ *   - the viewport width when there's no such ancestor (same as 100vw,
+ *     which can cause a horizontal scrollbar on Windows).
+ * It assumes the block is centred in that container/viewport. The parent
+ * block can also just set `--wbg-scf-bleed` itself.
+ */
+
+/* ---------------------------------------------------------------------- */
+/* Settings                                                               */
+/* ---------------------------------------------------------------------- */
+
+$wbg-scf-breakpoint: 1024px; // Two columns from here up.
+
+$wbg-scf-content-width: 515px; // Max width of the content column.
+$wbg-scf-column-gap: 4rem; // Space between content and image (desktop).
+$wbg-scf-mobile-gap: 2.5rem; // Space between content and image (mobile).
+
+// Image.
+$wbg-scf-image-height: 500px; // Desktop. Also the row's min height.
+$wbg-scf-image-height-mobile: clamp(240px, 65vw, 420px);
+$wbg-scf-image-radius: 9999px; // The curved side.
+$wbg-scf-image-placeholder-bg: rgba(0, 0, 0, 0.08); // Editor, no image yet.
+
+// Content spacing.
+$wbg-scf-meta-margin: 1.25rem; // Below the meta lines.
+$wbg-scf-meta-font-weight: 600; // Mockup shows the meta lines in bold.
+$wbg-scf-subheading-margin: 0.75rem; // Below the subheading.
+$wbg-scf-heading-margin: 1.5rem; // Below the heading.
+
+// Space between inner blocks when no Block Spacing is set on the block.
+$wbg-scf-block-gap: var(--wp--style--block-gap, 1.5rem);
+
+/* ---------------------------------------------------------------------- */
+/* Block                                                                  */
+/* ---------------------------------------------------------------------- */
+
+.wbg-slide-curve-full {
+	$self: &;
+
+	// Block edge -> screen edge. See "Bleed" above.
+	--wbg-scf-bleed: calc((100cqw - 100%) / 2);
+
+	position: relative;
+	box-sizing: border-box;
+	width: 100%;
+
+	&__row {
+		position: relative;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		gap: $wbg-scf-mobile-gap;
+	}
+
+	&__col {
+		box-sizing: border-box;
+		min-width: 0;
+
+		&--spacer {
+			display: none;
+		}
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Content                                                              */
+	/* -------------------------------------------------------------------- */
+
+	&__meta {
+		margin-block-end: $wbg-scf-meta-margin;
+	}
+
+	&__meta-line {
+		margin: 0;
+		font-weight: $wbg-scf-meta-font-weight;
+		text-transform: none;
+		&:first-child {
+			margin-bottom: 12px;
+		}
+	}
+
+	&__subheading {
+		margin: 0 0 $wbg-scf-subheading-margin;
+	}
+
+	&__heading {
+		margin: 0 0 $wbg-scf-heading-margin;
+	}
+
+	// Inner blocks. The Block Spacing control sets --wbg-scf-block-gap on
+	// this div (edit.js / render.php), so it only affects what's in here.
+	&__inner {
+		> * {
+			margin-block: 0;
+		}
+
+		> * + * {
+			margin-block-start: var(--wbg-scf-block-gap, #{$wbg-scf-block-gap});
+		}
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Image (mobile: below the content)                                   */
+	/* -------------------------------------------------------------------- */
+
+	&__image-container {
+		position: relative;
+		// Bleed to the edge of the screen on the image's side.
+		margin-inline-end: calc(var(--wbg-scf-bleed) * -1);
+	}
+
+	&.content--right #{$self}__image-container {
+		margin-inline-start: calc(var(--wbg-scf-bleed) * -1);
+		margin-inline-end: 0;
+	}
+
+	// The background image controls put their styles on this div. These are
+	// the defaults for anything not set in the controls.
+	&__image {
+		width: 100%;
+		height: $wbg-scf-image-height-mobile;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		border-radius: $wbg-scf-image-radius 0 0 $wbg-scf-image-radius;
+
+		&--placeholder {
+			background-color: $wbg-scf-image-placeholder-bg;
+		}
+	}
+
+	// Content on the right: the image sits on the left, so flip its curve.
+	&.content--right #{$self}__image {
+		border-radius: 0 $wbg-scf-image-radius $wbg-scf-image-radius 0;
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Desktop                                                              */
+	/* -------------------------------------------------------------------- */
+
+	@media (min-width: $wbg-scf-breakpoint) {
+		&__row {
+			flex-direction: row;
+			align-items: center;
+			gap: $wbg-scf-column-gap;
+			min-height: $wbg-scf-image-height;
+		}
+
+		&.content--right #{$self}__row {
+			flex-direction: row-reverse;
+		}
+
+		&__col {
+			&--content {
+				flex: 0 0 $wbg-scf-content-width;
+				max-width: $wbg-scf-content-width;
+			}
+
+			&--spacer {
+				display: block;
+				flex: 1 1 0;
+				align-self: stretch;
+			}
+		}
+
+		// Positioned against the row: starts where the spacer column starts
+		// and runs to the edge of the screen. Centred on the row vertically.
+		&__image-container,
+		&.content--right #{$self}__image-container {
+			position: absolute;
+			inset-block: 0;
+			display: flex;
+			align-items: center;
+			margin: 0;
+		}
+
+		&__image-container {
+			left: calc(#{$wbg-scf-content-width} + #{$wbg-scf-column-gap});
+			right: calc(var(--wbg-scf-bleed) * -1);
+		}
+
+		&.content--right #{$self}__image-container {
+			left: calc(var(--wbg-scf-bleed) * -1);
+			right: calc(#{$wbg-scf-content-width} + #{$wbg-scf-column-gap});
+		}
+
+		&__image {
+			height: $wbg-scf-image-height;
+		}
+	}
+}

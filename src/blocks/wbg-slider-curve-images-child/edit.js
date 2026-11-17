@@ -20,11 +20,12 @@ const TEMPLATE = [
 
 export default function Edit() {
 	const blockProps = useBlockProps({
-		className: "wbg-slider-curve-child wbg-slider-curve-child--editor",
+		className:
+			"wbg-slider-curve-images-child wbg-slider-curve-images-child--editor",
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(
-		{ className: "wbg-slider-curve-child__editor-track" },
+		{ className: "wbg-slider-curve-images-child__editor-track" },
 		{
 			allowedBlocks: ALLOWED_BLOCKS,
 			template: TEMPLATE,
@@ -36,7 +37,7 @@ export default function Edit() {
 
 	return (
 		<div {...blockProps}>
-			<p className="wbg-slider-curve-child__editor-label">
+			<p className="wbg-slider-curve-images-child__editor-label">
 				{__("Slider – Curve", "wbg-blocks")}
 			</p>
 			<div {...innerBlocksProps} />

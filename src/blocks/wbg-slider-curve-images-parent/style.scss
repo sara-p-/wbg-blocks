@@ -185,12 +185,12 @@ $wbg-cci-circle-offset-breakpoint: 1360px;
 	}
 
 	// Overrides the Slider - Curve block's own height.
-	.wbg-slider-curve-child__viewport {
+	.wbg-slider-curve-images-child__viewport {
 		height: $wbg-cci-slider-height-mobile;
 	}
 
 	// Content on the right: the slider sits on the left, so flip its curve.
-	&.content--right .wbg-slider-curve-child__viewport {
+	&.content--right .wbg-slider-curve-images-child__viewport {
 		border-radius: 0 9999px 9999px 0;
 	}
 
@@ -244,7 +244,7 @@ $wbg-cci-circle-offset-breakpoint: 1360px;
 			right: calc((100% - 100cqw) / 2);
 		}
 
-		.wbg-slider-curve-child__viewport {
+		.wbg-slider-curve-images-child__viewport {
 			height: $wbg-cci-slider-height;
 		}
 

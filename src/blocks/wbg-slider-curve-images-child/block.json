@@ -1,9 +1,9 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "wbg-blocks/wbg-slider-curve-child",
+	"name": "wbg-blocks/wbg-slider-curve-images-child",
 	"version": "0.1.0",
-	"title": "Slider - Curve - Child",
+	"title": "Slider - Curve - Images",
 	"category": "wbg-sliders",
 	"icon": "slides",
 	"description": "A curved image slider with fading slides and navigation arrows.",

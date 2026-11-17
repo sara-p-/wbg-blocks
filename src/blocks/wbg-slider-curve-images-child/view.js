@@ -24,7 +24,9 @@ function initSlider(root) {
 
 	root.dataset.wbgSliderReady = "true";
 
-	const viewport = root.querySelector(".wbg-slider-curve-child__viewport");
+	const viewport = root.querySelector(
+		".wbg-slider-curve-images-child__viewport",
+	);
 	const prevButton = root.querySelector("[data-wbg-slider-prev]");
 	const nextButton = root.querySelector("[data-wbg-slider-next]");
 	const status = root.querySelector("[data-wbg-slider-status]");

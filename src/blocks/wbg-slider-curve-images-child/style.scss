@@ -9,59 +9,61 @@
 
 // Height scales with the slider's own width (cqi = % of the slider's width),
 // and stays between the min and max.
-$wbg-slider-curve-child-height-max: 500px;
-$wbg-slider-curve-child-height-min: 280px;
-$wbg-slider-curve-child-height-scale: 60cqi;
+$wbg-slider-curve-images-child-height-max: 500px;
+$wbg-slider-curve-images-child-height-min: 280px;
+$wbg-slider-curve-images-child-height-scale: 60cqi;
 
 // Shape: the left side is a full half-circle, the right side is square.
-$wbg-slider-curve-child-radius-left: 9999px;
-$wbg-slider-curve-child-radius-right: 0;
+$wbg-slider-curve-images-child-radius-left: 9999px;
+$wbg-slider-curve-images-child-radius-right: 0;
 
 // Fade between slides.
-$wbg-slider-curve-child-fade-duration: 0.6s;
+$wbg-slider-curve-images-child-fade-duration: 0.6s;
 
 // Arrows.
-$wbg-slider-curve-child-arrow-size: var(--wp--preset--spacing--60);
-$wbg-slider-curve-child-arrow-gap: 24px;
-$wbg-slider-curve-child-arrow-bg: var(--wp--preset--color--light-green);
-$wbg-slider-curve-child-arrow-color: var(--wp--preset--color--dark-green);
-$wbg-slider-curve-child-nav-position: 50%; // Horizontal centre of the arrow pair.
-$wbg-slider-curve-child-nav-offset-mobile: -65%; // translateX of the arrow pair on mobile.
-$wbg-slider-curve-child-nav-offset-desktop: -120%; // translateX of the arrow pair on desktop.
+$wbg-slider-curve-images-child-arrow-size: var(--wp--preset--spacing--60);
+$wbg-slider-curve-images-child-arrow-gap: 24px;
+$wbg-slider-curve-images-child-arrow-bg: var(--wp--preset--color--light-green);
+$wbg-slider-curve-images-child-arrow-color: var(
+	--wp--preset--color--dark-green
+);
+$wbg-slider-curve-images-child-nav-position: 50%; // Horizontal centre of the arrow pair.
+$wbg-slider-curve-images-child-nav-offset-mobile: -65%; // translateX of the arrow pair on mobile.
+$wbg-slider-curve-images-child-nav-offset-desktop: -120%; // translateX of the arrow pair on desktop.
 
 // Arrow offsets when the parent block has .content--right.
-$wbg-slider-curve-child-nav-offset-right-mobile: -25%;
-$wbg-slider-curve-child-nav-offset-right-desktop: 30%;
+$wbg-slider-curve-images-child-nav-offset-right-mobile: -25%;
+$wbg-slider-curve-images-child-nav-offset-right-desktop: 30%;
 
 // Mobile / desktop switch point.
-$wbg-slider-curve-child-breakpoint: 782px; // WP's standard mobile/desktop breakpoint.
+$wbg-slider-curve-images-child-breakpoint: 782px; // WP's standard mobile/desktop breakpoint.
 
 // Editor preview.
-$wbg-slider-curve-child-editor-slide-height: 220px;
-$wbg-slider-curve-child-editor-slide-width: min(70%, 420px);
+$wbg-slider-curve-images-child-editor-slide-height: 220px;
+$wbg-slider-curve-images-child-editor-slide-width: min(70%, 420px);
 
 /* ---------------------------------------------------------------------- */
 /* Block                                                                  */
 /* ---------------------------------------------------------------------- */
 
-.wbg-slider-curve-child {
+.wbg-slider-curve-images-child {
 	$self: &;
 
-	--wbg-slider-curve-child-height: clamp(
-		#{$wbg-slider-curve-child-height-min},
-		#{$wbg-slider-curve-child-height-scale},
-		#{$wbg-slider-curve-child-height-max}
+	--wbg-slider-curve-images-child-height: clamp(
+		#{$wbg-slider-curve-images-child-height-min},
+		#{$wbg-slider-curve-images-child-height-scale},
+		#{$wbg-slider-curve-images-child-height-max}
 	);
-	--wbg-slider-curve-child-fade: #{$wbg-slider-curve-child-fade-duration};
-	--wbg-slider-curve-child-arrow-size: #{$wbg-slider-curve-child-arrow-size};
-	--wbg-slider-curve-child-arrow-bg: #{$wbg-slider-curve-child-arrow-bg};
-	--wbg-slider-curve-child-arrow-color: #{$wbg-slider-curve-child-arrow-color};
+	--wbg-slider-curve-images-child-fade: #{$wbg-slider-curve-images-child-fade-duration};
+	--wbg-slider-curve-images-child-arrow-size: #{$wbg-slider-curve-images-child-arrow-size};
+	--wbg-slider-curve-images-child-arrow-bg: #{$wbg-slider-curve-images-child-arrow-bg};
+	--wbg-slider-curve-images-child-arrow-color: #{$wbg-slider-curve-images-child-arrow-color};
 
 	position: relative;
 	box-sizing: border-box;
 	width: 100%;
 	// Arrows sit half over the bottom edge, so leave room for the other half.
-	padding-bottom: calc(var(--wbg-slider-curve-child-arrow-size) / 2);
+	padding-bottom: calc(var(--wbg-slider-curve-images-child-arrow-size) / 2);
 	// Lets the height scale with the slider's width (cqi units).
 	container-type: inline-size;
 
@@ -71,11 +73,12 @@ $wbg-slider-curve-child-editor-slide-width: min(70%, 420px);
 
 	&__viewport {
 		position: relative;
-		height: var(--wbg-slider-curve-child-height);
+		height: var(--wbg-slider-curve-images-child-height);
 		overflow: hidden;
-		border-radius: $wbg-slider-curve-child-radius-left
-			$wbg-slider-curve-child-radius-right $wbg-slider-curve-child-radius-right
-			$wbg-slider-curve-child-radius-left;
+		border-radius: $wbg-slider-curve-images-child-radius-left
+			$wbg-slider-curve-images-child-radius-right
+			$wbg-slider-curve-images-child-radius-right
+			$wbg-slider-curve-images-child-radius-left;
 		isolation: isolate; // Keeps the clipping clean during the fade (Safari).
 		touch-action: pan-y; // Vertical page scroll still works; horizontal = swipe.
 	}
@@ -95,8 +98,8 @@ $wbg-slider-curve-child-editor-slide-width: min(70%, 420px);
 			opacity: 0;
 			visibility: hidden;
 			transition:
-				opacity var(--wbg-slider-curve-child-fade) ease,
-				visibility 0s linear var(--wbg-slider-curve-child-fade);
+				opacity var(--wbg-slider-curve-images-child-fade) ease,
+				visibility 0s linear var(--wbg-slider-curve-images-child-fade);
 		}
 
 		> .is-active {
@@ -104,7 +107,7 @@ $wbg-slider-curve-child-editor-slide-width: min(70%, 420px);
 			opacity: 1;
 			visibility: visible;
 			transition:
-				opacity var(--wbg-slider-curve-child-fade) ease,
+				opacity var(--wbg-slider-curve-images-child-fade) ease,
 				visibility 0s;
 		}
 	}
@@ -122,22 +125,26 @@ $wbg-slider-curve-child-editor-slide-width: min(70%, 420px);
 	&__nav {
 		position: absolute;
 		bottom: 0;
-		left: $wbg-slider-curve-child-nav-position;
+		left: $wbg-slider-curve-images-child-nav-position;
 		z-index: 2;
 		display: flex;
-		gap: $wbg-slider-curve-child-arrow-gap;
-		transform: translateX($wbg-slider-curve-child-nav-offset-mobile);
+		gap: $wbg-slider-curve-images-child-arrow-gap;
+		transform: translateX($wbg-slider-curve-images-child-nav-offset-mobile);
 
-		@media (min-width: $wbg-slider-curve-child-breakpoint) {
-			transform: translateX($wbg-slider-curve-child-nav-offset-desktop);
+		@media (min-width: $wbg-slider-curve-images-child-breakpoint) {
+			transform: translateX($wbg-slider-curve-images-child-nav-offset-desktop);
 		}
 
 		// Parent block with content on the right.
 		.content--right & {
-			transform: translateX($wbg-slider-curve-child-nav-offset-right-mobile);
+			transform: translateX(
+				$wbg-slider-curve-images-child-nav-offset-right-mobile
+			);
 
-			@media (min-width: $wbg-slider-curve-child-breakpoint) {
-				transform: translateX($wbg-slider-curve-child-nav-offset-right-desktop);
+			@media (min-width: $wbg-slider-curve-images-child-breakpoint) {
+				transform: translateX(
+					$wbg-slider-curve-images-child-nav-offset-right-desktop
+				);
 			}
 		}
 	}
@@ -149,19 +156,19 @@ $wbg-slider-curve-child-editor-slide-width: min(70%, 420px);
 	&__arrow {
 		display: grid;
 		place-items: center;
-		width: var(--wbg-slider-curve-child-arrow-size);
-		height: var(--wbg-slider-curve-child-arrow-size);
+		width: var(--wbg-slider-curve-images-child-arrow-size);
+		height: var(--wbg-slider-curve-images-child-arrow-size);
 		padding: 0;
 		border: 0;
 		border-radius: 50%;
-		background-color: var(--wbg-slider-curve-child-arrow-bg);
-		color: var(--wbg-slider-curve-child-arrow-color);
+		background-color: var(--wbg-slider-curve-images-child-arrow-bg);
+		color: var(--wbg-slider-curve-images-child-arrow-color);
 		cursor: pointer;
 		transition: transform 0.2s ease;
 
 		svg {
-			width: calc(var(--wbg-slider-curve-child-arrow-size) * 0.5);
-			height: calc(var(--wbg-slider-curve-child-arrow-size) * 0.5);
+			width: calc(var(--wbg-slider-curve-images-child-arrow-size) * 0.5);
+			height: calc(var(--wbg-slider-curve-images-child-arrow-size) * 0.5);
 		}
 
 		&:hover {
@@ -169,7 +176,7 @@ $wbg-slider-curve-child-editor-slide-width: min(70%, 420px);
 		}
 
 		&:focus-visible {
-			outline: 3px solid var(--wbg-slider-curve-child-arrow-bg);
+			outline: 3px solid var(--wbg-slider-curve-images-child-arrow-bg);
 			outline-offset: 3px;
 		}
 	}
@@ -226,8 +233,8 @@ $wbg-slider-curve-child-editor-slide-width: min(70%, 420px);
 		scrollbar-width: thin;
 
 		> [data-type="wbg-blocks/wbg-slide-image"] {
-			flex: 0 0 $wbg-slider-curve-child-editor-slide-width;
-			height: $wbg-slider-curve-child-editor-slide-height;
+			flex: 0 0 $wbg-slider-curve-images-child-editor-slide-width;
+			height: $wbg-slider-curve-images-child-editor-slide-height;
 			margin: 0;
 			background-color: #f0f0f0; // Placeholder until an image is set.
 			scroll-snap-align: start;

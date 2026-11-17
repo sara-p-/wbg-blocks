@@ -38,8 +38,8 @@ import {
 } from "@wordpress/components";
 import { link, linkOff, plus } from "@wordpress/icons";
 
-const ALLOWED_BLOCKS = ["wbg-blocks/wbg-slider-curve-child"];
-const TEMPLATE = [["wbg-blocks/wbg-slider-curve-child"]];
+const ALLOWED_BLOCKS = ["wbg-blocks/wbg-slider-curve-images-child"];
+const TEMPLATE = [["wbg-blocks/wbg-slider-curve-images-child"]];
 const SLIDE_BLOCK = "wbg-blocks/wbg-slide-image";
 
 const TEXT_FORMATS = ["core/bold", "core/italic"];

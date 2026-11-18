@@ -2,12 +2,19 @@
 /**
  * Slide - Curve - Full: front-end render.
  *
- * Heading levels change with the fields that are
- * filled in, so the page outline stays in order:
+ * Heading levels change with the fields that are filled in, and with
+ * whether the parent Curve Slider has a title (its title circle is an h2),
+ * so the page outline stays in order:
  *
- * - Subheading:    subheading h2.fake--h6, heading h3.h2--alt-small, meta h4.fake--p
- * - No subheading: heading h2.h2--alt-small, meta h3.fake--p
+ * - Slider title (with or without subheading):
+ *   subheading p.fake--h6, heading h3.h2--alt-small, meta h4.fake--p
+ * - No slider title, subheading:
+ *   subheading h2.fake--h6, heading h3.h2--alt-small, meta h4.fake--p
+ * - No slider title, no subheading:
+ *   heading h2.h2--alt-small, meta h3.fake--p
  *
+ * The slider title comes from block context ("wbg-blocks/sliderTitle"),
+ * provided by wbg-blocks/wbg-slider-curve-full.
  *
  * @var array    $attributes Block attributes.
  * @var string   $content    Inner blocks markup
@@ -43,12 +50,22 @@ $wbg_heading      = $wbg_get( 'heading' );
 $wbg_has_subheading = $wbg_has_text( $wbg_subheading );
 $wbg_is_right       = 'content-right' === $wbg_get( 'contentPosition' );
 
+// Parent slider's title (block context).
+$wbg_slider_title     = isset( $block->context['wbg-blocks/sliderTitle'] ) && is_string( $block->context['wbg-blocks/sliderTitle'] )
+	? $block->context['wbg-blocks/sliderTitle']
+	: '';
+$wbg_has_slider_title = $wbg_has_text( $wbg_slider_title );
+
 /*
  * Heading levels (front end only; the editor uses fixed tags).
  * ------------------------------------------------------------------------ */
 
-
-if ( $wbg_has_subheading ) {
+if ( $wbg_has_slider_title ) {
+	// The slider's title circle is the h2.
+	$wbg_subheading_tag = 'p';
+	$wbg_heading_tag    = 'h3';
+	$wbg_meta_tag       = 'h4';
+} elseif ( $wbg_has_subheading ) {
 	$wbg_subheading_tag = 'h2';
 	$wbg_heading_tag    = 'h3';
 	$wbg_meta_tag       = 'h4';

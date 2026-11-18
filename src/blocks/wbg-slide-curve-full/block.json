@@ -8,6 +8,8 @@
 	"icon": "grid-view",
 	"description": "A 2-column slide featuring text content and an image.",
 	"keywords": ["section", "columns", "2-column", "image", "slider"],
+	"parent": ["wbg-blocks/wbg-slider-curve-full"],
+	"usesContext": ["wbg-blocks/sliderTitle"],
 	"allowedBlocks": [
 		"core/paragraph",
 		"core/buttons",

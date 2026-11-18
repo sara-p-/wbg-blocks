@@ -1,85 +1,79 @@
 /**
- * WBG Content - Curve - Images – front-end + editor styles.
+ * WBG Slider - Curve - Full – front-end + editor styles.
  *
  * Layout
- * - Mobile: one column. Content first, slider below, whatever the
- *   content position is.
- * - Title circle: its own row above the flex row (not part of the content
- *   column). Always on the left, whatever the content position is.
- * - Desktop: content column (max 515px) + an empty spacer column. The
- *   slider is absolutely positioned over the spacer and bleeds to the edge
- *   of the screen on its side.
+ * - The block is .alignfull. Its background colour runs edge to edge.
+ * - __container is the WP wide width, with WP root padding left and right.
+ *   The title circle, slides and arrows all sit inside it.
+ * - Mobile: circle, then the slide (its content, then its image, see the
+ *   Slide - Curve - Full block), then the arrows.
+ * - Desktop: same order. The slide handles its own 2 columns.
  *
- * The block is a size container, so `100cqw` below is the block's full
- * width. That's how the slider reaches the screen edge without 100vw
- * (which causes a horizontal scrollbar on Windows).
+ * Image bleed
+ * The slides bleed their image to the screen edge with
+ * `--wbg-scf-bleed: calc((100cqw - 100%) / 2)`. This block is the size
+ * container that `100cqw` measures against (`container-type: inline-size`),
+ * so the bleed reaches the block's edge without a horizontal scrollbar.
+ *
+ * Slides (front end)
+ * Every slide sits in the same grid cell, so the block is as tall as the
+ * tallest slide and the arrows don't jump. The old slide fades out, then
+ * the new one fades in.
  */
 
 /* ---------------------------------------------------------------------- */
 /* Settings                                                               */
 /* ---------------------------------------------------------------------- */
 
-$wbg-cci-breakpoint: 1024px; // Two columns from here up.
-
-$wbg-cci-content-width: 515px; // Max width of the content column.
-$wbg-cci-column-gap: 4rem; // Space between content and slider.
-
-// Slider height. Same as the image in Slide - Curve - Full: a fixed height
-// on desktop, and a clamp that scales with the screen width on mobile.
-$wbg-cci-slider-height: 500px; // Desktop. Also the row's min height.
-$wbg-cci-slider-height-mobile: clamp(240px, 65vw, 420px);
-
-// Half an arrow hangs below the slider; the row leaves room for it.
-$wbg-cci-slider-arrow-room: 1.25rem;
-
-$wbg-cci-mobile-gap: 2.5rem; // Space between content and slider on mobile.
-
-// Title circle.
-$wbg-cci-circle-size: clamp(200px, 22vw, 296px);
-$wbg-cci-circle-bg: var(--wp--preset--color--light-green);
-$wbg-cci-circle-padding: 1.5rem;
+// Title circle (same as Content - Curve - Images).
+$wbg-slcf-circle-size: clamp(200px, 22vw, 296px);
+$wbg-slcf-circle-bg: #e2dc4f;
+$wbg-slcf-circle-padding: 1.5rem;
+$wbg-slcf-circle-margin: 2.5rem; // Space below the circle.
 // On wide screens the circle sits a little further left than the row's edge.
-$wbg-cci-circle-offset: 4rem;
-$wbg-cci-circle-offset-breakpoint: 1360px;
+$wbg-slcf-circle-offset: 4rem;
+$wbg-slcf-circle-offset-breakpoint: 1360px;
+
+// Fade. Each half takes this long: out, then in (so 2x in total).
+$wbg-slcf-fade-duration: 0.4s;
+
+// Arrows.
+$wbg-slcf-arrow-size: 2.75rem;
+$wbg-slcf-arrow-gap: 1rem; // Between the two arrows.
+$wbg-slcf-arrow-bg: #e2dc4f;
+$wbg-slcf-arrow-color: #1e1e1e;
+$wbg-slcf-nav-margin: 2.5rem; // Space between the slides and the arrows.
+
+// Editor preview.
+$wbg-slcf-editor-slide-width: 85%; // Leaves the next slide peeking in.
+$wbg-slcf-editor-gap: 1.5rem;
 
 /* ---------------------------------------------------------------------- */
 /* Block                                                                  */
 /* ---------------------------------------------------------------------- */
 
-.wbg-slider-curve-images-parent {
+.wbg-slider-curve-full {
 	$self: &;
 
-	--wbg-cci-pad-left: var(--wp--style--root--padding-left, 24px);
-	--wbg-cci-pad-right: var(--wp--style--root--padding-right, 24px);
+	--wbg-slcf-pad-left: var(--wp--style--root--padding-left, 24px);
+	--wbg-slcf-pad-right: var(--wp--style--root--padding-right, 24px);
+	--wbg-slcf-fade: #{$wbg-slcf-fade-duration};
+	--wbg-slcf-arrow-size: #{$wbg-slcf-arrow-size};
+	--wbg-slcf-arrow-bg: #{$wbg-slcf-arrow-bg};
+	--wbg-slcf-arrow-color: #{$wbg-slcf-arrow-color};
 
 	position: relative;
 	box-sizing: border-box;
+	// The slides' image bleed measures against this block (100cqw).
 	container-type: inline-size;
+	// Belt and braces: nothing pokes out past the screen edge.
+	overflow-x: clip;
 
-	// The title row and the flex row share the same width and padding, so
-	// the title circle lines up with the content column below it.
-	&__title-row,
-	&__row {
+	&__container {
 		box-sizing: border-box;
 		max-width: var(--wp--style--global--wide-size, 1200px);
 		margin-inline: auto;
-		padding-inline: var(--wbg-cci-pad-left) var(--wbg-cci-pad-right);
-	}
-
-	&__row {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		gap: $wbg-cci-mobile-gap;
-	}
-
-	&__col {
-		box-sizing: border-box;
-		min-width: 0;
-
-		&--spacer {
-			display: none;
-		}
+		padding-inline: var(--wbg-slcf-pad-left) var(--wbg-slcf-pad-right);
 	}
 
 	/* -------------------------------------------------------------------- */
@@ -90,12 +84,12 @@ $wbg-cci-circle-offset-breakpoint: 1360px;
 		box-sizing: border-box;
 		display: grid;
 		place-items: center;
-		width: $wbg-cci-circle-size;
+		width: $wbg-slcf-circle-size;
 		aspect-ratio: 1;
-		margin-block-end: 2.5rem;
-		padding: $wbg-cci-circle-padding;
+		margin-block-end: $wbg-slcf-circle-margin;
+		padding: $wbg-slcf-circle-padding;
 		border-radius: 50%;
-		background-color: $wbg-cci-circle-bg;
+		background-color: $wbg-slcf-circle-bg;
 		text-align: center;
 	}
 
@@ -104,162 +98,145 @@ $wbg-cci-circle-offset-breakpoint: 1360px;
 		margin: 0;
 	}
 
-	/* -------------------------------------------------------------------- */
-	/* Content                                                              */
-	/* -------------------------------------------------------------------- */
-
-	&__meta {
-		margin-block-end: 1.25rem;
-	}
-
-	&__meta-line {
-		margin: 0;
-		font-weight: 600; // Mockup shows the meta lines in bold.
-		text-transform: none;
-		&:first-child {
-			margin-bottom: 12px;
-		}
-	}
-
-	&__subheading {
-		margin: 0 0 0.75rem;
-	}
-
-	&__heading {
-		margin: 0 0 1.5rem;
-	}
-
-	&__text {
-		margin: 0;
-	}
-
-	/* -------------------------------------------------------------------- */
-	/* Buttons                                                              */
-	/* -------------------------------------------------------------------- */
-
-	// Base look comes from the theme's button styles (.wp-element-button).
-	&__buttons {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.75rem;
-		margin-block-start: 2.5rem;
-	}
-
-	&__button {
-		display: inline-block;
-		// Same border width as the outline button, so both are the same size.
-		border: 1px solid transparent;
-		text-decoration: none;
-
-		&--outline {
-			border: 1px solid var(--wp--preset--color--dark-green) !important;
-			background-color: transparent !important;
-			color: var(--wp--preset--color--dark-green) !important;
-
-			&:hover,
-			&:focus-visible {
-				background-color: var(--wp--preset--color--dark-green) !important;
-				color: var(--wp--preset--color--light-green) !important;
-			}
-		}
-	}
-
-	/* -------------------------------------------------------------------- */
-	/* Slider (mobile: below the content)                                   */
-	/* -------------------------------------------------------------------- */
-
-	&__slider-container {
-		position: relative;
-		// Bleed to the edge of the block on the slider's side.
-		// (100% = row's content width, 100cqw = block width.)
-		margin-inline-end: calc((100% - 100cqw) / 2);
-	}
-
-	&.content--right #{$self}__slider-container {
-		margin-inline-start: calc((100% - 100cqw) / 2);
-		margin-inline-end: 0;
-	}
-
-	&__slider {
-		width: 100%;
-	}
-
-	// Overrides the Slider - Curve block's own height.
-	.wbg-slider-curve-images-child__viewport {
-		height: $wbg-cci-slider-height-mobile;
-	}
-
-	// Content on the right: the slider sits on the left, so flip its curve.
-	&.content--right .wbg-slider-curve-images-child__viewport {
-		border-radius: 0 9999px 9999px 0;
-	}
-
-	/* -------------------------------------------------------------------- */
-	/* Desktop                                                              */
-	/* -------------------------------------------------------------------- */
-
-	@media (min-width: $wbg-cci-breakpoint) {
-		&__row {
-			flex-direction: row;
-			align-items: center;
-			gap: $wbg-cci-column-gap;
-			min-height: calc(
-				#{$wbg-cci-slider-height} + #{$wbg-cci-slider-arrow-room}
-			);
-		}
-
-		&.content--right #{$self}__row {
-			flex-direction: row-reverse;
-		}
-
-		&__col {
-			&--content {
-				flex: 0 0 $wbg-cci-content-width;
-				max-width: $wbg-cci-content-width;
-			}
-
-			&--spacer {
-				display: block;
-				flex: 1 1 0;
-				align-self: stretch;
-			}
-		}
-
-		// Positioned against the row: starts where the spacer column starts
-		// and runs to the edge of the block. Centred on the row vertically.
-		&__slider-container,
-		&.content--right #{$self}__slider-container {
-			position: absolute;
-			inset-block: 0;
-			display: flex;
-			align-items: center;
-			margin: 0;
-		}
-
-		&__slider-container {
-			left: calc(
-				var(--wbg-cci-pad-left) + #{$wbg-cci-content-width} +
-					#{$wbg-cci-column-gap}
-			);
-			right: calc((100% - 100cqw) / 2);
-		}
-
-		.wbg-slider-curve-images-child__viewport {
-			height: $wbg-cci-slider-height;
-		}
-
-		&.content--right #{$self}__slider-container {
-			left: calc((100% - 100cqw) / 2);
-			right: calc(
-				var(--wbg-cci-pad-right) + #{$wbg-cci-content-width} +
-					#{$wbg-cci-column-gap}
-			);
-		}
-	}
-
-	@media (min-width: $wbg-cci-circle-offset-breakpoint) {
+	@media (min-width: $wbg-slcf-circle-offset-breakpoint) {
 		&__title-container {
-			margin-inline-start: -$wbg-cci-circle-offset;
+			margin-inline-start: calc(#{$wbg-slcf-circle-offset} * -1);
+		}
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Slides (front end)                                                   */
+	/* -------------------------------------------------------------------- */
+
+	&__track {
+		display: grid;
+		touch-action: pan-y; // Vertical page scroll still works; horizontal = swipe.
+
+		// Every slide sits in the same cell; only the active one shows.
+		// Leaving: fade out, then hide.
+		> * {
+			grid-area: 1 / 1;
+			box-sizing: border-box;
+			min-width: 0;
+			margin: 0;
+			opacity: 0;
+			visibility: hidden;
+			transition:
+				opacity var(--wbg-slcf-fade) ease,
+				visibility 0s linear var(--wbg-slcf-fade);
+		}
+
+		// Arriving: wait for the old slide to fade out, then fade in.
+		> .is-active {
+			z-index: 1;
+			opacity: 1;
+			visibility: visible;
+			transition:
+				opacity var(--wbg-slcf-fade) ease var(--wbg-slcf-fade),
+				visibility 0s linear var(--wbg-slcf-fade);
+		}
+	}
+
+	// Before the script runs (or without JS), show the first slide.
+	&:not(.is-ready) #{$self}__track > :first-child {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Arrows: below the slides, centred                                    */
+	/* -------------------------------------------------------------------- */
+
+	&__nav {
+		display: flex;
+		justify-content: center;
+		gap: $wbg-slcf-arrow-gap;
+		margin-block-start: $wbg-slcf-nav-margin;
+	}
+
+	&:not(.is-ready) #{$self}__nav {
+		visibility: hidden;
+	}
+
+	&__arrow {
+		display: grid;
+		place-items: center;
+		width: var(--wbg-slcf-arrow-size);
+		height: var(--wbg-slcf-arrow-size);
+		padding: 0;
+		border: 0;
+		border-radius: 50%;
+		background-color: var(--wbg-slcf-arrow-bg);
+		color: var(--wbg-slcf-arrow-color);
+		cursor: pointer;
+		transition: transform 0.2s ease;
+
+		svg {
+			width: calc(var(--wbg-slcf-arrow-size) * 0.5);
+			height: calc(var(--wbg-slcf-arrow-size) * 0.5);
+		}
+
+		&:hover {
+			transform: scale(1.06);
+		}
+
+		&:focus-visible {
+			outline: 3px solid var(--wbg-slcf-arrow-color);
+			outline-offset: 3px;
+		}
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Screen-reader status                                                 */
+	/* -------------------------------------------------------------------- */
+
+	&__status {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		margin: -1px;
+		padding: 0;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		&__track > *,
+		&__track > .is-active,
+		&__arrow {
+			transition: none;
+		}
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Editor: slides side by side, scrolling horizontally                  */
+	/* -------------------------------------------------------------------- */
+
+	&__editor-track {
+		display: flex;
+		align-items: stretch;
+		gap: $wbg-slcf-editor-gap;
+		overflow-x: auto;
+		padding-block-end: 1rem;
+		scroll-snap-type: x proximity;
+		scrollbar-width: thin;
+
+		> .wbg-slide-curve-full {
+			flex: 0 0 $wbg-slcf-editor-slide-width;
+			margin: 0;
+			scroll-snap-align: start;
+			// Keep each slide's image inside its own card in the editor.
+			--wbg-scf-bleed: 0px;
+		}
+
+		> .block-list-appender,
+		> .block-editor-button-block-appender {
+			position: relative;
+			flex: 0 0 auto;
+			align-self: center;
+			margin: 0;
 		}
 	}
 }

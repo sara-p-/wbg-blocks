@@ -4,7 +4,7 @@
 	"name": "wbg-blocks/wbg-slider-curve-post",
 	"version": "0.1.0",
 	"title": "Curve Slider - Post",
-	"category": "wbg-sliders",
+	"category": "wbg-post-sliders",
 	"icon": "slides",
 	"description": "A full-width slider of 2-column curve slides, one per Event or Program, with an optional title circle.",
 	"keywords": [

@@ -1,0 +1,189 @@
+/**
+ * WBG Slide - Block - Post – front-end + editor styles.
+ *
+ * Same layout as Slide - Block; the content comes from a post, and the
+ * post's featured image is the background (set inline in render.php).
+ *
+ * Layout (from the mockup)
+ * - Desktop: a narrow meta column (date | time, prices, buttons) and a wide
+ *   content column (heading, description), both pinned to the bottom of
+ *   the slide and lined up along their bottom edges.
+ * - Mobile: the columns stack, meta first, still pinned to the bottom.
+ */
+
+/* ---------------------------------------------------------------------- */
+/* Settings                                                               */
+/* ---------------------------------------------------------------------- */
+
+// Height: 545px at a 375px viewport → 615px at a 1280px viewport.
+// slope = (615 - 545) / (1280 - 375) = 0.07735 → 7.7348vw
+// intercept = 545 - (0.07735 * 375) = 516px → 32.25rem
+$wbg-sbp-height: clamp(34.0625rem, 32.25rem + 7.7348vw, 38.4375rem);
+$wbg-sbp-breakpoint: 782px; // WP's standard mobile/desktop breakpoint.
+
+// Shown behind the featured image, and on its own when there isn't one.
+$wbg-sbp-background-color: var(--wp--preset--color--dark-green);
+
+// Colors.
+$wbg-sbp-text-color: var(--wp--preset--color--white, #fff);
+$wbg-sbp-heading-color: var(--wp--preset--color--yellow, #e8e35a);
+
+// Columns (desktop).
+$wbg-sbp-meta-width: 14.5rem; // Narrow left column. "AUGUST 29 |" wraps here, as in the mockup.
+$wbg-sbp-column-gap: clamp(2rem, 6vw, 5rem);
+
+// Spacing.
+$wbg-sbp-padding: clamp(1.5rem, 4vw, 3rem);
+$wbg-sbp-meta-gap: 0.25rem; // Between the date/time line and the price line.
+$wbg-sbp-col-gap: var(--wp--preset--spacing--30, 1.5rem); // Inside each column.
+$wbg-sbp-text-gap: var(
+	--wp--style--block-gap,
+	1.5rem
+); // Between paragraphs in the description.
+$wbg-sbp-button-gap: var(
+	--wp--preset--spacing--20,
+	0.75rem
+); // Between the two buttons.
+
+$wbg-sbp-price-font-weight: 600; // Matches the Curve - Post meta lines.
+
+/* ---------------------------------------------------------------------- */
+/* Block                                                                  */
+/* ---------------------------------------------------------------------- */
+
+.wbg-slide-block-post {
+	$self: &;
+
+	position: relative;
+	box-sizing: border-box;
+	display: flex;
+	width: 100%;
+	max-width: var(--wp--style--global--wide-size);
+	height: $wbg-sbp-height;
+	margin-inline: auto;
+	overflow: hidden;
+	color: $wbg-sbp-text-color;
+
+	// The featured image is set as this div's background-image in render.php.
+	background-color: $wbg-sbp-background-color;
+	background-size: cover;
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+
+	&__inner {
+		display: flex;
+		align-items: flex-end; // Pin both columns to the bottom.
+		flex: 1 1 auto;
+		gap: $wbg-sbp-column-gap;
+		width: 100%;
+		padding: $wbg-sbp-padding;
+		box-sizing: border-box;
+
+		@media (max-width: #{$wbg-sbp-breakpoint - 1}) {
+			flex-direction: column;
+			align-items: stretch;
+			justify-content: flex-end;
+			gap: $wbg-sbp-col-gap;
+		}
+	}
+
+	&__col {
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+		gap: $wbg-sbp-col-gap;
+
+		// Let the column gap control spacing instead of element margins.
+		> * {
+			margin-block: 0;
+		}
+
+		&--meta {
+			flex: 0 0 $wbg-sbp-meta-width;
+			max-width: $wbg-sbp-meta-width;
+		}
+
+		&--content {
+			flex: 1 1 0;
+		}
+
+		@media (max-width: #{$wbg-sbp-breakpoint - 1}) {
+			&--meta,
+			&--content {
+				flex: 0 0 auto;
+				max-width: none;
+			}
+		}
+	}
+
+	// Headings take the slide's colors, not the theme's default heading color.
+	.wp-block-heading {
+		color: inherit;
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Meta column                                                          */
+	/* -------------------------------------------------------------------- */
+
+	&__meta {
+		display: flex;
+		flex-direction: column;
+		gap: $wbg-sbp-meta-gap;
+	}
+
+	&__meta-line {
+		margin: 0;
+	}
+
+	&__pricing {
+		font-weight: $wbg-sbp-price-font-weight;
+	}
+
+	// In the narrow column, wrap between items, never inside one
+	// ("$10 Non-Members |" / "Free Members", not "Free" / "Members").
+	&__date,
+	&__time,
+	&__price,
+	&__member-price {
+		white-space: nowrap;
+	}
+
+	&__buttons {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		align-self: flex-start;
+		gap: $wbg-sbp-button-gap;
+	}
+
+	&__button {
+		margin: 0;
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Content column                                                       */
+	/* -------------------------------------------------------------------- */
+
+	& #{$self}__heading {
+		color: $wbg-sbp-heading-color;
+	}
+
+	// Paragraphs etc. inside the description.
+	&__text {
+		> * {
+			margin-block: 0;
+		}
+
+		> * + * {
+			margin-block-start: $wbg-sbp-text-gap;
+		}
+	}
+}
+
+// Beat constrained/flow layout's content-size max-width so the slide
+// can reach the global wide size. The editor wrapper (edit.js) needs the
+// same, since it's the direct child of the layout in the editor.
+:is(.is-layout-constrained, .is-layout-flow)
+	> :is(.wbg-slide-block-post, .wbg-slide-block-post-editor) {
+	max-width: var(--wp--style--global--wide-size);
+}

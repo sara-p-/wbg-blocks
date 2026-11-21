@@ -55,6 +55,11 @@ function wbg_register_block_categories( $categories, $block_editor_context ) {
 			'icon'  => null,
 		),
 		array(
+			'slug'  => 'wbg-post-sliders',
+			'title' => __( 'WBG Post Sliders', 'wbg' ),
+			'icon'  => null,
+		),
+		array(
 			'slug'  => 'wbg-content',
 			'title' => __( 'WBG Content', 'wbg' ),
 			'icon'  => null,

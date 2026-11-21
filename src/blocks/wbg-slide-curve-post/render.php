@@ -2,8 +2,12 @@
 /**
  * Slide - Curve - Post: front-end render.
  *
- * Shows ONE post: the newest published Event. The parent slider will take
- * over the query later and pass each post in.
+ * Shows ONE post, passed in by the parent Curve Slider - Post through block
+ * context (postId / postType). The parent runs the query and renders this
+ * block once per post; this file only reads the post it's given.
+ *
+ * In the editor, ServerSideRender sends the post as `post_id`, and WP turns
+ * that into the same postId context.
  *
  * Field mapping (ACF field name -> slide part):
  * - date, time            -> meta line 1: "date | time"
@@ -13,9 +17,15 @@
  * - button_1, button_2    -> buttons (ACF Link fields, Link Array)
  * - Featured image        -> image (was the block's background image)
  *
- * Heading levels: heading h2.h2--alt-small, meta h3.fake--p
+ * Heading levels change with whether the parent slider has a title (its
+ * title circle is an h2), so the page outline stays in order:
+ * - Slider title:    heading h3.h2--alt-small, meta h4.fake--p
+ * - No slider title: heading h2.h2--alt-small, meta h3.fake--p
  *
- * @var array    $attributes Block attributes.
+ * The slider title comes from block context ("wbg-blocks/sliderTitle"),
+ * provided by wbg-blocks/wbg-slider-curve-post.
+ *
+ * @var array    $attributes Block attributes (none of its own).
  * @var string   $content    Unused (no inner blocks).
  * @var WP_Block $block      Block instance.
  *
@@ -23,30 +33,27 @@
  */
 
 /*
- * Query: newest published Event.
+ * Post: from block context.
  * ------------------------------------------------------------------------ */
 
-$wbg_query_args = apply_filters(
-	'wbg_slide_curve_post_query_args',
-	array(
-		'post_type'           => 'event', 
-		'post_status'         => 'publish',
-		'posts_per_page'      => 1,
-		'orderby'             => 'date',
-		'order'               => 'DESC',
-		'ignore_sticky_posts' => true,
-		'no_found_rows'       => true,
-		'fields'              => 'ids',
-	),
-	$attributes,
-	$block
-);
+// Same filter the parent slider uses for its Post type option.
+$wbg_post_types = (array) apply_filters( 'wbg_slider_curve_post_post_types', array( 'event', 'program' ) );
 
-$wbg_post_ids = get_posts( $wbg_query_args );
-if ( empty( $wbg_post_ids ) ) {
-	return; // Nothing to show. The editor shows its "No published Events" placeholder.
+$wbg_post_id = isset( $block->context['postId'] ) ? absint( $block->context['postId'] ) : 0;
+$wbg_post    = $wbg_post_id ? get_post( $wbg_post_id ) : null;
+
+// Only a published Event / Program. This also skips the extra copy WP
+// renders as the parent's $content before the parent runs its query (that
+// copy gets the page's own ID).
+if (
+	! $wbg_post instanceof WP_Post
+	|| 'publish' !== $wbg_post->post_status
+	|| ! in_array( $wbg_post->post_type, $wbg_post_types, true )
+) {
+	return;
 }
-$wbg_post_id = (int) $wbg_post_ids[0];
+
+$wbg_post_id = $wbg_post->ID;
 
 /*
  * Helpers.
@@ -115,14 +122,24 @@ if ( $wbg_has_text( $wbg_description ) && false === stripos( $wbg_description, '
 	$wbg_description = wpautop( $wbg_description );
 }
 
-$wbg_is_right = isset( $attributes['contentPosition'] ) && 'content-right' === $attributes['contentPosition'];
+// Parent slider's title (block context).
+$wbg_slider_title     = isset( $block->context['wbg-blocks/sliderTitle'] ) && is_string( $block->context['wbg-blocks/sliderTitle'] )
+	? $block->context['wbg-blocks/sliderTitle']
+	: '';
+$wbg_has_slider_title = $wbg_has_text( $wbg_slider_title );
 
 /*
  * Heading levels.
  * ------------------------------------------------------------------------ */
 
-$wbg_heading_tag = 'h2';
-$wbg_meta_tag    = 'h3';
+if ( $wbg_has_slider_title ) {
+	// The slider's title circle is the h2.
+	$wbg_heading_tag = 'h3';
+	$wbg_meta_tag    = 'h4';
+} else {
+	$wbg_heading_tag = 'h2';
+	$wbg_meta_tag    = 'h3';
+}
 
 /*
  * Meta lines: "date | time" and "$price Non-Members | $memberPrice Members".
@@ -173,17 +190,10 @@ $wbg_image_css = $wbg_image_url ? 'background-image:url("' . esc_url( $wbg_image
  * Output.
  * ------------------------------------------------------------------------ */
 
+// Content is always on the left, image on the right.
 $wbg_wrapper_attributes = get_block_wrapper_attributes(
 	array(
-		'class' => implode(
-			' ',
-			array_filter(
-				array(
-					'wbg-slide-curve-post',
-					$wbg_is_right ? 'content--right' : '',
-				)
-			)
-		),
+		'class' => 'wbg-slide-curve-post',
 	)
 );
 ?>

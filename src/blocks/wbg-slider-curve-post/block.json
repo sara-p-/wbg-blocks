@@ -1,0 +1,100 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-slider-curve-post",
+	"version": "0.1.0",
+	"title": "Curve Slider - Post",
+	"category": "wbg-sliders",
+	"icon": "slides",
+	"description": "A full-width slider of 2-column curve slides, one per Event or Program, with an optional title circle.",
+	"keywords": [
+		"section",
+		"columns",
+		"2-column",
+		"image",
+		"slider",
+		"carousel",
+		"event",
+		"program",
+		"query"
+	],
+	"example": {
+		"viewportWidth": 1400,
+		"attributes": {
+			"title": "<em>Upcoming</em> Events",
+			"postType": "event",
+			"perPage": 3
+		},
+		"innerBlocks": [
+			{
+				"name": "wbg-blocks/wbg-slide-curve-post"
+			}
+		]
+	},
+	"allowedBlocks": ["wbg-blocks/wbg-slide-curve-post"],
+	"providesContext": {
+		"wbg-blocks/sliderTitle": "title"
+	},
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"postType": {
+			"type": "string",
+			"default": "event"
+		},
+		"taxQuery": {
+			"type": "object",
+			"default": {}
+		},
+		"perPage": {
+			"type": "number",
+			"default": 6
+		},
+		"offset": {
+			"type": "number",
+			"default": 0
+		},
+		"orderBy": {
+			"type": "string",
+			"enum": ["date", "title", "modified", "rand"],
+			"default": "date"
+		},
+		"order": {
+			"type": "string",
+			"enum": ["asc", "desc"],
+			"default": "desc"
+		},
+		"excludeCurrent": {
+			"type": "boolean",
+			"default": true
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|60",
+						"bottom": "var:preset|spacing|60"
+					}
+				}
+			}
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": false,
+		"spacing": {
+			"padding": ["top", "bottom"],
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}

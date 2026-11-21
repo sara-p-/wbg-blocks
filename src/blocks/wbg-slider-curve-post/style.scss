@@ -1,0 +1,262 @@
+/**
+ * WBG Slider - Curve - Post – front-end + editor styles.
+ *
+ * Same layout as Slider - Curve - Full; the slides come from a query.
+ *
+ * Layout
+ * - The block is .alignfull, so it runs edge to edge.
+ * - __container is the WP wide width, with WP root padding left and right.
+ *   The title circle, slides and arrows all sit inside it.
+ * - Mobile: circle, then the slide (its content, then its image, see the
+ *   Slide - Curve - Post block), then the arrows.
+ * - Desktop: same order. The slide handles its own 2 columns.
+ *
+ * Image bleed
+ * The slides bleed their image to the screen edge with
+ * `--wbg-scp-bleed: calc((100cqw - 100%) / 2)`. This block is the size
+ * container that `100cqw` measures against (`container-type: inline-size`),
+ * so the bleed reaches the block's edge without a horizontal scrollbar.
+ *
+ * Slides (front end)
+ * Every slide sits in the same grid cell, so the block is as tall as the
+ * tallest slide and the arrows don't jump. The old slide fades out, then
+ * the new one fades in. view.js marks the active slide with
+ * [data-wbg-slider-post-active] and the block with
+ * [data-wbg-slider-post-ready] (not is-active / is-ready, which other
+ * scripts may use).
+ */
+
+/* ---------------------------------------------------------------------- */
+/* Settings                                                               */
+/* ---------------------------------------------------------------------- */
+
+// Title circle (same as Content - Curve - Images).
+$wbg-slcp-circle-size: clamp(200px, 22vw, 296px);
+$wbg-slcp-circle-bg: #e2dc4f;
+$wbg-slcp-circle-padding: 1.5rem;
+$wbg-slcp-circle-margin: 2.5rem; // Space below the circle.
+// On wide screens the circle sits a little further left than the row's edge.
+$wbg-slcp-circle-offset: 4rem;
+$wbg-slcp-circle-offset-breakpoint: 1360px;
+
+// Fade. Each half takes this long: out, then in (so 2x in total).
+$wbg-slcp-fade-duration: 0.4s;
+
+// Arrows.
+$wbg-slcp-arrow-size: 2.75rem;
+$wbg-slcp-arrow-gap: 1rem; // Between the two arrows.
+$wbg-slcp-arrow-bg: #e2dc4f;
+$wbg-slcp-arrow-color: #1e1e1e;
+$wbg-slcp-nav-margin: 2.5rem; // Space between the slides and the arrows.
+
+// Editor preview.
+$wbg-slcp-editor-slide-width: 85%; // Leaves the next slide peeking in.
+$wbg-slcp-editor-gap: 1.5rem;
+
+/* ---------------------------------------------------------------------- */
+/* Block                                                                  */
+/* ---------------------------------------------------------------------- */
+
+.wbg-slider-curve-post {
+	$self: &;
+
+	--wbg-slcp-pad-left: var(--wp--style--root--padding-left, 24px);
+	--wbg-slcp-pad-right: var(--wp--style--root--padding-right, 24px);
+	--wbg-slcp-fade: #{$wbg-slcp-fade-duration};
+	--wbg-slcp-arrow-size: #{$wbg-slcp-arrow-size};
+	--wbg-slcp-arrow-bg: #{$wbg-slcp-arrow-bg};
+	--wbg-slcp-arrow-color: #{$wbg-slcp-arrow-color};
+
+	position: relative;
+	box-sizing: border-box;
+	// The slides' image bleed measures against this block (100cqw).
+	container-type: inline-size;
+	// Belt and braces: nothing pokes out past the screen edge.
+	overflow-x: clip;
+
+	&__container {
+		box-sizing: border-box;
+		max-width: var(--wp--style--global--wide-size, 1200px);
+		margin-inline: auto;
+		padding-inline: var(--wbg-slcp-pad-left) var(--wbg-slcp-pad-right);
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Title circle                                                         */
+	/* -------------------------------------------------------------------- */
+
+	&__title-container {
+		box-sizing: border-box;
+		display: grid;
+		place-items: center;
+		width: $wbg-slcp-circle-size;
+		aspect-ratio: 1;
+		margin-block-end: $wbg-slcp-circle-margin;
+		padding: $wbg-slcp-circle-padding;
+		border-radius: 50%;
+		background-color: $wbg-slcp-circle-bg;
+		text-align: center;
+	}
+
+	&__title {
+		width: 100%;
+		margin: 0;
+	}
+
+	@media (min-width: $wbg-slcp-circle-offset-breakpoint) {
+		&__title-container {
+			margin-inline-start: calc(#{$wbg-slcp-circle-offset} * -1);
+		}
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Slides (front end)                                                   */
+	/* -------------------------------------------------------------------- */
+
+	&__track {
+		display: grid;
+		touch-action: pan-y; // Vertical page scroll still works; horizontal = swipe.
+
+		// Every slide sits in the same cell; only the active one shows.
+		// Leaving: fade out, then hide.
+		> * {
+			grid-area: 1 / 1;
+			box-sizing: border-box;
+			min-width: 0;
+			margin: 0;
+			opacity: 0;
+			visibility: hidden;
+			transition:
+				opacity var(--wbg-slcp-fade) ease,
+				visibility 0s linear var(--wbg-slcp-fade);
+		}
+
+		// Arriving: wait for the old slide to fade out, then fade in.
+		> [data-wbg-slider-post-active] {
+			z-index: 1;
+			opacity: 1;
+			visibility: visible;
+			transition:
+				opacity var(--wbg-slcp-fade) ease var(--wbg-slcp-fade),
+				visibility 0s linear var(--wbg-slcp-fade);
+		}
+	}
+
+	// Before the script runs (or without JS), show the first slide. A lone
+	// slide always shows, whatever the script has done.
+	&:not([data-wbg-slider-post-ready]) #{$self}__track > :first-child,
+	#{$self}__track > :only-child {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Arrows: below the slides, centred                                    */
+	/* -------------------------------------------------------------------- */
+
+	&__nav {
+		display: flex;
+		justify-content: center;
+		gap: $wbg-slcp-arrow-gap;
+		margin-block-start: $wbg-slcp-nav-margin;
+	}
+
+	&:not([data-wbg-slider-post-ready]) #{$self}__nav {
+		visibility: hidden;
+	}
+
+	&__arrow {
+		display: grid;
+		place-items: center;
+		width: var(--wbg-slcp-arrow-size);
+		height: var(--wbg-slcp-arrow-size);
+		padding: 0;
+		border: 0;
+		border-radius: 50%;
+		background-color: var(--wbg-slcp-arrow-bg);
+		color: var(--wbg-slcp-arrow-color);
+		cursor: pointer;
+		transition: transform 0.2s ease;
+
+		svg {
+			width: calc(var(--wbg-slcp-arrow-size) * 0.5);
+			height: calc(var(--wbg-slcp-arrow-size) * 0.5);
+		}
+
+		&:hover {
+			transform: scale(1.06);
+		}
+
+		&:focus-visible {
+			outline: 3px solid var(--wbg-slcp-arrow-color);
+			outline-offset: 3px;
+		}
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Screen-reader status                                                 */
+	/* -------------------------------------------------------------------- */
+
+	&__status {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		margin: -1px;
+		padding: 0;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		&__track > *,
+		&__track > [data-wbg-slider-post-active],
+		&__arrow {
+			transition: none;
+		}
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Editor: slides side by side, scrolling horizontally                  */
+	/* -------------------------------------------------------------------- */
+
+	&__editor-track {
+		display: flex;
+		align-items: stretch;
+		gap: $wbg-slcp-editor-gap;
+		overflow-x: auto;
+		padding-block-end: 1rem;
+		scroll-snap-type: x proximity;
+		scrollbar-width: thin;
+	}
+
+	// The real slide block (first post) and the previews of the rest.
+	&__editor-slide {
+		flex: 0 0 $wbg-slcp-editor-slide-width;
+		min-width: 0;
+		margin: 0;
+		scroll-snap-align: start;
+
+		// Only one post: let it fill the row.
+		&:only-child {
+			flex-basis: 100%;
+		}
+
+		// Keep each slide's image inside its own card in the editor.
+		.wbg-slide-curve-post {
+			--wbg-scp-bleed: 0px;
+		}
+	}
+
+	// Previews are look-only: no clicking through to links.
+	&__editor-slide--preview > * {
+		pointer-events: none;
+	}
+
+	&__editor-status {
+		display: flex;
+		justify-content: center;
+		padding-block: 1rem;
+	}
+}

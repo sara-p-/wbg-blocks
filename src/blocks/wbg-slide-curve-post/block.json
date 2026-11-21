@@ -6,7 +6,7 @@
 	"title": "Curve Slide - Post",
 	"category": "wbg-slides",
 	"icon": "grid-view",
-	"description": "A 2-column slide that pulls its content and image from an Event or Program.",
+	"description": "A 2-column slide that shows the Event or Program passed in by the Curve Slider - Post.",
 	"keywords": [
 		"section",
 		"columns",
@@ -16,18 +16,10 @@
 		"event",
 		"program"
 	],
+	"parent": ["wbg-blocks/wbg-slider-curve-post"],
+	"usesContext": ["postId", "postType", "wbg-blocks/sliderTitle"],
 	"example": {
-		"viewportWidth": 1400,
-		"attributes": {
-			"contentPosition": "content-left"
-		}
-	},
-	"attributes": {
-		"contentPosition": {
-			"type": "string",
-			"enum": ["content-right", "content-left"],
-			"default": "content-left"
-		}
+		"viewportWidth": 1400
 	},
 	"supports": {
 		"html": false

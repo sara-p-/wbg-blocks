@@ -1,0 +1,164 @@
+/**
+ * WBG Slide - Testimonial – front-end + editor styles.
+ *
+ * The slide shares the Testimonial Slider's grid through CSS subgrid (the
+ * slider's __track is a subgrid of its __layout, and each slide is a
+ * subgrid of the track), so it covers the static content and both
+ * placeholders:
+ *
+ *   Mobile (1 column)          Desktop (2 columns)
+ *   row 1  __placeholder       row 1  __placeholder | __image
+ *   row 2  __image             row 2  __content     | __image
+ *   row 3  __content
+ *
+ * __placeholder is empty: it sits under the slider's static content.
+ *
+ * Keep $wbg-sts-breakpoint and the grid placements in step with
+ * Slider - Testimonial's style.scss.
+ */
+
+/* ---------------------------------------------------------------------- */
+/* Settings                                                               */
+/* ---------------------------------------------------------------------- */
+
+$wbg-sts-breakpoint: 900px; // Same as Slider - Testimonial.
+
+$wbg-sts-image-size: clamp(240px, 32vw, 380px); // Mobile.
+// Desktop: fills the right column, up to this size. The column shrinks with
+// the screen, so the circle does too.
+$wbg-sts-image-size-desktop: 500px;
+$wbg-sts-name-gap: 1.5rem; // Between the name and its line.
+$wbg-sts-line-min: 2rem;
+$wbg-sts-line-weight: 1px;
+$wbg-sts-quote-margin: 1.25rem; // Space above the quote.
+
+/* ---------------------------------------------------------------------- */
+/* Block                                                                  */
+/* ---------------------------------------------------------------------- */
+
+.wbg-slide-testimonial {
+	box-sizing: border-box;
+	grid-area: 1 / 1 / -1 / -1; // The slider's whole track.
+	display: grid;
+	grid-template-columns: subgrid;
+	grid-template-rows: subgrid;
+	min-width: 0;
+	margin: 0;
+
+	&__placeholder {
+		grid-area: 1 / 1;
+	}
+
+	&__image-container {
+		grid-area: 2 / 1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-width: 0;
+	}
+
+	&__image {
+		display: block;
+		width: $wbg-sts-image-size;
+		max-width: 100%;
+		height: auto;
+		aspect-ratio: 1;
+		object-fit: cover;
+		border-radius: 50%;
+	}
+
+	&__content {
+		grid-area: 3 / 1;
+		min-width: 0;
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Name + line, quote                                                   */
+	/* -------------------------------------------------------------------- */
+
+	&__name-row {
+		display: flex;
+		align-items: center;
+		gap: $wbg-sts-name-gap;
+	}
+
+	&__name {
+		flex: 0 1 auto;
+		margin: 0;
+		font-style: italic;
+		font-weight: 400;
+	}
+
+	&__line {
+		flex: 1 1 auto;
+		min-width: $wbg-sts-line-min;
+		height: $wbg-sts-line-weight;
+		background-color: currentColor;
+	}
+
+	&__quote {
+		margin: $wbg-sts-quote-margin 0 0;
+		padding: 0;
+		border: 0;
+		font-weight: 400;
+
+		p {
+			margin: 0;
+		}
+	}
+
+	/* -------------------------------------------------------------------- */
+	/* Desktop                                                              */
+	/* -------------------------------------------------------------------- */
+
+	@media (min-width: $wbg-sts-breakpoint) {
+		&__placeholder {
+			grid-area: 1 / 1;
+		}
+
+		&__image-container {
+			grid-area: 1 / 2 / 3 / 3; // Right column, rows 1–2.
+			justify-content: flex-start;
+		}
+
+		&__image {
+			width: 100%;
+			max-width: $wbg-sts-image-size-desktop;
+		}
+
+		&__content {
+			grid-area: 2 / 1;
+		}
+
+		// The line runs across the column gap to the image.
+		&__line {
+			margin-inline-end: calc(var(--wbg-slt-column-gap, 4rem) * -1);
+		}
+	}
+}
+
+/* ---------------------------------------------------------------------- */
+/* Editor                                                                 */
+/* ---------------------------------------------------------------------- */
+
+// The block wrapper and ServerSideRender's own divs sit between the
+// slider's track and the slide. Take them out of the layout so the slide is
+// laid out by the slider's grid, as on the front end.
+.wbg-slider-testimonial__track > .wbg-slide-testimonial-editor,
+.wbg-slide-testimonial-editor div:has(.wbg-slide-testimonial) {
+	display: contents;
+}
+
+// Clicks on the slide select the slider, where the settings are.
+.wbg-slide-testimonial-editor .wbg-slide-testimonial {
+	pointer-events: none;
+}
+
+// Loading / no testimonials: fill the image + quote area.
+.wbg-slide-testimonial-editor__state {
+	grid-area: 2 / 1 / -1 / -1;
+
+	@media (min-width: $wbg-sts-breakpoint) {
+		grid-area: 1 / 2 / -1 / -1;
+	}
+}

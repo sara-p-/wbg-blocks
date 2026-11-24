@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-slide-testimonial",
+	"version": "0.1.0",
+	"title": "Testimonial Slide",
+	"category": "wbg-slides",
+	"icon": "format-quote",
+	"description": "One Testimonial (name, quote and featured image), passed in by the Testimonial Slider.",
+	"keywords": ["slide", "testimonial", "quote", "review"],
+	"parent": ["wbg-blocks/wbg-slider-testimonial"],
+	"usesContext": [
+		"postId",
+		"postType",
+		"wbg-blocks/sliderHeading",
+		"wbg-blocks/sliderSubheading"
+	],
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

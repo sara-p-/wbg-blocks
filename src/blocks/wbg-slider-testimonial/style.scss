@@ -44,14 +44,18 @@ $wbg-slt-row-gap: 2.5rem;
 $wbg-slt-row-gap-desktop: 3rem;
 $wbg-slt-static-gap: 1.25rem; // Between heading, text and buttons.
 
+// Button 2 (Outline style): same as theme.json's core/button "outline".
+$wbg-slt-outline-color: var(--wp--preset--color--dark-green);
+$wbg-slt-outline-border-width: 1px;
+
 // Fade. Each half takes this long: out, then in (so 2x in total).
 $wbg-slt-fade-duration: 0.4s;
 
 // Arrows.
 $wbg-slt-arrow-size: 2.75rem;
-$wbg-slt-arrow-gap: 1rem; // Between the two arrows.
-$wbg-slt-arrow-bg: #e2dc4f;
-$wbg-slt-arrow-color: #1e1e1e;
+$wbg-slt-arrow-gap: 1.5rem; // Between the two arrows.
+$wbg-slt-arrow-bg: var(--wp--preset--color--light-green);
+$wbg-slt-arrow-color: var(--wp--preset--color--dark-green);
 
 /* ---------------------------------------------------------------------- */
 /* Block                                                                  */
@@ -75,7 +79,7 @@ $wbg-slt-arrow-color: #1e1e1e;
 
 	&__container {
 		box-sizing: border-box;
-		max-width: var(--wp--style--global--wide-size, 1200px);
+		max-width: var(--wp--style--global--wide-size, 1188px);
 		margin-inline: auto;
 		padding-inline: var(--wbg-slt-pad-left) var(--wbg-slt-pad-right);
 	}
@@ -172,6 +176,15 @@ $wbg-slt-arrow-color: #1e1e1e;
 		flex-wrap: wrap;
 		gap: 0.75rem;
 		margin: 0;
+	}
+
+	// Button 2: Outline style. WP only prints theme.json's "outline"
+	// variation CSS for real core Button blocks, so it's repeated here.
+	// Keep in step with styles.blocks.core/button.variations.outline.
+	&__button.is-style-outline > .wp-block-button__link {
+		border: $wbg-slt-outline-border-width solid $wbg-slt-outline-color;
+		background-color: transparent;
+		color: $wbg-slt-outline-color;
 	}
 
 	/* -------------------------------------------------------------------- */

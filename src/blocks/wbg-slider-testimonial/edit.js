@@ -477,7 +477,7 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 								{/* Subheading sits above the heading. */}
 								<RichText
 									tagName="h3"
-									className="wbg-slider-testimonial__subheading"
+									className="wbg-slider-testimonial__subheading fake--h6"
 									identifier="subheading"
 									value={subheading}
 									onChange={(value) => setAttributes({ subheading: value })}
@@ -515,6 +515,11 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 										onFocus={() => focusButton(number)}
 										isLinkOpen={isLinkOpen}
 										setIsLinkOpen={setIsLinkOpen}
+										className={`wp-block-button wbg-slider-testimonial__button${
+											2 === number
+												? " is-style-outline is-style-outline--3"
+												: ""
+										}${url ? "" : " has-no-link"}`}
 									/>
 								))}
 							</div>

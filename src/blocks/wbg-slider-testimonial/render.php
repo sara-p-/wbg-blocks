@@ -15,7 +15,8 @@
  *
  * Buttons
  * A button is only output when it has both text and a link. Buttons that
- * open in a new tab say so to screen readers.
+ * open in a new tab say so to screen readers. Button 2 uses core's Outline
+ * style (is-style-outline), even when button 1 is empty.
  *
  * Accessibility
  * - The block is a labelled region ("carousel"), named by its heading.
@@ -102,11 +103,18 @@ foreach ( array( 1, 2 ) as $wbg_number ) {
 	}
 
 	$wbg_buttons[] = array(
+		'number' => $wbg_number,
 		'text'   => $wbg_btn_text,
 		'url'    => $wbg_btn_url,
 		'target' => $wbg_new_tab ? '_blank' : '',
 		'rel'    => implode( ' ', $wbg_rel ),
 	);
+}
+
+// The buttons use core's button classes (and the Outline style), but WP only
+// loads core's button CSS on pages with a core Button block. Load it here.
+if ( $wbg_buttons ) {
+	wp_enqueue_style( 'wp-block-button' );
 }
 
 /*
@@ -257,7 +265,7 @@ $wbg_wrapper_attributes = get_block_wrapper_attributes( $wbg_wrapper_args );
         <?php if ( $wbg_has_heading || $wbg_has_subheading || $wbg_has_text( $wbg_text ) ) : ?>
         <div class="wbg-slider-testimonial__intro">
           <?php if ( $wbg_has_subheading ) : ?>
-          <h2 class="wbg-slider-testimonial__subheading fake--h3" id="<?php echo esc_attr( $wbg_subheading_id ); ?>">
+          <h2 class="wbg-slider-testimonial__subheading fake--h6" id="<?php echo esc_attr( $wbg_subheading_id ); ?>">
             <?php echo wp_kses_post( $wbg_subheading ); ?></h2>
           <?php endif; ?>
 
@@ -276,7 +284,8 @@ $wbg_wrapper_attributes = get_block_wrapper_attributes( $wbg_wrapper_args );
         <?php if ( $wbg_buttons ) : ?>
         <div class="wp-block-buttons wbg-slider-testimonial__buttons">
           <?php foreach ( $wbg_buttons as $wbg_btn ) : ?>
-          <div class="wp-block-button wbg-slider-testimonial__button">
+          <div
+            class="wp-block-button wbg-slider-testimonial__button<?php echo 2 === $wbg_btn['number'] ? ' is-style-outline is-style-outline--3' : ''; ?>">
             <a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( $wbg_btn['url'] ); ?>"
               <?php if ( '' !== $wbg_btn['target'] ) : ?> target="<?php echo esc_attr( $wbg_btn['target'] ); ?>"
               <?php endif; ?> <?php if ( '' !== $wbg_btn['rel'] ) : ?> rel="<?php echo esc_attr( $wbg_btn['rel'] ); ?>"

@@ -55,6 +55,7 @@ $wbg-sts-quote-margin: 1.25rem; // Space above the quote.
 		justify-content: center;
 		align-items: center;
 		min-width: 0;
+		z-index: 1;
 	}
 
 	&__image {
@@ -87,6 +88,7 @@ $wbg-sts-quote-margin: 1.25rem; // Space above the quote.
 		margin: 0;
 		font-style: italic;
 		font-weight: 400;
+		letter-spacing: -0.8px;
 	}
 
 	&__line {
@@ -128,11 +130,12 @@ $wbg-sts-quote-margin: 1.25rem; // Space above the quote.
 
 		&__content {
 			grid-area: 2 / 1;
+			margin-block-start: var(--wp--preset--spacing--60);
 		}
 
 		// The line runs across the column gap to the image.
 		&__line {
-			margin-inline-end: calc(var(--wbg-slt-column-gap, 4rem) * -1);
+			margin-inline-end: calc(var(--wbg-slt-column-gap, 4rem) * -2);
 		}
 	}
 }

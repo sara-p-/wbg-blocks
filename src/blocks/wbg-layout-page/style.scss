@@ -1,0 +1,68 @@
+/**
+ * WBG Layout - Page – front-end + editor styles.
+ *
+ * Layout
+ * - The block is .alignfull. Its background (color and image) runs edge
+ *   to edge, and its top/bottom padding comes from the native controls.
+ * - __wrapper holds the inner blocks:
+ *   - Standard: WP wide width (theme.json settings.layout.wideSize).
+ *   - .layout--wide: theme.json settings.custom.layout.extra-wide.
+ *   Both have WP root padding left and right.
+ *
+ * Inner blocks are stacked with the WP block gap, the same way core's
+ * flow layout does it.
+ */
+
+/* ---------------------------------------------------------------------- */
+/* Settings                                                               */
+/* ---------------------------------------------------------------------- */
+
+// Fallbacks, used only if theme.json doesn't set these.
+$wbg-lp-wide-fallback: 1200px;
+$wbg-lp-extra-wide-fallback: 1440px;
+$wbg-lp-pad-fallback: 24px;
+$wbg-lp-gap-fallback: 1.5rem;
+
+/* ---------------------------------------------------------------------- */
+/* Block                                                                  */
+/* ---------------------------------------------------------------------- */
+
+.wbg-layout-page {
+	--wbg-lp-pad-left: var(
+		--wp--style--root--padding-left,
+		#{$wbg-lp-pad-fallback}
+	);
+	--wbg-lp-pad-right: var(
+		--wp--style--root--padding-right,
+		#{$wbg-lp-pad-fallback}
+	);
+	--wbg-lp-width: var(--wp--style--global--wide-size, #{$wbg-lp-wide-fallback});
+
+	position: relative;
+	box-sizing: border-box;
+
+	// Wide: the extra-wide width from theme.json custom settings.
+	&.layout--wide {
+		--wbg-lp-width: var(
+			--wp--custom--layout--extra-wide,
+			#{$wbg-lp-extra-wide-fallback}
+		);
+	}
+
+	&__wrapper {
+		box-sizing: border-box;
+		width: 100%;
+		max-width: var(--wbg-lp-width);
+		margin-inline: auto;
+		padding-inline: var(--wbg-lp-pad-left) var(--wbg-lp-pad-right);
+
+		// Stack the inner blocks with the WP block gap.
+		> * {
+			margin-block: 0;
+		}
+
+		> * + * {
+			margin-block-start: var(--wp--style--block-gap, #{$wbg-lp-gap-fallback});
+		}
+	}
+}

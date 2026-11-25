@@ -214,8 +214,9 @@ function ButtonField({
 			<div
 				ref={setAnchor}
 				className={`wp-block-button wbg-slider-testimonial__button${
-					url ? "" : " has-no-link"
-				}`}
+					// Button 2 uses core's Outline style (same as render.php).
+					2 === number ? " is-style-outline" : ""
+				}${url ? "" : " has-no-link"}`}
 				onFocus={onFocus}
 			>
 				<RichText
@@ -515,11 +516,6 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 										onFocus={() => focusButton(number)}
 										isLinkOpen={isLinkOpen}
 										setIsLinkOpen={setIsLinkOpen}
-										className={`wp-block-button wbg-slider-testimonial__button${
-											2 === number
-												? " is-style-outline is-style-outline--3"
-												: ""
-										}${url ? "" : " has-no-link"}`}
 									/>
 								))}
 							</div>

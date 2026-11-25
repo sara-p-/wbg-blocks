@@ -1,0 +1,61 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-layout-page",
+	"version": "0.1.0",
+	"title": "Page Layout",
+	"category": "wbg-layout",
+	"icon": "align-wide",
+	"description": "A full-width section that holds any blocks, in a standard (wide) or extra-wide column.",
+	"keywords": ["layout", "section", "container", "wrapper", "group"],
+	"attributes": {
+		"layoutWidth": {
+			"type": "string",
+			"enum": ["standard", "wide"],
+			"default": "standard"
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|60",
+						"bottom": "var:preset|spacing|60"
+					}
+				}
+			}
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": false,
+		"anchor": true,
+		"color": {
+			"background": true,
+			"text": true,
+			"gradients": false,
+			"link": false,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		},
+		"spacing": {
+			"padding": ["top", "bottom"],
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

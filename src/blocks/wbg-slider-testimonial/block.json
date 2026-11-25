@@ -4,7 +4,7 @@
 	"name": "wbg-blocks/wbg-slider-testimonial",
 	"version": "0.1.0",
 	"title": "Testimonial Slider",
-	"category": "wbg-sliders",
+	"category": "wbg-post-sliders",
 	"icon": "format-quote",
 	"description": "A full-width slider of Testimonials, with a static heading, text and buttons that the slides wrap around.",
 	"keywords": ["slider", "carousel", "testimonial", "quote", "review", "query"],

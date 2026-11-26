@@ -81,6 +81,11 @@ function wbg_register_block_categories( $categories, $block_editor_context ) {
 		),
 		
 		array(
+			'slug'  => 'wbg-search',
+			'title' => __( 'WBG Search', 'wbg' ),
+			'icon'  => null,
+		),
+		array(
 			'slug'  => 'wbg-menu',
 			'title' => __( 'WBG Menus', 'wbg' ),
 			'icon'  => null,

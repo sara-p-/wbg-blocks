@@ -1,0 +1,203 @@
+/**
+ * WBG Search Results – front-end + editor styles.
+ *
+ * Layout
+ * - The block is .alignfull. Its background (color and image) runs edge
+ *   to edge, and its top/bottom padding comes from the native controls.
+ * - __wrapper holds the results:
+ *   - Standard: WP wide width (theme.json settings.layout.wideSize).
+ *   - .layout--wide: theme.json settings.custom.layout.extra-wide.
+ *   Both have WP root padding left and right.
+ *
+ * Results
+ * - __list is a grid: 1 column on mobile, 2 on tablet, 3 on desktop.
+ * - Sections inside __wrapper are stacked with the WP block gap, the same
+ *   way core's flow layout does it.
+ */
+
+/* ---------------------------------------------------------------------- */
+/* Settings                                                               */
+/* ---------------------------------------------------------------------- */
+
+// Fallbacks, used only if theme.json doesn't set these.
+$wbg-sr-wide-fallback: 1200px;
+$wbg-sr-extra-wide-fallback: 1440px;
+$wbg-sr-pad-fallback: 24px;
+$wbg-sr-gap-fallback: 1.5rem;
+
+// Grid breakpoints (min-width).
+$wbg-sr-bp-tablet: 600px;
+$wbg-sr-bp-desktop: 1024px;
+
+/* ---------------------------------------------------------------------- */
+/* Block                                                                  */
+/* ---------------------------------------------------------------------- */
+
+.wbg-search-results {
+	--wbg-sr-pad-left: var(
+		--wp--style--root--padding-left,
+		#{$wbg-sr-pad-fallback}
+	);
+	--wbg-sr-pad-right: var(
+		--wp--style--root--padding-right,
+		#{$wbg-sr-pad-fallback}
+	);
+	--wbg-sr-width: var(--wp--style--global--wide-size, #{$wbg-sr-wide-fallback});
+	--wbg-sr-gap: var(--wp--style--block-gap, #{$wbg-sr-gap-fallback});
+	--wbg-sr-columns: 1;
+
+	position: relative;
+	box-sizing: border-box;
+
+	// Wide: the extra-wide width from theme.json custom settings.
+	&.layout--wide {
+		--wbg-sr-width: var(
+			--wp--custom--layout--extra-wide,
+			#{$wbg-sr-extra-wide-fallback}
+		);
+	}
+
+	@media (min-width: $wbg-sr-bp-tablet) {
+		--wbg-sr-columns: 2;
+	}
+
+	@media (min-width: $wbg-sr-bp-desktop) {
+		--wbg-sr-columns: 3;
+	}
+
+	/* ------------------------------------------------------------------ */
+	/* Wrapper                                                            */
+	/* ------------------------------------------------------------------ */
+
+	&__wrapper {
+		box-sizing: border-box;
+		width: 100%;
+		max-width: var(--wbg-sr-width);
+		margin-inline: auto;
+		padding-inline: var(--wbg-sr-pad-left) var(--wbg-sr-pad-right);
+
+		// Stack the sections with the WP block gap.
+		> * {
+			margin-block: 0;
+		}
+
+		> * + * {
+			margin-block-start: var(--wbg-sr-gap);
+		}
+	}
+
+	/* ------------------------------------------------------------------ */
+	/* Summary + empty state                                              */
+	/* ------------------------------------------------------------------ */
+
+	&__summary,
+	&__empty {
+		margin: 0;
+	}
+
+	/* ------------------------------------------------------------------ */
+	/* Groups                                                             */
+	/* ------------------------------------------------------------------ */
+
+	&__group-title {
+		margin: 0 0 var(--wbg-sr-gap);
+	}
+
+	/* ------------------------------------------------------------------ */
+	/* Grid                                                               */
+	/* ------------------------------------------------------------------ */
+
+	&__list {
+		display: grid;
+		grid-template-columns: repeat(var(--wbg-sr-columns), minmax(0, 1fr));
+		gap: var(--wbg-sr-gap);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__item {
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+		margin: 0;
+	}
+
+	&__thumb {
+		display: block;
+		aspect-ratio: 3 / 2;
+		overflow: hidden;
+
+		img {
+			display: block;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+
+	&__body {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		padding-block-start: 1rem;
+	}
+
+	&__title {
+		margin: 0;
+
+		a {
+			color: inherit;
+			text-decoration: none;
+
+			&:hover,
+			&:focus-visible {
+				text-decoration: underline;
+			}
+		}
+	}
+
+	&__excerpt {
+		margin: 0;
+	}
+
+	// Relevanssi's search-term highlight.
+	mark {
+		background-color: transparent;
+		color: inherit;
+		font-weight: 700;
+	}
+
+	/* ------------------------------------------------------------------ */
+	/* Pagination                                                         */
+	/* ------------------------------------------------------------------ */
+
+	&__pagination {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.5rem;
+
+		.page-numbers {
+			padding: 0.25rem 0.5rem;
+			color: inherit;
+		}
+
+		.current {
+			font-weight: 700;
+		}
+	}
+
+	/* ------------------------------------------------------------------ */
+	/* Editor placeholders                                                */
+	/* ------------------------------------------------------------------ */
+
+	&__item.is-placeholder {
+		opacity: 0.6;
+
+		.wbg-search-results__thumb {
+			background-color: currentColor;
+			opacity: 0.15;
+		}
+	}
+}

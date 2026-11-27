@@ -93,6 +93,16 @@ $wbg-content-overlap-breakpoint: 781px;
 		pointer-events: none;
 	}
 
+	// Video (optional), filling the image box. object-fit / object-position
+	// are set inline from the background size / position settings.
+	&__video {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		object-position: center;
+	}
+
 	&.image--top #{$self}__media {
 		top: calc(-1 * var(--wbg-image-overlap));
 	}

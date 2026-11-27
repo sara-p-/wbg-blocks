@@ -69,6 +69,13 @@
 			"enum": ["top-left", "bottom-left", "bottom-right", "top-right"],
 			"default": "top-right"
 		},
+		"videoId": {
+			"type": "number"
+		},
+		"videoUrl": {
+			"type": "string",
+			"default": ""
+		},
 		"imageWidth": {
 			"type": "number",
 			"default": 450

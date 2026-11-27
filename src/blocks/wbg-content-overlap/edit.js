@@ -10,12 +10,23 @@ import {
 	useBlockProps,
 	useInnerBlocksProps,
 	InspectorControls,
+	MediaUpload,
+	MediaUploadCheck,
 	RichText,
 	store as blockEditorStore,
 } from "@wordpress/block-editor";
-import { useSelect, useDispatch } from "@wordpress/data";
+import {
+	useSelect,
+	useDispatch,
+	subscribe,
+	select as selectStore,
+	dispatch as dispatchStore,
+} from "@wordpress/data";
+import { store as blocksStore } from "@wordpress/blocks";
 import { useEffect } from "@wordpress/element";
 import {
+	BaseControl,
+	Button,
 	PanelBody,
 	RangeControl,
 	SelectControl,
@@ -34,6 +45,58 @@ const ALLOWED_BLOCKS = [
 
 // Heading levels allowed for core/heading inside this block.
 const HEADING_LEVELS = [4, 5, 6];
+
+const BLOCK_NAME = "wbg-blocks/wbg-content-overlap";
+
+/**
+ * Hide H1–H3 from the "Transform" menu (and the inserter / slash commands)
+ * while the selection is inside this block.
+ *
+ * Core lists each heading level as a block variation of core/heading, and
+ * there's no per-parent way to hide variations. So while a block inside a
+ * Content Overlap block is selected, the H1–H3 variations are removed from
+ * the editor, and they're added back as soon as the selection leaves. This
+ * only changes what the editor offers; nothing is saved. The level fix in
+ * Edit() below still catches anything that gets through.
+ *
+ * Runs once, when this file is first loaded.
+ */
+let wbgHiddenHeadingVariations = null;
+
+subscribe(() => {
+	const blockEditor = selectStore(blockEditorStore);
+	const selectedId = blockEditor.getSelectedBlockClientId();
+	const isInside =
+		!!selectedId &&
+		blockEditor.getBlockParentsByBlockName(selectedId, BLOCK_NAME).length > 0;
+
+	if (isInside && !wbgHiddenHeadingVariations) {
+		const toHide = (
+			selectStore(blocksStore).getBlockVariations("core/heading") || []
+		).filter(
+			(variation) =>
+				variation.attributes?.level !== undefined &&
+				!HEADING_LEVELS.includes(variation.attributes.level),
+		);
+
+		// Set the flag before dispatching: the dispatch re-runs this callback.
+		wbgHiddenHeadingVariations = toHide;
+
+		if (toHide.length) {
+			dispatchStore(blocksStore).removeBlockVariations(
+				"core/heading",
+				toHide.map((variation) => variation.name),
+			);
+		}
+	} else if (!isInside && wbgHiddenHeadingVariations) {
+		const toRestore = wbgHiddenHeadingVariations;
+		wbgHiddenHeadingVariations = null;
+
+		if (toRestore.length) {
+			dispatchStore(blocksStore).addBlockVariations("core/heading", toRestore);
+		}
+	}
+}, blockEditorStore);
 
 const TEMPLATE = [
 	["core/paragraph", { placeholder: __("Add content…", "wbg-blocks") }],
@@ -86,6 +149,26 @@ const getMediaStyle = (background = {}) => {
 	};
 };
 
+/**
+ * Map the native background size / position settings onto the video, so a
+ * video fills the image box the same way an image would.
+ */
+const getVideoStyle = (background = {}) => {
+	const size = background.backgroundSize;
+	let objectFit = "contain";
+
+	if (size === "cover") {
+		objectFit = "cover";
+	} else if (size === "auto") {
+		objectFit = "none";
+	}
+
+	return {
+		objectFit,
+		objectPosition: background.backgroundPosition || "center",
+	};
+};
+
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const {
 		showSubheading,
@@ -98,6 +181,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		imageWidth,
 		imageHeight,
 		imageOverlap,
+		videoId,
+		videoUrl,
 		style,
 	} = attributes;
 
@@ -106,7 +191,12 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		: "top-right";
 	const [vertical, side] = position.split("-");
 
-	const mediaStyle = getMediaStyle(style?.background);
+	// With a video, the background image becomes the video's poster instead
+	// of being drawn on the box.
+	const mediaStyle = videoUrl ? undefined : getMediaStyle(style?.background);
+	const posterImage = style?.background?.backgroundImage;
+	const posterUrl =
+		typeof posterImage === "string" ? posterImage : posterImage?.url;
 
 	// Top/bottom padding, passed to the CSS so the image can overlap the
 	// block above or below on mobile.
@@ -250,6 +340,52 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				</PanelBody>
 
 				<PanelBody title={__("Image", "wbg-blocks")}>
+					<BaseControl
+						id={`wbg-content-overlap-video-${clientId}`}
+						label={__("Video", "wbg-blocks")}
+						help={__(
+							"Plays muted on a loop in place of the background image, using the same size and position settings. The background image is shown until the video starts.",
+							"wbg-blocks",
+						)}
+						__nextHasNoMarginBottom
+					>
+						<div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+							<MediaUploadCheck>
+								<MediaUpload
+									onSelect={(media) =>
+										setAttributes({ videoId: media.id, videoUrl: media.url })
+									}
+									allowedTypes={["video"]}
+									value={videoId}
+									render={({ open }) => (
+										<Button
+											variant="secondary"
+											onClick={open}
+											__next40pxDefaultSize
+										>
+											{videoUrl
+												? __("Replace video", "wbg-blocks")
+												: __("Choose video", "wbg-blocks")}
+										</Button>
+									)}
+								/>
+							</MediaUploadCheck>
+
+							{videoUrl && (
+								<Button
+									variant="tertiary"
+									isDestructive
+									onClick={() =>
+										setAttributes({ videoId: undefined, videoUrl: "" })
+									}
+									__next40pxDefaultSize
+								>
+									{__("Remove video", "wbg-blocks")}
+								</Button>
+							)}
+						</div>
+					</BaseControl>
+
 					<SelectControl
 						label={__("Image position", "wbg-blocks")}
 						value={position}
@@ -314,10 +450,26 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 			<div {...blockProps}>
 				<div
-					className="wbg-content-overlap__media"
+					className={["wbg-content-overlap__media", videoUrl ? "has-video" : ""]
+						.filter(Boolean)
+						.join(" ")}
 					style={mediaStyle}
 					aria-hidden="true"
-				/>
+				>
+					{videoUrl && (
+						<video
+							key={videoUrl}
+							className="wbg-content-overlap__video"
+							src={videoUrl}
+							poster={posterUrl || undefined}
+							style={getVideoStyle(style?.background)}
+							autoPlay
+							muted
+							loop
+							playsInline
+						/>
+					)}
+				</div>
 
 				<div className="wbg-content-overlap__wrapper">
 					<div className="wbg-content-overlap__content">

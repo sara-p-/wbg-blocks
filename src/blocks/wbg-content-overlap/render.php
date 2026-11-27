@@ -80,7 +80,26 @@ $wbg_bg_image    = $wbg_background['backgroundImage'] ?? null;
 $wbg_bg_url      = is_array( $wbg_bg_image ) ? ( $wbg_bg_image['url'] ?? '' ) : ( is_string( $wbg_bg_image ) ? $wbg_bg_image : '' );
 $wbg_media_style = '';
 
-if ( $wbg_bg_url ) {
+// Video (optional). Plays in place of the background image, which becomes its poster.
+$wbg_video_url   = esc_url( $attributes['videoUrl'] ?? '' );
+$wbg_video_style = '';
+
+if ( $wbg_video_url ) {
+	$wbg_bg_size    = $wbg_background['backgroundSize'] ?? '';
+	$wbg_object_fit = 'contain';
+
+	if ( 'cover' === $wbg_bg_size ) {
+		$wbg_object_fit = 'cover';
+	} elseif ( 'auto' === $wbg_bg_size ) {
+		$wbg_object_fit = 'none';
+	}
+
+	$wbg_video_style = safecss_filter_attr(
+		'object-fit:' . $wbg_object_fit . ';object-position:' . ( $wbg_background['backgroundPosition'] ?? 'center' ) . ';'
+	);
+}
+
+if ( $wbg_bg_url && ! $wbg_video_url ) {
 	$wbg_declarations = array(
 		'background-image'    => "url('" . esc_url_raw( $wbg_bg_url ) . "')",
 		'background-size'     => $wbg_background['backgroundSize'] ?? 'contain',
@@ -133,7 +152,14 @@ $wbg_wrapper_attributes = get_block_wrapper_attributes(
 );
 ?>
 <div <?php echo $wbg_wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-  <?php if ( $wbg_bg_url ) : ?>
+  <?php if ( $wbg_video_url ) : ?>
+  <div class="wbg-content-overlap__media has-video" aria-hidden="true">
+    <video class="wbg-content-overlap__video" src="<?php echo esc_url( $wbg_video_url ); ?>"
+      <?php if ( $wbg_bg_url ) : ?> poster="<?php echo esc_url( $wbg_bg_url ); ?>" <?php endif; ?>
+      style="<?php echo esc_attr( $wbg_video_style ); ?>" autoplay muted loop playsinline preload="auto"
+      disablepictureinpicture tabindex="-1"></video>
+  </div>
+  <?php elseif ( $wbg_bg_url ) : ?>
   <div class="wbg-content-overlap__media" style="<?php echo esc_attr( $wbg_media_style ); ?>" aria-hidden="true"></div>
   <?php endif; ?>
 

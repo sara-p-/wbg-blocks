@@ -1,0 +1,74 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-content-overlap-card",
+	"version": "0.1.0",
+	"title": "Content Overlap Card",
+	"category": "wbg-content",
+	"icon": "id-alt",
+	"description": "A full-width section holding a card with an image that overhangs its top-left corner.",
+	"keywords": ["content", "section", "card", "image", "overlap"],
+	"allowedBlocks": ["wbg-blocks/wbg-content-overlap-card-child"],
+	"example": {
+		"viewportWidth": 1400,
+		"innerBlocks": [
+			{
+				"name": "wbg-blocks/wbg-content-overlap-card-child",
+				"attributes": {
+					"showSubheading": true,
+					"subheading": "Sponsorship Inquiry",
+					"heading": "<em>Together, We Grow</em> Stronger"
+				},
+				"innerBlocks": [
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Find out more about sponsorship opportunities at the Gardens by completing the form below."
+						}
+					}
+				]
+			}
+		]
+	},
+	"attributes": {
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|60",
+						"bottom": "var:preset|spacing|60"
+					}
+				}
+			}
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": false,
+		"color": {
+			"background": true,
+			"text": false,
+			"__experimentalDefaultControls": {
+				"background": true
+			}
+		},
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		},
+		"spacing": {
+			"padding": ["top", "bottom"],
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

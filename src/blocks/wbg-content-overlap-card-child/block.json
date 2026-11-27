@@ -1,0 +1,115 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-content-overlap-card-child",
+	"version": "0.1.0",
+	"title": "Content Overlap Card Child",
+	"category": "wbg-content",
+	"icon": "excerpt-view",
+	"description": "The card inside a Content Overlap Card: content next to an image that overhangs the card's top-left corner.",
+	"parent": ["wbg-blocks/wbg-content-overlap-card"],
+	"keywords": ["content", "card", "image", "overlap"],
+	"attributes": {
+		"showSubheading": {
+			"type": "boolean",
+			"default": false
+		},
+		"subheading": {
+			"type": "string",
+			"default": ""
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
+		"contentPosition": {
+			"type": "number",
+			"default": 30
+		},
+		"imageOverhangTop": {
+			"type": "number",
+			"default": 40
+		},
+		"imageOverhangLeft": {
+			"type": "number",
+			"default": 75
+		},
+		"imageHeight": {
+			"type": "number",
+			"default": 586
+		},
+		"imageWidth": {
+			"type": "number",
+			"default": 437
+		},
+		"imageId": {
+			"type": "number"
+		},
+		"imageUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"imageAlt": {
+			"type": "string",
+			"default": ""
+		},
+		"imageSizeSlug": {
+			"type": "string",
+			"default": "large"
+		},
+		"imageScale": {
+			"type": "string",
+			"enum": ["contain", "cover"],
+			"default": "contain"
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "dark-green"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "cream"
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|60",
+						"bottom": "var:preset|spacing|60"
+					}
+				}
+			}
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": false,
+		"reusable": false,
+		"color": {
+			"background": true,
+			"text": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		},
+		"spacing": {
+			"padding": ["top", "bottom"],
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

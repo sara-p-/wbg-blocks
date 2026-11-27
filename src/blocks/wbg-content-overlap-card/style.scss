@@ -1,0 +1,37 @@
+/**
+ * WBG Content Overlap Card – front-end + editor styles.
+ *
+ * Layout: a full-width section (always .alignfull) with one piece inside it.
+ *   __wrapper – extra-wide container (root padding on the sides) holding the
+ *               Content Overlap Card Child. Max width comes from theme.json:
+ *               settings.custom.layout.extra-wide, with the wide size as a
+ *               fallback.
+ *
+ * The child's image overhangs the card's top-left corner. The card adds its
+ * own top / bottom margin to match, so the overhang gets its own space. Sideways, the image can reach past the screen edge on narrow
+ * screens; overflow-x: clip trims it there instead of letting the page scroll
+ * sideways (clip, unlike hidden, leaves the vertical overhang visible).
+ */
+
+.wbg-content-overlap-card {
+	box-sizing: border-box;
+	overflow-x: clip;
+
+	// Extra-wide container with the theme's root padding on the sides.
+	// content-box so the full extra-wide size is available to the card.
+	&__wrapper {
+		box-sizing: content-box;
+		max-width: var(
+			--wp--custom--layout--extra-wide,
+			var(--wp--style--global--wide-size, 1200px)
+		);
+		margin-inline: auto;
+		padding-inline: var(--wp--style--root--padding-left, 1.5rem)
+			var(--wp--style--root--padding-right, 1.5rem);
+
+		// The card overrides this with its own margins (for the overhang).
+		> * {
+			margin-block: 0;
+		}
+	}
+}

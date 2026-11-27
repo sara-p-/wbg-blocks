@@ -1,0 +1,252 @@
+/**
+ * WBG Content Overlap Card Child – front-end + editor styles.
+ *
+ * Layout: the card (full width of the parent's wrapper, root padding on the
+ * sides) with two pieces inside it.
+ *   __media   – the image box. Absolutely positioned against the card's
+ *               top-left corner, then pushed up and left by the overhang
+ *               settings. No space is added to the card for the overhang.
+ *   __wrapper – a 3-track grid:
+ *                 1. __placeholder – --wbg-content-position % of the
+ *                    grid's width, keeping room for the image.
+ *                 2. __content     – up to 660px.
+ *                 3. (no element)  – 1fr, takes whatever is left, so the
+ *                    content sits just right of center on wide screens.
+ *
+ * Custom properties set inline by edit.js / render.php:
+ *   --wbg-content-position   unitless percentage, e.g. 30
+ *   --wbg-image-overhang-top, --wbg-image-overhang-left (px)
+ *   --wbg-image-width, --wbg-image-height              (px)
+ *   --wbg-pad-top   card's top padding (for the mobile overhang)
+ *
+ * The card's top and bottom margins equal the image's top overhang, so the
+ * overhang always has its own space (sides are untouched).
+ *
+ * Stacking order inside the card: 1 – __wrapper, 2 – __media.
+ */
+
+// ---------------------------------------------------------------------------
+// Settings
+// ---------------------------------------------------------------------------
+
+// Max width of the content column on desktop and tablet.
+$wbg-overlap-card-content-max-width: 660px;
+
+// Card corner radius.
+$wbg-overlap-card-radius: clamp(1.5rem, 3.5vw, 3.5rem);
+
+// Desktop / tablet: the image box is capped so it always stops at least this
+// far short of the content column, whatever the width setting or screen size.
+// (object-fit keeps the image's proportions when the box narrows.)
+$wbg-overlap-card-media-gap: 1.5rem;
+
+// Mobile: image width cap, how much the image height shrinks, and the most
+// it overhangs the top of the card.
+$wbg-overlap-card-media-width-mobile: 85%;
+$wbg-overlap-card-mobile-scale: 0.6;
+$wbg-overlap-card-overhang-mobile: 40px;
+
+// Space between the image and the content once stacked.
+$wbg-overlap-card-stack-gap: var(--wp--preset--spacing--40, 1.5rem);
+
+$wbg-overlap-card-breakpoint: 781px;
+
+// Editor only: width of the image picker before an image is chosen.
+$wbg-overlap-card-editor-picker-width: 280px;
+
+// ---------------------------------------------------------------------------
+// Block
+// ---------------------------------------------------------------------------
+
+.wbg-content-overlap-card-child {
+	$self: &;
+
+	// Fallbacks; the real values come from the block's inline style.
+	--wbg-content-position: 30;
+	--wbg-pad-left: var(--wp--style--root--padding-left, 1.5rem);
+	--wbg-pad-right: var(--wp--style--root--padding-right, 1.5rem);
+	--wbg-image-overhang-top: 40px;
+	--wbg-image-overhang-left: 75px;
+	--wbg-image-width: 437px;
+	--wbg-image-height: 586px;
+
+	position: relative;
+	box-sizing: border-box;
+	width: 100%;
+	border-radius: $wbg-overlap-card-radius;
+	padding-inline: var(--wbg-pad-left) var(--wbg-pad-right);
+
+	// Room for the image's top overhang, mirrored at the bottom, so the image
+	// never reaches into the parent's padding or the block above. Doubled
+	// class to beat the editor's / parent's margin resets.
+	@at-root #{$self}#{$self} {
+		margin-block: var(--wbg-image-overhang-top);
+	}
+
+	// Image box. Max width = from its left edge to the content column's left
+	// edge, minus the gap (100% here is the card's width).
+	&__media {
+		position: absolute;
+		z-index: 2;
+		top: calc(-1 * var(--wbg-image-overhang-top));
+		left: calc(-1 * var(--wbg-image-overhang-left));
+		width: min(
+			var(--wbg-image-width),
+			calc(
+				var(--wbg-image-overhang-left) + var(--wbg-pad-left) +
+					var(--wbg-content-position) *
+					(100% - var(--wbg-pad-left) - var(--wbg-pad-right)) / 100 -
+					#{$wbg-overlap-card-media-gap}
+			)
+		);
+		height: var(--wbg-image-height);
+		pointer-events: none;
+	}
+
+	&__image {
+		display: block;
+		width: 100%;
+		height: 100%;
+		max-width: none;
+		object-fit: contain;
+		// Pinned to the corner it overhangs, so the overhang holds when the
+		// box is narrower than the image's proportions (tablet, mobile).
+		object-position: left top;
+	}
+
+	&.is-image-cover #{$self}__image {
+		object-fit: cover;
+	}
+
+	// Columns: placeholder | content (max 660px) | leftover space.
+	&__wrapper {
+		position: relative;
+		z-index: 1;
+		display: grid;
+		grid-template-columns:
+			minmax(0, calc(var(--wbg-content-position) * 1%))
+			minmax(0, #{$wbg-overlap-card-content-max-width})
+			minmax(0, 1fr);
+	}
+
+	&__placeholder {
+		grid-column: 1;
+		grid-row: 1;
+		min-width: 0;
+	}
+
+	&__content {
+		grid-column: 2;
+		grid-row: 1;
+		min-width: 0;
+
+		> * {
+			margin-block: 0;
+		}
+
+		> * + * {
+			margin-block-start: var(--wp--preset--spacing--30, 1rem);
+		}
+	}
+
+	// Heading and subheading follow the card's text color (cream by default)
+	// instead of the theme's heading colors.
+	&__subheading,
+	&__heading {
+		color: inherit;
+	}
+
+	&__body {
+		display: flex;
+		flex-direction: column;
+		gap: var(--wp--style--block-gap, 1.5rem);
+
+		> * {
+			margin-block: 0;
+		}
+	}
+
+	// Stack on small screens: image first (back in the flow, still overhanging
+	// the top of the card by a small amount), then full-width content.
+	@media (max-width: $wbg-overlap-card-breakpoint) {
+		@at-root #{$self}#{$self} {
+			display: flex;
+			flex-direction: column;
+			// Matches the smaller mobile overhang.
+			margin-block: min(
+				var(--wbg-image-overhang-top),
+				#{$wbg-overlap-card-overhang-mobile}
+			);
+		}
+
+		@at-root #{$self}#{$self} #{$self}__media {
+			position: relative;
+			inset: auto;
+			flex: none;
+			width: min(
+				var(--wbg-image-width),
+				#{$wbg-overlap-card-media-width-mobile}
+			);
+			height: calc(var(--wbg-image-height) * #{$wbg-overlap-card-mobile-scale});
+			margin-block-start: calc(
+				-1 *
+					(
+						var(--wbg-pad-top, 0px) +
+							min(
+								var(--wbg-image-overhang-top),
+								#{$wbg-overlap-card-overhang-mobile}
+							)
+					)
+			);
+			margin-block-end: $wbg-overlap-card-stack-gap;
+		}
+
+		@at-root #{$self}#{$self} #{$self}__wrapper {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		@at-root #{$self}#{$self} #{$self}__placeholder {
+			display: none;
+		}
+
+		@at-root #{$self}#{$self} #{$self}__content {
+			grid-column: 1;
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Editor only
+// ---------------------------------------------------------------------------
+
+// Always show the image box, so it's easy to see how the width / height /
+// overhang settings size and place it. Clickable here (for the placeholder).
+.editor-styles-wrapper .wbg-content-overlap-card-child__media {
+	pointer-events: auto;
+	background-color: rgba(0, 0, 0, 0.08);
+	outline: 1px dashed currentColor;
+	outline-offset: -1px;
+
+	.components-placeholder {
+		width: 100%;
+		height: 100%;
+		min-width: 0;
+		min-height: 0;
+		overflow: auto;
+	}
+
+	// No image yet: shrink the box to a compact picker instead of stretching
+	// the picker to the full image size. The box goes back to the width /
+	// height settings once an image is chosen.
+	&.is-empty {
+		width: min(
+			var(--wbg-image-width),
+			#{$wbg-overlap-card-editor-picker-width}
+		);
+		height: auto;
+
+		.components-placeholder {
+			height: auto;
+		}
+	}
+}

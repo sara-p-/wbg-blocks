@@ -1,0 +1,285 @@
+/**
+ * WBG Content Overlap – front-end + editor styles.
+ *
+ * Layout: a full-width block with two pieces inside it.
+ *   __media   – the image. Absolutely positioned against the block, pinned to
+ *               the left or right edge of the screen and to the top or bottom
+ *               of the block, then pushed out by --wbg-image-overlap so it
+ *               covers the block above (top-*) or below (bottom-*). No space
+ *               is added to this block for the overlap.
+ *   __wrapper – wide-width container (root padding on the sides) holding a
+ *               2-column grid: __content (contentColumnWidth %, max 800px) and
+ *               __placeholder, which just reserves the image's side of the row.
+ *
+ * The image side follows imagePosition: *-left puts the placeholder on the
+ * left and the content on the right; *-right the other way round.
+ *
+ * Custom properties set inline by edit.js / render.php:
+ *   --wbg-image-width, --wbg-image-height, --wbg-image-overlap (px)
+ *   --wbg-content-width  content column width (%, desktop/tablet only)
+ *   --wbg-pad-top, --wbg-pad-bottom  block's padding (for the mobile overlap)
+ *
+ * Content background: only the paragraph blocks inside __body get a
+ * background, matching the block's color however it was set (sidebar,
+ * theme.json, style variation). background-color: inherit has to pass down
+ * through __wrapper, __content and __body, so they inherit it too, but they
+ * are deliberately NOT positioned: the image (positioned, z-index 0) paints
+ * over their backgrounds, so in practice only the paragraphs' shows over the
+ * image. The headings and the other inner blocks (lists, buttons, images)
+ * are positioned with no background, so they stay in front of the image.
+ *
+ * Stacking order:
+ *   The block gets z-index 1 so its image paints over the neighboring blocks.
+ *   Inside it: wrapper/content/body backgrounds → 0 – __media →
+ *   1 – headings and inner blocks (only paragraphs have a background).
+ */
+
+// ---------------------------------------------------------------------------
+// Settings
+// ---------------------------------------------------------------------------
+
+// Content column width on desktop/tablet: this share of the wrapper, up to
+// the max. The share is set per block (contentColumnWidth); this is only the
+// fallback.
+$wbg-content-overlap-content-width: 50%;
+$wbg-content-overlap-content-max-width: 800px;
+
+// Space between the content and placeholder columns.
+$wbg-content-overlap-gap: clamp(2rem, 4vw, 4rem);
+
+// The image never takes more than this share of the screen width on desktop.
+$wbg-content-overlap-media-max-share: 50%;
+
+// Mobile: image width cap, and how much the image height shrinks.
+$wbg-content-overlap-media-width-mobile: 85%;
+$wbg-content-overlap-mobile-scale: 0.6;
+
+// Mobile: how far the image overlaps the block above (top-*) or below
+// (bottom-*). A smaller overlap set in the block's sidebar (including 0) is
+// still respected.
+$wbg-content-overlap-overlap-mobile: 50px;
+
+// Space between the image and the content once stacked.
+$wbg-content-overlap-stack-gap: var(--wp--preset--spacing--50, 2rem);
+
+$wbg-content-overlap-breakpoint: 781px;
+
+// ---------------------------------------------------------------------------
+// Block
+// ---------------------------------------------------------------------------
+
+.wbg-content-overlap {
+	$self: &;
+
+	// Fallbacks; the real values come from the block's inline style.
+	--wbg-image-width: 450px;
+	--wbg-image-height: 500px;
+	--wbg-image-overlap: 150px;
+	--wbg-content-width: #{$wbg-content-overlap-content-width};
+
+	position: relative;
+	z-index: 1;
+	box-sizing: border-box;
+
+	// Image.
+	&__media {
+		position: absolute;
+		z-index: 0;
+		width: min(var(--wbg-image-width), #{$wbg-content-overlap-media-max-share});
+		height: var(--wbg-image-height);
+		background-size: contain;
+		background-position: center;
+		background-repeat: no-repeat;
+		pointer-events: none;
+	}
+
+	&.image--top #{$self}__media {
+		top: calc(-1 * var(--wbg-image-overlap));
+	}
+
+	&.image--bottom #{$self}__media {
+		bottom: calc(-1 * var(--wbg-image-overlap));
+	}
+
+	&.image--left #{$self}__media {
+		left: 0;
+	}
+
+	&.image--right #{$self}__media {
+		right: 0;
+	}
+
+	// Wide-width container with the theme's root padding on the sides.
+	// content-box so the full wide size is available to the columns.
+	// Not positioned on purpose: see "Content background" above.
+	&__wrapper {
+		box-sizing: content-box;
+		background-color: inherit;
+		display: grid;
+		grid-template-columns:
+			min(var(--wbg-content-width), #{$wbg-content-overlap-content-max-width})
+			minmax(0, 1fr);
+		column-gap: $wbg-content-overlap-gap;
+		max-width: var(--wp--style--global--wide-size, 1200px);
+		margin-inline: auto;
+		padding-inline: var(--wp--style--root--padding-left, 1.5rem)
+			var(--wp--style--root--padding-right, 1.5rem);
+	}
+
+	&.is-content-wide #{$self}__wrapper {
+		max-width: var(
+			--wp--custom--layout--extra-wide,
+			var(--wp--style--global--wide-size, 1200px)
+		);
+	}
+
+	// Image on the left: placeholder left, content right.
+	&.image--left #{$self}__wrapper {
+		grid-template-columns:
+			minmax(0, 1fr)
+			min(var(--wbg-content-width), #{$wbg-content-overlap-content-max-width});
+	}
+
+	&.image--left #{$self}__content {
+		grid-column: 2;
+		grid-row: 1;
+	}
+
+	&.image--left #{$self}__placeholder {
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	// Content column. Not positioned, so its (inherited) background sits
+	// behind the image; it only passes the color down to __body.
+	&__content {
+		min-width: 0;
+		background-color: inherit;
+
+		> * {
+			margin-block: 0;
+		}
+
+		> * + * {
+			margin-block-start: var(--wp--preset--spacing--30, 1rem);
+		}
+	}
+
+	// Headings: in front of the image, no background.
+	&__subheading,
+	&__heading {
+		position: relative;
+		z-index: 1;
+	}
+
+	// Inner blocks container. Not positioned, so its (inherited) background
+	// sits behind the image; it only passes the color down to the paragraphs.
+	&__body {
+		background-color: inherit;
+		display: flex;
+		flex-direction: column;
+		gap: var(--wp--style--block-gap, 1.5rem);
+
+		// Every inner block sits in front of the image...
+		> * {
+			position: relative;
+			z-index: 1;
+			margin-block: 0;
+		}
+
+		// ...but only paragraphs are painted with the block's color.
+		> p {
+			background-color: inherit;
+			width: fit-content;
+		}
+
+		> .wp-block-buttons {
+			margin-block-start: var(--wp--preset--spacing--20, 0.5rem);
+		}
+	}
+
+	&__placeholder {
+		min-width: 0;
+	}
+
+	// Stack on small screens (contentColumnWidth no longer applies). The image
+	// goes back in the flow, still pinned to its side of the screen:
+	//   top-*    – image first, overlapping the block above by a small amount.
+	//   bottom-* – image after the content, overlapping the block below.
+	@media (max-width: $wbg-content-overlap-breakpoint) {
+		@at-root #{$self}#{$self} {
+			display: flex;
+			flex-direction: column;
+		}
+
+		@at-root #{$self}#{$self} #{$self}__media {
+			position: relative;
+			inset: auto;
+			display: block;
+			flex: none;
+			width: min(
+				var(--wbg-image-width),
+				#{$wbg-content-overlap-media-width-mobile}
+			);
+			height: calc(
+				var(--wbg-image-height) * #{$wbg-content-overlap-mobile-scale}
+			);
+		}
+
+		@at-root #{$self}#{$self}.image--top #{$self}__media {
+			margin-block-start: calc(
+				-1 *
+					(
+						var(--wbg-pad-top, 0px) +
+							min(
+								var(--wbg-image-overlap),
+								#{$wbg-content-overlap-overlap-mobile}
+							)
+					)
+			);
+			margin-block-end: $wbg-content-overlap-stack-gap;
+		}
+
+		@at-root #{$self}#{$self}.image--bottom #{$self}__media {
+			order: 1;
+			margin-block-start: $wbg-content-overlap-stack-gap;
+			margin-block-end: calc(
+				-1 *
+					(
+						var(--wbg-pad-bottom, 0px) +
+							min(
+								var(--wbg-image-overlap),
+								#{$wbg-content-overlap-overlap-mobile}
+							)
+					)
+			);
+		}
+
+		@at-root #{$self}#{$self}.image--right #{$self}__media {
+			margin-inline-start: auto;
+		}
+
+		// Narrower than the wide size here anyway; auto margins would shrink
+		// it to fit in the flex column.
+		@at-root #{$self}#{$self} #{$self}__wrapper {
+			grid-template-columns: minmax(0, 1fr);
+			margin-inline: 0;
+		}
+
+		@at-root #{$self}#{$self} #{$self}__content {
+			grid-column: 1;
+		}
+
+		&__placeholder {
+			display: none;
+		}
+	}
+}
+
+// Editor only: always show the image's box (even with an image chosen), so
+// it's easy to see how the width / height settings size it.
+.editor-styles-wrapper .wbg-content-overlap__media {
+	background-color: rgba(0, 0, 0, 0.08);
+	outline: 1px dashed currentColor;
+	outline-offset: -1px;
+}

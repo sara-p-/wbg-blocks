@@ -1,0 +1,126 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-content-overlap",
+	"version": "0.1.0",
+	"title": "Content Overlap",
+	"category": "wbg-content",
+	"icon": "align-pull-right",
+	"description": "Content next to an image pinned to the side of the screen that overlaps the blocks above or below.",
+	"keywords": ["content", "section", "columns", "image", "overlap"],
+	"example": {
+		"viewportWidth": 1400,
+		"attributes": {
+			"showSubheading": true,
+			"subheading": "Bonsai Collection",
+			"heading": "<em>Tended in</em> time",
+			"headingSize": "large",
+			"imagePosition": "top-right"
+		},
+		"innerBlocks": [
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "We've heard bonsai artists describe the trees as dancers, cascading, reaching, and relating to one another in perfect harmony."
+				}
+			},
+			{
+				"name": "core/buttons",
+				"innerBlocks": [
+					{
+						"name": "core/button",
+						"attributes": {
+							"text": "Plan a Visit"
+						}
+					}
+				]
+			}
+		]
+	},
+	"attributes": {
+		"showSubheading": {
+			"type": "boolean",
+			"default": false
+		},
+		"subheading": {
+			"type": "string",
+			"default": ""
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
+		"headingSize": {
+			"type": "string",
+			"enum": ["standard", "large"],
+			"default": "standard"
+		},
+		"contentWidth": {
+			"type": "string",
+			"enum": ["standard", "wide"],
+			"default": "standard"
+		},
+		"contentColumnWidth": {
+			"type": "number",
+			"default": 50
+		},
+		"imagePosition": {
+			"type": "string",
+			"enum": ["top-left", "bottom-left", "bottom-right", "top-right"],
+			"default": "top-right"
+		},
+		"imageWidth": {
+			"type": "number",
+			"default": 450
+		},
+		"imageHeight": {
+			"type": "number",
+			"default": 500
+		},
+		"imageOverlap": {
+			"type": "number",
+			"default": 150
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|60",
+						"bottom": "var:preset|spacing|60"
+					}
+				}
+			}
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": false,
+		"color": {
+			"background": true,
+			"text": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalSkipSerialization": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		},
+		"spacing": {
+			"padding": ["top", "bottom"],
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

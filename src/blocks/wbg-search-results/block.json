@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "wbg-blocks/wbg-search-results",
 	"version": "0.1.0",
-	"title": "Search Results",
+	"title": "WBG Search Results",
 	"category": "wbg-search",
 	"icon": "search",
 	"description": "A full-width section that shows the site's search results (native WP search or Relevanssi) in a grid, grouped by post type.",

@@ -1,0 +1,31 @@
+/**
+ * WBG Content Section – front-end + editor styles.
+ *
+ * An H6 heading over its text, spanning the width of the Content Column.
+ * The H6 look (size, letter-spacing, uppercase) comes from the theme.
+ */
+
+// Space between every element: heading to text, and between inner blocks.
+$wbg-content-section-gap: 0px;
+
+.wbg-content-section {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	gap: $wbg-content-section-gap;
+	width: 100%;
+
+	&__heading {
+		margin-block: 0;
+	}
+
+	&__body {
+		display: flex;
+		flex-direction: column;
+		gap: $wbg-content-section-gap;
+
+		> * {
+			margin-block: 0;
+		}
+	}
+}

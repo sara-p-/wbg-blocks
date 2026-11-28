@@ -1,0 +1,61 @@
+/**
+ * WBG Content Row – front-end + editor styles.
+ *
+ * A flex row of up to two Content Columns, each flex: 1, with no gap.
+ * Desktop / tablet: the second column gets a 1px divider on its left, and
+ * each column gets a little space on the divider side so text doesn't touch
+ * the line. (A column's own padding setting overrides that space.)
+ * Mobile: the columns stack and the divider goes away.
+ */
+
+// Space between a column's text and the divider line.
+$wbg-content-row-divider-space: var(--wp--preset--spacing--32, 2rem);
+
+// Space between the columns once stacked.
+$wbg-content-row-stack-gap: var(--wp--style--block-gap, 1.5rem);
+
+$wbg-content-row-breakpoint: 781px;
+
+.wbg-content-row {
+	box-sizing: border-box;
+	display: flex;
+	flex-wrap: nowrap;
+	gap: 0;
+	width: 100%;
+
+	> .wbg-content-col {
+		flex: 1 1 0;
+		min-width: 0;
+		margin-block: 0;
+	}
+
+	> .wbg-content-col:not(:last-child) {
+		padding-inline-end: $wbg-content-row-divider-space;
+	}
+
+	> .wbg-content-col + .wbg-content-col {
+		border-left: 1px solid currentColor;
+		padding-inline-start: $wbg-content-row-divider-space;
+	}
+
+	@media (max-width: $wbg-content-row-breakpoint) {
+		flex-direction: column;
+		gap: $wbg-content-row-stack-gap;
+
+		> .wbg-content-col:not(:last-child) {
+			padding-inline-end: 0;
+		}
+
+		> .wbg-content-col + .wbg-content-col {
+			border-left: 0;
+			padding-inline-start: 0;
+		}
+	}
+}
+
+// Editor only: keep the block appender from taking a column's share.
+.editor-styles-wrapper .wbg-content-row > .block-list-appender {
+	flex: none;
+	align-self: center;
+	margin-inline-start: 0.5rem;
+}

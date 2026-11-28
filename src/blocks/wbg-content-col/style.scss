@@ -1,0 +1,18 @@
+/**
+ * WBG Content Column – front-end + editor styles.
+ *
+ * Stacks its blocks with the theme's block gap. Its width (flex: 1), the
+ * divider line and the space either side of it are set by the Content Row.
+ */
+
+.wbg-content-col {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--style--block-gap, 1.5rem);
+	min-width: 0;
+
+	> * {
+		margin-block: 0;
+	}
+}

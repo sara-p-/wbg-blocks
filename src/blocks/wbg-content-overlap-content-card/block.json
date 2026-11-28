@@ -1,0 +1,161 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-content-overlap-content-card",
+	"version": "0.1.0",
+	"title": "Content Overlap Content Card",
+	"category": "wbg-content",
+	"icon": "id-alt",
+	"description": "A full-width section holding a content card, with an image on top that breaks out of the card's corner.",
+	"keywords": ["content", "section", "card", "image", "overlap", "hours"],
+	"allowedBlocks": ["wbg-blocks/wbg-content-overlap-content-card-child"],
+	"example": {
+		"viewportWidth": 1400,
+		"attributes": {
+			"imageUrl": "/wp-content/uploads/2026/11/wbg-content-overlap-content-card-example-1.webp",
+			"imageAlt": "",
+			"style": {
+				"background": {
+					"backgroundImage": {
+						"url": "/wp-content/uploads/2026/10/Hero-2.webp",
+						"source": "file"
+					},
+					"backgroundSize": "cover"
+				},
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|110",
+						"bottom": "var:preset|spacing|110"
+					}
+				}
+			}
+		},
+		"innerBlocks": [
+			{
+				"name": "wbg-blocks/wbg-content-overlap-content-card-child",
+				"attributes": {
+					"heading": "When you are Visiting"
+				},
+				"innerBlocks": [
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Park on the left and follow the path to our front gates. If it’s a busy day, overflow parking is available across the street. Please, no pets."
+						}
+					},
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum massa sed eros vestibulum, at congue sapien scelerisque. Cras sagittis porta neque et consequat."
+						}
+					},
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Praesent congue nec erat a luctus. Vivamus finibus, nisl in tincidunt facilisis, lorem justo tempor nulla, vel efficitur ipsum orci vitae magna. Sed dictum eros non lectus ultricies, ut gravida turpis viverra."
+						}
+					},
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Nullam ac velit at neque pretium porttitor. Integer sit amet sem quis justo dictum posuere eget vel lorem."
+						}
+					},
+					{
+						"name": "core/buttons",
+						"innerBlocks": [
+							{
+								"name": "core/button",
+								"attributes": {
+									"text": "Get Directions"
+								}
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	"attributes": {
+		"imageId": {
+			"type": "number"
+		},
+		"imageUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"imageAlt": {
+			"type": "string",
+			"default": ""
+		},
+		"imageSizeSlug": {
+			"type": "string",
+			"default": "large"
+		},
+		"imageWidth": {
+			"type": "number",
+			"default": 620
+		},
+		"imageAnchorX": {
+			"type": "string",
+			"enum": ["section", "card"],
+			"default": "section"
+		},
+		"imageAnchorY": {
+			"type": "string",
+			"enum": ["section", "card"],
+			"default": "section"
+		},
+		"imageOffsetX": {
+			"type": "number",
+			"default": 0
+		},
+		"imageOffsetY": {
+			"type": "number",
+			"default": 0
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "pink"
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|60",
+						"bottom": "var:preset|spacing|60"
+					}
+				}
+			}
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": false,
+		"color": {
+			"background": true,
+			"text": false,
+			"__experimentalDefaultControls": {
+				"background": true
+			}
+		},
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		},
+		"spacing": {
+			"padding": ["top", "bottom"],
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

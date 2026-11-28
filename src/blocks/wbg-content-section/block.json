@@ -1,0 +1,28 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-content-section",
+	"version": "0.1.0",
+	"title": "Content Section",
+	"category": "wbg-content",
+	"icon": "text",
+	"description": "A small labeled section (H6 heading plus text) inside a Content Column.",
+	"parent": ["wbg-blocks/wbg-content-col"],
+	"keywords": ["content", "section", "heading"],
+	"allowedBlocks": ["core/paragraph", "core/list", "core/buttons"],
+	"attributes": {
+		"heading": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": false,
+		"reusable": false
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

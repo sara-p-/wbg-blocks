@@ -1,0 +1,219 @@
+/**
+ * WBG Content Overlap Content Card – front-end + editor styles.
+ *
+ * Layout: a full-width section (always .alignfull) with two pieces inside it.
+ *   __wrapper – wide-width container (root padding on the sides) holding the
+ *               Content Overlap Content Card Child.
+ *   __media   – the image. Absolutely positioned against the SECTION, so it
+ *               can reach the section's edges as well as the card's. Bottom-
+ *               right anchored; its height follows the image's proportions.
+ *               Sits on top of the card.
+ *
+ * Where the image's corner lands (classes set by edit.js / render.php):
+ *   .is-image-x-section – right edge on the section's right edge
+ *   .is-image-x-card    – right edge on the card's right edge
+ *   .is-image-y-section – bottom edge on the section's bottom edge
+ *   .is-image-y-card    – bottom edge on the card's bottom edge
+ * then pushed out by --wbg-image-offset-x / -y (negative pulls it in).
+ *
+ * Custom properties set inline by edit.js / render.php:
+ *   --wbg-image-width                          (px)
+ *   --wbg-image-offset-x, --wbg-image-offset-y (px)
+ *   --wbg-pad-bottom   section's bottom padding (for the card anchor)
+ *
+ * On desktop / tablet the image is capped so it never covers the card's
+ * content column. On mobile it drops into the flow under the card, lapping
+ * just onto the card's bottom padding.
+ *
+ * Stacking order inside the section: 1 – __wrapper, 2 – __media.
+ */
+
+// ---------------------------------------------------------------------------
+// Settings
+// ---------------------------------------------------------------------------
+
+// Must match the child block: its side padding and content column width.
+$wbg-overlap-content-card-child-pad: var(--wp--preset--spacing--60, 3rem);
+$wbg-overlap-content-card-content-max-width: 600px;
+
+// The image always stops at least this far short of the content column.
+$wbg-overlap-content-card-media-gap: 1.5rem;
+
+// Mobile: image width cap and how far it laps onto the card (keep this at or
+// under the child's 24px mobile padding so it never covers text).
+$wbg-overlap-content-card-media-width-mobile: 80%;
+$wbg-overlap-content-card-overlap-mobile: 24px;
+
+$wbg-overlap-content-card-breakpoint: 781px;
+
+// Editor: width of the image box before an image is chosen.
+$wbg-overlap-content-card-editor-placeholder-width: 260px;
+
+// ---------------------------------------------------------------------------
+// Block
+// ---------------------------------------------------------------------------
+
+.wbg-content-overlap-content-card {
+	$self: &;
+
+	// Fallbacks; the real values come from the block's inline style.
+	--wbg-image-width: 620px;
+	--wbg-image-offset-x: 0px;
+	--wbg-image-offset-y: 0px;
+
+	// Theme layout values used to find the card's edges.
+	--wbg-pad-left: var(--wp--style--root--padding-left, 1.5rem);
+	--wbg-pad-right: var(--wp--style--root--padding-right, 1.5rem);
+	--wbg-wide-size: var(--wp--style--global--wide-size, 1200px);
+
+	position: relative;
+	box-sizing: border-box;
+	overflow-x: clip;
+
+	// Wide-width container with the theme's root padding on the sides.
+	// content-box so the full wide size is available to the card.
+	&__wrapper {
+		position: relative;
+		z-index: 1;
+		box-sizing: content-box;
+		max-width: var(--wbg-wide-size);
+		margin-inline: auto;
+		padding-inline: var(--wbg-pad-left) var(--wbg-pad-right);
+
+		> * {
+			margin-block: 0;
+		}
+	}
+
+	// Image box. "100%" in these calcs is the section's width.
+	&__media {
+		// Distance from the section's edges to the card's edges.
+		--wbg-card-left: max(
+			var(--wbg-pad-left),
+			(
+					100% - var(--wbg-wide-size) - var(--wbg-pad-left) - var(
+							--wbg-pad-right
+						)
+				) /
+				2 + var(--wbg-pad-left)
+		);
+		--wbg-card-right: max(
+			var(--wbg-pad-right),
+			(
+					100% - var(--wbg-wide-size) - var(--wbg-pad-left) - var(
+							--wbg-pad-right
+						)
+				) /
+				2 + var(--wbg-pad-right)
+		);
+
+		// Section anchors (default).
+		--wbg-image-right: calc(0px - var(--wbg-image-offset-x));
+		--wbg-image-bottom: calc(0px - var(--wbg-image-offset-y));
+
+		position: absolute;
+		z-index: 2;
+		right: var(--wbg-image-right);
+		bottom: var(--wbg-image-bottom);
+
+		// The width setting, capped so the image's left edge stays clear of the
+		// content column's right edge.
+		width: min(
+			var(--wbg-image-width),
+			max(
+				0px,
+				calc(
+					100% - var(--wbg-image-right) - var(--wbg-card-left) -
+						#{$wbg-overlap-content-card-child-pad} -
+						#{$wbg-overlap-content-card-content-max-width} -
+						#{$wbg-overlap-content-card-media-gap}
+				)
+			)
+		);
+		pointer-events: none;
+	}
+
+	&.is-image-x-card #{$self}__media {
+		--wbg-image-right: calc(var(--wbg-card-right) - var(--wbg-image-offset-x));
+	}
+
+	&.is-image-y-card #{$self}__media {
+		--wbg-image-bottom: calc(
+			var(--wbg-pad-bottom, 0px) - var(--wbg-image-offset-y)
+		);
+	}
+
+	&__image {
+		display: block;
+		width: 100%;
+		height: auto;
+		max-width: none;
+	}
+
+	// Mobile: the image drops into the flow under the card, right-aligned,
+	// lapping onto the card's bottom padding.
+	@media (max-width: $wbg-overlap-content-card-breakpoint) {
+		@at-root #{$self}#{$self} #{$self}__media {
+			position: relative;
+			inset: auto;
+			width: min(
+				var(--wbg-image-width),
+				#{$wbg-overlap-content-card-media-width-mobile}
+			);
+			margin-block-start: calc(
+				-1 * #{$wbg-overlap-content-card-overlap-mobile}
+			);
+			margin-inline: auto 0;
+		}
+
+		// Card anchor: line up with the card's right edge.
+		@at-root #{$self}#{$self}.is-image-x-card #{$self}__media {
+			margin-inline-end: var(--wbg-pad-right);
+		}
+
+		// Section anchor: sit on the section's bottom edge.
+		@at-root #{$self}#{$self}.is-image-y-section #{$self}__media {
+			margin-block-end: calc(-1 * var(--wbg-pad-bottom, 0px));
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Editor only
+// ---------------------------------------------------------------------------
+
+// Keep the image box clickable and visible, so it's easy to see how the
+// width / position settings place it.
+.editor-styles-wrapper .wbg-content-overlap-content-card__media {
+	pointer-events: auto;
+	outline: 1px dashed currentColor;
+	outline-offset: -1px;
+
+	// No image yet: a small box in the image's corner instead of one the size
+	// of the width setting. Its height follows the placeholder's contents.
+	// Doubled class to beat the width rules above (desktop and mobile).
+	&.is-empty.is-empty {
+		width: min(#{$wbg-overlap-content-card-editor-placeholder-width}, 100%);
+		height: auto;
+		background-color: transparent;
+	}
+
+	.components-placeholder {
+		width: 100%;
+		height: auto;
+		min-width: 0;
+		min-height: 0;
+		padding: 0.75rem;
+		gap: 0.5rem;
+		box-shadow: none;
+	}
+
+	// Keep the title and buttons; drop the long instructions line.
+	.components-placeholder__instructions {
+		display: none;
+	}
+
+	.components-placeholder__label {
+		margin-block-end: 0;
+	}
+}

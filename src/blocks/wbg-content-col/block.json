@@ -1,0 +1,42 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-content-col",
+	"version": "0.1.0",
+	"title": "Content Column",
+	"category": "wbg-content",
+	"icon": "columns",
+	"description": "One column of a Content Row.",
+	"parent": ["wbg-blocks/wbg-content-row"],
+	"keywords": ["content", "column"],
+	"allowedBlocks": [
+		"core/paragraph",
+		"wbg-blocks/wbg-content-section",
+		"core/buttons",
+		"core/list",
+		"core/image"
+	],
+	"supports": {
+		"html": false,
+		"align": false,
+		"reusable": false,
+		"color": {
+			"background": true,
+			"text": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"spacing": {
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

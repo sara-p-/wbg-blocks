@@ -1,0 +1,83 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-content-overlap-content-card-child",
+	"version": "0.1.0",
+	"title": "Content Overlap Content Card Child",
+	"category": "wbg-content",
+	"icon": "excerpt-view",
+	"description": "The card inside a Content Overlap Content Card: a full-width heading over a content column, with room on the right for the section's image.",
+	"parent": ["wbg-blocks/wbg-content-overlap-content-card"],
+	"keywords": ["content", "card", "overlap"],
+	"allowedBlocks": [
+		"core/paragraph",
+		"core/buttons",
+		"wbg-blocks/wbg-content-row",
+		"core/list",
+		"core/image"
+	],
+	"attributes": {
+		"showSubheading": {
+			"type": "boolean",
+			"default": false
+		},
+		"subheading": {
+			"type": "string",
+			"default": ""
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
+		"headingAlign": {
+			"type": "string",
+			"enum": ["left", "center", "right"],
+			"default": "center"
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "cream"
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|60",
+						"bottom": "var:preset|spacing|60"
+					}
+				}
+			}
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": false,
+		"reusable": false,
+		"color": {
+			"background": true,
+			"text": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		},
+		"spacing": {
+			"padding": ["top", "bottom"],
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

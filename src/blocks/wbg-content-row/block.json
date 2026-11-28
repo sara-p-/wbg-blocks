@@ -1,0 +1,28 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbg-blocks/wbg-content-row",
+	"version": "0.1.0",
+	"title": "Content Row",
+	"category": "wbg-content",
+	"icon": "columns",
+	"description": "A row of up to two equal Content Columns, with a divider line between them on desktop.",
+	"parent": ["wbg-blocks/wbg-content-overlap-content-card-child"],
+	"keywords": ["content", "row", "columns"],
+	"allowedBlocks": ["wbg-blocks/wbg-content-col"],
+	"supports": {
+		"html": false,
+		"align": false,
+		"reusable": false,
+		"spacing": {
+			"padding": ["top", "bottom"],
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		}
+	},
+	"textdomain": "wbg-blocks",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

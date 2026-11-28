@@ -1,0 +1,139 @@
+/**
+ * WBG Content Overlap Content Card Child – front-end + editor styles.
+ *
+ * Layout: the card (full width of the parent's wrapper, "60" spacing preset
+ * on the sides) holding one __wrapper with two rows:
+ *   __header – subheading / heading, full width. Aligned left / center /
+ *              right by the block's toolbar setting (default center).
+ *   __row    – a 2-track grid:
+ *                1. __content     – the inner blocks, up to 600px.
+ *                2. __placeholder – empty, takes the rest. Keeps room for
+ *                   the image, which lives in the parent block and sits on
+ *                   top of this card.
+ *
+ * Top/bottom padding comes from the block's padding setting (default "60").
+ * On mobile all four sides collapse to 24px.
+ */
+
+// ---------------------------------------------------------------------------
+// Settings
+// ---------------------------------------------------------------------------
+
+// Side padding on desktop / tablet (matches the top/bottom default).
+$wbg-overlap-content-card-pad: var(--wp--preset--spacing--60, 3rem);
+
+// Padding on every side on mobile.
+$wbg-overlap-content-card-pad-mobile: 24px;
+
+// Max width of the content column on desktop and tablet.
+$wbg-overlap-content-card-content-max-width: 600px;
+
+// Card corner radius.
+$wbg-overlap-content-card-radius: 1rem;
+
+// Space between every element in the card: header to content, and between
+// the inner blocks.
+$wbg-overlap-content-card-gap: var(--wp--preset--spacing--32, 2rem);
+
+// Space between the subheading and the heading.
+$wbg-overlap-content-card-heading-gap: var(--wp--preset--spacing--24, 24px);
+
+$wbg-overlap-content-card-breakpoint: 781px;
+
+// ---------------------------------------------------------------------------
+// Block
+// ---------------------------------------------------------------------------
+
+.wbg-content-overlap-content-card-child {
+	$self: &;
+
+	position: relative;
+	box-sizing: border-box;
+	width: 100%;
+	border-radius: $wbg-overlap-content-card-radius;
+	padding-inline: $wbg-overlap-content-card-pad;
+
+	&__wrapper {
+		display: flex;
+		flex-direction: column;
+		gap: $wbg-overlap-content-card-gap;
+	}
+
+	// Subheading / heading row, the full width of the wrapper.
+	&__header {
+		text-align: center;
+
+		&.is-align-left {
+			text-align: left;
+		}
+
+		&.is-align-right {
+			text-align: right;
+		}
+
+		> * {
+			margin-block: 0;
+		}
+
+		> * + * {
+			margin-block-start: $wbg-overlap-content-card-heading-gap;
+		}
+	}
+
+	// When a text color is set on the block, the subheading and heading use it
+	// instead of the theme's heading color. With no text color set, the theme's
+	// heading color still applies.
+	//
+	// !important because the theme colors these headings through its heading
+	// classes (h1--alt, fake--h6) / heading elements, which otherwise win over
+	// inheritance. Also covers italic / bold / span text inside the headings.
+	&.has-text-color #{$self}__subheading,
+	&.has-text-color #{$self}__subheading *,
+	&.has-text-color #{$self}__heading,
+	&.has-text-color #{$self}__heading * {
+		color: inherit !important;
+	}
+
+	// Content (max 600px) | placeholder for the image.
+	&__row {
+		display: grid;
+		grid-template-columns:
+			minmax(0, #{$wbg-overlap-content-card-content-max-width})
+			minmax(0, 1fr);
+	}
+
+	&__content {
+		grid-column: 1;
+		grid-row: 1;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		gap: $wbg-overlap-content-card-gap;
+
+		> * {
+			margin-block: 0;
+		}
+	}
+
+	&__placeholder {
+		grid-column: 2;
+		grid-row: 1;
+		min-width: 0;
+	}
+
+	// Mobile: 24px padding on every side (overrides the padding setting, which
+	// is applied inline), and the content takes the full width.
+	@media (max-width: $wbg-overlap-content-card-breakpoint) {
+		@at-root #{$self}#{$self} {
+			padding: $wbg-overlap-content-card-pad-mobile !important;
+		}
+
+		@at-root #{$self}#{$self} #{$self}__row {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		@at-root #{$self}#{$self} #{$self}__placeholder {
+			display: none;
+		}
+	}
+}

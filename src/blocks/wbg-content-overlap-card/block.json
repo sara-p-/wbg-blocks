@@ -16,14 +16,37 @@
 				"name": "wbg-blocks/wbg-content-overlap-card-child",
 				"attributes": {
 					"showSubheading": true,
-					"subheading": "Sponsorship Inquiry",
-					"heading": "<em>Together, We Grow</em> Stronger"
+					"subheading": "Newsletter",
+					"heading": "Something for Every Season",
+					"imageUrl": "/wp-content/uploads/2026/11/wbg-content-overlap-card-exmaple-1.webp",
+					"imageAlt": "",
+					"style": {
+						"spacing": {
+							"padding": {
+								"top": "var:preset|spacing|60",
+								"bottom": "var:preset|spacing|60"
+							}
+						},
+						"background": {
+							"backgroundImage": {
+								"url": "/wp-content/uploads/2026/11/Hero-3.webp",
+								"source": "file"
+							},
+							"backgroundSize": "cover"
+						}
+					}
 				},
 				"innerBlocks": [
 					{
 						"name": "core/paragraph",
 						"attributes": {
-							"content": "Find out more about sponsorship opportunities at the Gardens by completing the form below."
+							"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+						}
+					},
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 						}
 					}
 				]

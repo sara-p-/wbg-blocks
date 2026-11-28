@@ -11,17 +11,38 @@
 	"example": {
 		"viewportWidth": 1400,
 		"attributes": {
-			"showSubheading": true,
-			"subheading": "Bonsai Collection",
-			"heading": "<em>Tended in</em> time",
+			"showSubheading": false,
+			"heading": "Why Your Support Matters",
 			"headingSize": "large",
-			"imagePosition": "top-right"
+			"imagePosition": "top-right",
+			"imageOverlap": 0,
+			"backgroundColor": "cream",
+			"style": {
+				"spacing": {
+					"padding": {
+						"top": "var:preset|spacing|60",
+						"bottom": "var:preset|spacing|60"
+					}
+				},
+				"background": {
+					"backgroundImage": {
+						"url": "/wp-content/uploads/2026/11/content-overlap-example-2.webp",
+						"source": "file",
+						"title": "content-overlap-example-2"
+					},
+					"backgroundSize": "contain",
+					"backgroundPosition": "50% 50%",
+					"backgroundRepeat": "no-repeat"
+				}
+			}
 		},
 		"innerBlocks": [
 			{
-				"name": "core/paragraph",
+				"name": "core/heading",
 				"attributes": {
-					"content": "We've heard bonsai artists describe the trees as dancers, cascading, reaching, and relating to one another in perfect harmony."
+					"level": 5,
+					"levelOptions": [4, 5, 6],
+					"content": "The Gardens are for everyone, and it takes everyone working together to keep them running smoothly. Every peaceful afternoon in the shade, every class that brings you closer to your goals, and every event that creates community requires support from volunteers, donors, and sponsors who believe that our living legacy is worth investing in."
 				}
 			},
 			{
@@ -30,7 +51,7 @@
 					{
 						"name": "core/button",
 						"attributes": {
-							"text": "Plan a Visit"
+							"text": "Learn More"
 						}
 					}
 				]
